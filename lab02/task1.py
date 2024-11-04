@@ -2,7 +2,8 @@
 
 brute_force_calls = 0
 divide_and_conquer_calls = 0
-decrease_and_conquer_calls = 0
+decrease_and_conquer_calls_recursive= 0
+decrease_and_conquer_calls_iterative = 0
 
 def brute_force_recursive(a, b):
     global brute_force_calls
@@ -44,6 +45,15 @@ def decrease_and_conquer_recursive(a, b):
     # If b is odd: a^b = a * (a^((b-1)//2))^2
     else:
         return a * half_result * half_result
+    
+def decrease_and_conquer_iterative(a, b):
+    global decrease_and_conquer_calls_iterative
+    decrease_and_conquer_calls_iterative += 1
+    result = 1
+    for i in range(b):
+        result *= a
+    return result
+    
 
 def main():
     global brute_force_calls, divide_and_conquer_calls, decrease_and_conquer_calls
@@ -62,6 +72,9 @@ def main():
 
     decrease_result = decrease_and_conquer_recursive(a, b)
     print(f"Decrease and Conquer Result: {decrease_result}, Calls: {decrease_and_conquer_calls}")
+
+    decrease_iterative_result = decrease_and_conquer_iterative(a, b)
+    print(f"Decrease and Conquer Iterative Result: {decrease_iterative_result}, Calls: {decrease_and_conquer_calls_iterative}")
 
 if __name__ == "__main__":
     main()
