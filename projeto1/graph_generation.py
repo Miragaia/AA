@@ -9,20 +9,30 @@ import sys
 def store_graph(vertices, num_vertices, percentage, graph):
     filename = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{percentage}.graphml"
 
-    # Add node attributes for coordinates
-    nx.set_node_attributes(graph, {v: vertices[v][0] for v in vertices}, 'x')
-    nx.set_node_attributes(graph, {v: vertices[v][1] for v in vertices}, 'y')
+    # Set node attributes for x, y coordinates, and weights separately
+    nx.set_node_attributes(graph, {v: vertices[v][0][0] for v in vertices}, 'x')
+    nx.set_node_attributes(graph, {v: vertices[v][0][1] for v in vertices}, 'y')
+    nx.set_node_attributes(graph, {v: vertices[v][1] for v in vertices}, 'weight')
 
     # Save the graph in GraphML format
     nx.write_graphml(graph, filename)
 
-    # Draw the graph
-    pos = {v: vertices[v] for v in graph.nodes}
-    labels = nx.get_edge_attributes(graph, 'weight')
+    # Draw the graph with node weights as side labels
+    pos = {v: (vertices[v][0][0], vertices[v][0][1]) for v in graph.nodes}
+    
+    # Draw main node labels (node names)
     nx.draw(graph, pos, with_labels=True, node_color='lightblue')
-    nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
+    
+    # Draw weights with an offset to the right
+    weight_labels = {v: vertices[v][1] for v in graph.nodes}  # Label with node weights
+    label_pos = {k: (x + 40, y) for k, (x, y) in pos.items()}  # Offset weight labels to the right
+    nx.draw_networkx_labels(graph, label_pos, labels=weight_labels, font_color="red")
+    
+    # Save the figure
     plt.savefig(f"graphs/png/graph_num_vertices_{num_vertices}_percentage_{percentage}.png")
     plt.clf()
+
+
 
 def calculate_max_num_edges(num_vertices):
     return num_vertices * (num_vertices - 1) / 2
@@ -50,9 +60,7 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
             # Choose a random vertex that is not yet connected to v1
             v2 = random.choice([v for v in vertices.keys() if v != v1 and v not in G[v1]])
 
-        # Assign a random weight to the edge
-        weight = random.randint(1, 10)
-        G.add_edge(v1, v2, weight=weight)
+        G.add_edge(v1, v2)
 
     return G
 
@@ -60,14 +68,17 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
 def create_vertices(vertices_num, max_value_coordinate):
     vertices = {}
     alphabet_labels = [chr(65 + i) for i in range(vertices_num)]  # A, B, C, ...
-    
+
     for i, label in enumerate(alphabet_labels):
         while True:
             x, y = random.randint(1, max_value_coordinate), random.randint(1, max_value_coordinate)
-            if (x, y) not in vertices.values() and all(math.dist(coord, (x, y)) > 1 for coord in vertices.values()):
-                vertices[label] = (x, y)
+            if (x, y) not in [coord for coord, _ in vertices.values()] and \
+               all(math.dist(coord, (x, y)) > 1 for coord, _ in vertices.values()):
+                weight = random.randint(1, 50)  # Assign a random weight to each node
+                vertices[label] = ((x, y), weight)  # Store (coordinates, weight)
                 break
     return vertices
+
 
 def create_graphs(vertices_num_last_graph, max_value_coordinate):
     for num_vertices in range(4, vertices_num_last_graph + 1):
