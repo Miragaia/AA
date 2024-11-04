@@ -8,9 +8,17 @@
       <data key="d0">864</data>
       <data key="d1">695</data>
     </node>
+    <node id="B">
+      <data key="d0">414</data>
+      <data key="d1">539</data>
+    </node>
     <node id="C">
       <data key="d0">953</data>
       <data key="d1">38</data>
+    </node>
+    <node id="D">
+      <data key="d0">672</data>
+      <data key="d1">431</data>
     </node>
     <edge source="A" target="C">
       <data key="d2">9</data>

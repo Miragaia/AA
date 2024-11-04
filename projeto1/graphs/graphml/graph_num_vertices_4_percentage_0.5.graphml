@@ -4,30 +4,30 @@
   <key id="d1" for="node" attr.name="y" attr.type="long" />
   <key id="d0" for="node" attr.name="x" attr.type="long" />
   <graph edgedefault="undirected">
-    <node id="D">
-      <data key="d0">672</data>
-      <data key="d1">431</data>
-    </node>
     <node id="A">
       <data key="d0">864</data>
       <data key="d1">695</data>
-    </node>
-    <node id="C">
-      <data key="d0">953</data>
-      <data key="d1">38</data>
     </node>
     <node id="B">
       <data key="d0">414</data>
       <data key="d1">539</data>
     </node>
-    <edge source="D" target="A">
+    <node id="C">
+      <data key="d0">953</data>
+      <data key="d1">38</data>
+    </node>
+    <node id="D">
+      <data key="d0">672</data>
+      <data key="d1">431</data>
+    </node>
+    <edge source="A" target="D">
       <data key="d2">2</data>
     </edge>
-    <edge source="A" target="C">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="C" target="B">
+    <edge source="A" target="B">
       <data key="d2">9</data>
+    </edge>
+    <edge source="B" target="C">
+      <data key="d2">2</data>
     </edge>
   </graph>
 </graphml>

@@ -4,56 +4,65 @@
   <key id="d1" for="node" attr.name="y" attr.type="long" />
   <key id="d0" for="node" attr.name="x" attr.type="long" />
   <graph edgedefault="undirected">
-    <node id="E">
-      <data key="d0">301</data>
-      <data key="d1">352</data>
-    </node>
-    <node id="B">
-      <data key="d0">910</data>
-      <data key="d1">445</data>
-    </node>
     <node id="A">
-      <data key="d0">63</data>
-      <data key="d1">159</data>
-    </node>
-    <node id="C">
-      <data key="d0">881</data>
-      <data key="d1">191</data>
-    </node>
-    <node id="D">
-      <data key="d0">254</data>
-      <data key="d1">599</data>
-    </node>
-    <node id="F">
       <data key="d0">70</data>
       <data key="d1">229</data>
     </node>
-    <node id="G">
+    <node id="B">
       <data key="d0">591</data>
       <data key="d1">66</data>
     </node>
-    <edge source="E" target="B">
-      <data key="d2">10</data>
-    </edge>
-    <edge source="E" target="C">
+    <node id="C">
+      <data key="d0">613</data>
+      <data key="d1">119</data>
+    </node>
+    <node id="D">
+      <data key="d0">912</data>
+      <data key="d1">774</data>
+    </node>
+    <node id="E">
+      <data key="d0">30</data>
+      <data key="d1">924</data>
+    </node>
+    <node id="F">
+      <data key="d0">999</data>
+      <data key="d1">886</data>
+    </node>
+    <node id="G">
+      <data key="d0">57</data>
+      <data key="d1">467</data>
+    </node>
+    <edge source="A" target="G">
       <data key="d2">4</data>
     </edge>
-    <edge source="B" target="C">
-      <data key="d2">1</data>
+    <edge source="A" target="B">
+      <data key="d2">2</data>
     </edge>
-    <edge source="B" target="D">
+    <edge source="A" target="E">
       <data key="d2">4</data>
     </edge>
     <edge source="B" target="F">
-      <data key="d2">1</data>
+      <data key="d2">10</data>
     </edge>
     <edge source="B" target="G">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="B" target="D">
       <data key="d2">1</data>
     </edge>
-    <edge source="A" target="C">
-      <data key="d2">8</data>
+    <edge source="C" target="E">
+      <data key="d2">3</data>
     </edge>
-    <edge source="A" target="F">
+    <edge source="C" target="D">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="C" target="F">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="D" target="F">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="F" target="G">
       <data key="d2">8</data>
     </edge>
   </graph>

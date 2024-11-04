@@ -4,41 +4,49 @@
   <key id="d1" for="node" attr.name="y" attr.type="long" />
   <key id="d0" for="node" attr.name="x" attr.type="long" />
   <graph edgedefault="undirected">
-    <node id="F">
-      <data key="d0">417</data>
-      <data key="d1">177</data>
-    </node>
-    <node id="G">
-      <data key="d0">998</data>
-      <data key="d1">270</data>
-    </node>
-    <node id="D">
-      <data key="d0">830</data>
-      <data key="d1">206</data>
-    </node>
-    <node id="C">
-      <data key="d0">205</data>
-      <data key="d1">973</data>
+    <node id="A">
+      <data key="d0">973</data>
+      <data key="d1">830</data>
     </node>
     <node id="B">
-      <data key="d0">855</data>
-      <data key="d1">755</data>
+      <data key="d0">206</data>
+      <data key="d1">338</data>
+    </node>
+    <node id="C">
+      <data key="d0">636</data>
+      <data key="d1">417</data>
+    </node>
+    <node id="D">
+      <data key="d0">177</data>
+      <data key="d1">998</data>
+    </node>
+    <node id="E">
+      <data key="d0">270</data>
+      <data key="d1">870</data>
+    </node>
+    <node id="F">
+      <data key="d0">412</data>
+      <data key="d1">352</data>
+    </node>
+    <node id="G">
+      <data key="d0">684</data>
+      <data key="d1">69</data>
     </node>
     <node id="H">
-      <data key="d0">870</data>
-      <data key="d1">412</data>
+      <data key="d0">410</data>
+      <data key="d1">614</data>
     </node>
-    <edge source="F" target="G">
-      <data key="d2">2</data>
+    <edge source="A" target="D">
+      <data key="d2">1</data>
     </edge>
-    <edge source="G" target="D">
-      <data key="d2">8</data>
-    </edge>
-    <edge source="G" target="C">
-      <data key="d2">9</data>
-    </edge>
-    <edge source="B" target="H">
+    <edge source="B" target="E">
       <data key="d2">7</data>
+    </edge>
+    <edge source="C" target="F">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="G" target="H">
+      <data key="d2">10</data>
     </edge>
   </graph>
 </graphml>

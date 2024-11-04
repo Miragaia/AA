@@ -32,19 +32,30 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
     num_edges = math.ceil(percentage_max_num_edges * calculate_max_num_edges(num_vertices))
     isolated_vertices = list(vertices.keys())
 
+    # Add all vertices to the graph initially
+    for v in vertices.keys():
+        G.add_node(v)
+
     for edge in range(num_edges):
         if isolated_vertices:
             v1 = random.choice(isolated_vertices)
             isolated_vertices.remove(v1)
             v2 = random.choice(isolated_vertices) if isolated_vertices else random.choice(
                 [v for v in vertices.keys() if v != v1])
+            if v2 in isolated_vertices:
+                isolated_vertices.remove(v2)
         else:
-            v1, v2 = random.sample([v for v in vertices.keys() if len(list(G.neighbors(v))) < num_vertices - 1], 2)
+            # Choose a random vertex that is not yet connected to all vertices
+            v1 = random.choice([v for v in vertices.keys() if len(list(G.neighbors(v))) < num_vertices - 1])
+            # Choose a random vertex that is not yet connected to v1
+            v2 = random.choice([v for v in vertices.keys() if v != v1 and v not in G[v1]])
 
+        # Assign a random weight to the edge
         weight = random.randint(1, 10)
         G.add_edge(v1, v2, weight=weight)
 
     return G
+
 
 def create_vertices(vertices_num, max_value_coordinate):
     vertices = {}
