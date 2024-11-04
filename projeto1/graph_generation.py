@@ -7,21 +7,22 @@ import getopt
 import sys
 
 def store_graph(vertices, num_vertices, percentage, graph):
-    filename = f"graphs/graph_num_vertices_{num_vertices}_percentage_{percentage}.graphml"
+    filename = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{percentage}.graphml"
 
-    # Split the tuple and set separate attributes for x and y coordinates
+    # Add node attributes for coordinates
     nx.set_node_attributes(graph, {v: vertices[v][0] for v in vertices}, 'x')
     nx.set_node_attributes(graph, {v: vertices[v][1] for v in vertices}, 'y')
 
+    # Save the graph in GraphML format
     nx.write_graphml(graph, filename)
 
+    # Draw the graph
     pos = {v: vertices[v] for v in graph.nodes}
     labels = nx.get_edge_attributes(graph, 'weight')
     nx.draw(graph, pos, with_labels=True, node_color='lightblue')
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
-    plt.savefig(f"graphs/graph_num_vertices_{num_vertices}_percentage_{percentage}.png")
+    plt.savefig(f"graphs/png/graph_num_vertices_{num_vertices}_percentage_{percentage}.png")
     plt.clf()
-
 
 def calculate_max_num_edges(num_vertices):
     return num_vertices * (num_vertices - 1) / 2
@@ -47,11 +48,13 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
 
 def create_vertices(vertices_num, max_value_coordinate):
     vertices = {}
-    for v in range(1, vertices_num + 1):
+    alphabet_labels = [chr(65 + i) for i in range(vertices_num)]  # A, B, C, ...
+    
+    for i, label in enumerate(alphabet_labels):
         while True:
             x, y = random.randint(1, max_value_coordinate), random.randint(1, max_value_coordinate)
             if (x, y) not in vertices.values() and all(math.dist(coord, (x, y)) > 1 for coord in vertices.values()):
-                vertices[v] = (x, y)
+                vertices[label] = (x, y)
                 break
     return vertices
 
@@ -81,6 +84,7 @@ def read_arguments():
 
 def generate_weighted_graph(vertices_num_last_graph, max_value_coordinate):
     if not os.path.isdir("graphs"):
-        os.mkdir("graphs")
+        os.makedirs("graphs/graphml", exist_ok=True)
+        os.makedirs("graphs/png", exist_ok=True)
     random.seed(108317)
     create_graphs(vertices_num_last_graph, max_value_coordinate)
