@@ -5,57 +5,57 @@
   <key id="d0" for="node" attr.name="x" attr.type="long" />
   <graph edgedefault="undirected">
     <node id="A">
-      <data key="d0">973</data>
-      <data key="d1">830</data>
+      <data key="d0">14</data>
+      <data key="d1">6</data>
     </node>
     <node id="B">
-      <data key="d0">206</data>
-      <data key="d1">338</data>
+      <data key="d0">9</data>
+      <data key="d1">13</data>
     </node>
     <node id="C">
-      <data key="d0">636</data>
-      <data key="d1">417</data>
+      <data key="d0">11</data>
+      <data key="d1">3</data>
     </node>
     <node id="D">
-      <data key="d0">177</data>
-      <data key="d1">998</data>
+      <data key="d0">13</data>
+      <data key="d1">20</data>
     </node>
     <node id="E">
-      <data key="d0">270</data>
-      <data key="d1">870</data>
+      <data key="d0">16</data>
+      <data key="d1">20</data>
     </node>
     <node id="F">
-      <data key="d0">412</data>
-      <data key="d1">352</data>
+      <data key="d0">10</data>
+      <data key="d1">18</data>
     </node>
     <node id="G">
-      <data key="d0">684</data>
-      <data key="d1">69</data>
+      <data key="d0">5</data>
+      <data key="d1">14</data>
     </node>
     <node id="H">
-      <data key="d0">410</data>
-      <data key="d1">614</data>
+      <data key="d0">13</data>
+      <data key="d1">13</data>
     </node>
-    <edge source="A" target="C">
-      <data key="d2">10</data>
-    </edge>
-    <edge source="B" target="E">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="B" target="D">
-      <data key="d2">9</data>
-    </edge>
-    <edge source="B" target="H">
+    <edge source="A" target="F">
       <data key="d2">5</data>
     </edge>
-    <edge source="C" target="H">
+    <edge source="A" target="B">
       <data key="d2">8</data>
+    </edge>
+    <edge source="B" target="E">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="B" target="H">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="C" target="H">
+      <data key="d2">2</data>
     </edge>
     <edge source="D" target="G">
-      <data key="d2">3</data>
-    </edge>
-    <edge source="F" target="H">
       <data key="d2">8</data>
+    </edge>
+    <edge source="E" target="H">
+      <data key="d2">4</data>
     </edge>
   </graph>
 </graphml>

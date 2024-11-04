@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d2" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d1" for="node" attr.name="y" attr.type="long" />
+  <key id="d0" for="node" attr.name="x" attr.type="long" />
+  <graph edgedefault="undirected">
+    <node id="A">
+      <data key="d0">16</data>
+      <data key="d1">189</data>
+    </node>
+    <node id="B">
+      <data key="d0">191</data>
+      <data key="d1">297</data>
+    </node>
+    <node id="C">
+      <data key="d0">300</data>
+      <data key="d1">355</data>
+    </node>
+    <node id="D">
+      <data key="d0">156</data>
+      <data key="d1">26</data>
+    </node>
+    <node id="E">
+      <data key="d0">300</data>
+      <data key="d1">113</data>
+    </node>
+    <node id="F">
+      <data key="d0">324</data>
+      <data key="d1">270</data>
+    </node>
+    <node id="G">
+      <data key="d0">172</data>
+      <data key="d1">231</data>
+    </node>
+    <node id="H">
+      <data key="d0">182</data>
+      <data key="d1">266</data>
+    </node>
+    <node id="I">
+      <data key="d0">354</data>
+      <data key="d1">237</data>
+    </node>
+    <node id="J">
+      <data key="d0">51</data>
+      <data key="d1">216</data>
+    </node>
+    <node id="K">
+      <data key="d0">344</data>
+      <data key="d1">13</data>
+    </node>
+    <node id="L">
+      <data key="d0">30</data>
+      <data key="d1">92</data>
+    </node>
+    <node id="M">
+      <data key="d0">229</data>
+      <data key="d1">203</data>
+    </node>
+    <node id="N">
+      <data key="d0">281</data>
+      <data key="d1">317</data>
+    </node>
+    <node id="O">
+      <data key="d0">189</data>
+      <data key="d1">339</data>
+    </node>
+    <node id="P">
+      <data key="d0">198</data>
+      <data key="d1">23</data>
+    </node>
+    <node id="Q">
+      <data key="d0">273</data>
+      <data key="d1">74</data>
+    </node>
+    <node id="R">
+      <data key="d0">174</data>
+      <data key="d1">64</data>
+    </node>
+    <node id="S">
+      <data key="d0">332</data>
+      <data key="d1">340</data>
+    </node>
+    <node id="T">
+      <data key="d0">347</data>
+      <data key="d1">197</data>
+    </node>
+    <node id="U">
+      <data key="d0">140</data>
+      <data key="d1">349</data>
+    </node>
+    <node id="V">
+      <data key="d0">214</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="W">
+      <data key="d0">57</data>
+      <data key="d1">234</data>
+    </node>
+    <node id="X">
+      <data key="d0">335</data>
+      <data key="d1">253</data>
+    </node>
+    <node id="Y">
+      <data key="d0">230</data>
+      <data key="d1">57</data>
+    </node>
+    <node id="Z">
+      <data key="d0">308</data>
+      <data key="d1">279</data>
+    </node>
+    <node id="[">
+      <data key="d0">129</data>
+      <data key="d1">122</data>
+    </node>
+    <node id="\">
+      <data key="d0">43</data>
+      <data key="d1">71</data>
+    </node>
+    <node id="]">
+      <data key="d0">208</data>
+      <data key="d1">142</data>
+    </node>
+    <node id="^">
+      <data key="d0">182</data>
+      <data key="d1">257</data>
+    </node>
+    <edge source="A" target="H">
+      <data key="d2">2</data>
+    </edge>
+    <edge source="A" target="F">
+      <data key="d2">9</data>
+    </edge>
+    <edge source="A" target="L">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="A" target="\">
+      <data key="d2">9</data>
+    </edge>
+    <edge source="A" target="Z">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="A" target="I">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="A" target="B">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="A" target="R">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="A" target="X">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="A" target="V">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="A" target="Y">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="B" target="J">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="B" target="F">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="B" target="O">
+      <data key="d2">9</data>
+    </edge>
+    <edge source="B" target="S">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="B" target="^">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="B" target="C">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="B" target="Z">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="C" target="]">
+      <data key="d2">2</data>
+    </edge>
+    <edge source="C" target="E">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="C" target="N">
+      <data key="d2">9</data>
+    </edge>
+    <edge source="C" target="P">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="C" target="^">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="C" target="V">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="C" target="F">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="D" target="T">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="D" target="]">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="D" target="J">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="D" target="^">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="D" target="N">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="D" target="I">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="D" target="G">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="D" target="\">
+      <data key="d2">9</data>
+    </edge>
+    <edge source="D" target="S">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="D" target="[">
+      <data key="d2">2</data>
+    </edge>
+    <edge source="E" target="F">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="E" target="M">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="E" target="T">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="E" target="X">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="F" target="\">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="F" target="W">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="F" target="S">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="F" target="V">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="F" target="]">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="G" target="Z">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="G" target="W">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="G" target="R">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="G" target="H">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="H" target="M">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="H" target="Y">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="H" target="O">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="H" target="[">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="I" target="W">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="I" target="S">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="I" target="M">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="I" target="Y">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="I" target="Z">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="I" target="]">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="J" target="^">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="J" target="K">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="J" target="Q">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="J" target="Z">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="J" target="O">
+      <data key="d2">2</data>
+    </edge>
+    <edge source="J" target="X">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="K" target="\">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="K" target="V">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="L" target="^">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="L" target="Q">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="L" target="X">
+      <data key="d2">9</data>
+    </edge>
+    <edge source="L" target="S">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="L" target="O">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="L" target="R">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="M" target="O">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="M" target="[">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="N" target="U">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="N" target="R">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="N" target="S">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="N" target="V">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="N" target="O">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="O" target="^">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="O" target="U">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="O" target="Y">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="O" target="R">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="O" target="S">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="P" target="[">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="P" target="V">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="P" target="Y">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="P" target="^">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="P" target="Z">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="P" target="]">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="Q" target="R">
+      <data key="d2">2</data>
+    </edge>
+    <edge source="Q" target="V">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="Q" target="[">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="R" target="\">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="R" target="W">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="S" target="Y">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="S" target="V">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="S" target="]">
+      <data key="d2">4</data>
+    </edge>
+    <edge source="T" target="]">
+      <data key="d2">9</data>
+    </edge>
+    <edge source="U" target="[">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="V" target="X">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="V" target="Y">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="W" target="]">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="W" target="^">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="X" target="\">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="Y" target="[">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="Z" target="^">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="Z" target="[">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="\" target="]">
+      <data key="d2">3</data>
+    </edge>
+  </graph>
+</graphml>

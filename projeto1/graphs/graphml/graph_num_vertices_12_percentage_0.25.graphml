@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d2" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d1" for="node" attr.name="y" attr.type="long" />
+  <key id="d0" for="node" attr.name="x" attr.type="long" />
+  <graph edgedefault="undirected">
+    <node id="A">
+      <data key="d0">343</data>
+      <data key="d1">328</data>
+    </node>
+    <node id="B">
+      <data key="d0">172</data>
+      <data key="d1">19</data>
+    </node>
+    <node id="C">
+      <data key="d0">51</data>
+      <data key="d1">1</data>
+    </node>
+    <node id="D">
+      <data key="d0">29</data>
+      <data key="d1">348</data>
+    </node>
+    <node id="E">
+      <data key="d0">269</data>
+      <data key="d1">354</data>
+    </node>
+    <node id="F">
+      <data key="d0">257</data>
+      <data key="d1">149</data>
+    </node>
+    <node id="G">
+      <data key="d0">76</data>
+      <data key="d1">343</data>
+    </node>
+    <node id="H">
+      <data key="d0">124</data>
+      <data key="d1">264</data>
+    </node>
+    <node id="I">
+      <data key="d0">55</data>
+      <data key="d1">304</data>
+    </node>
+    <node id="J">
+      <data key="d0">139</data>
+      <data key="d1">36</data>
+    </node>
+    <node id="K">
+      <data key="d0">206</data>
+      <data key="d1">155</data>
+    </node>
+    <node id="L">
+      <data key="d0">197</data>
+      <data key="d1">135</data>
+    </node>
+    <edge source="A" target="B">
+      <data key="d2">2</data>
+    </edge>
+    <edge source="A" target="C">
+      <data key="d2">2</data>
+    </edge>
+    <edge source="A" target="L">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="B" target="H">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="B" target="I">
+      <data key="d2">8</data>
+    </edge>
+    <edge source="B" target="L">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="C" target="L">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="C" target="H">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="D" target="H">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="D" target="I">
+      <data key="d2">1</data>
+    </edge>
+    <edge source="E" target="G">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="E" target="K">
+      <data key="d2">5</data>
+    </edge>
+    <edge source="E" target="J">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="F" target="K">
+      <data key="d2">3</data>
+    </edge>
+    <edge source="G" target="I">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="I" target="J">
+      <data key="d2">7</data>
+    </edge>
+    <edge source="J" target="L">
+      <data key="d2">7</data>
+    </edge>
+  </graph>
+</graphml>
