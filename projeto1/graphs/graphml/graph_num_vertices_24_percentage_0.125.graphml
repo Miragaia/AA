@@ -1,209 +1,163 @@
 <?xml version='1.0' encoding='utf-8'?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <key id="d2" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d2" for="node" attr.name="weight" attr.type="long" />
   <key id="d1" for="node" attr.name="y" attr.type="long" />
   <key id="d0" for="node" attr.name="x" attr.type="long" />
   <graph edgedefault="undirected">
     <node id="A">
-      <data key="d0">122</data>
-      <data key="d1">104</data>
+      <data key="d0">443</data>
+      <data key="d1">800</data>
+      <data key="d2">43</data>
     </node>
     <node id="B">
-      <data key="d0">58</data>
-      <data key="d1">347</data>
+      <data key="d0">130</data>
+      <data key="d1">88</data>
+      <data key="d2">29</data>
     </node>
     <node id="C">
-      <data key="d0">273</data>
-      <data key="d1">333</data>
+      <data key="d0">327</data>
+      <data key="d1">86</data>
+      <data key="d2">11</data>
     </node>
     <node id="D">
-      <data key="d0">148</data>
-      <data key="d1">130</data>
+      <data key="d0">221</data>
+      <data key="d1">559</data>
+      <data key="d2">2</data>
     </node>
     <node id="E">
-      <data key="d0">104</data>
-      <data key="d1">293</data>
+      <data key="d0">442</data>
+      <data key="d1">201</data>
+      <data key="d2">46</data>
     </node>
     <node id="F">
-      <data key="d0">53</data>
-      <data key="d1">28</data>
+      <data key="d0">117</data>
+      <data key="d1">920</data>
+      <data key="d2">49</data>
     </node>
     <node id="G">
-      <data key="d0">315</data>
-      <data key="d1">245</data>
+      <data key="d0">113</data>
+      <data key="d1">548</data>
+      <data key="d2">18</data>
     </node>
     <node id="H">
-      <data key="d0">200</data>
-      <data key="d1">127</data>
+      <data key="d0">825</data>
+      <data key="d1">731</data>
+      <data key="d2">21</data>
     </node>
     <node id="I">
-      <data key="d0">265</data>
-      <data key="d1">190</data>
+      <data key="d0">891</data>
+      <data key="d1">531</data>
+      <data key="d2">10</data>
     </node>
     <node id="J">
-      <data key="d0">215</data>
-      <data key="d1">295</data>
+      <data key="d0">850</data>
+      <data key="d1">207</data>
+      <data key="d2">32</data>
     </node>
     <node id="K">
-      <data key="d0">281</data>
-      <data key="d1">19</data>
+      <data key="d0">319</data>
+      <data key="d1">577</data>
+      <data key="d2">11</data>
     </node>
     <node id="L">
-      <data key="d0">336</data>
-      <data key="d1">211</data>
+      <data key="d0">944</data>
+      <data key="d1">894</data>
+      <data key="d2">36</data>
     </node>
     <node id="M">
-      <data key="d0">324</data>
-      <data key="d1">210</data>
+      <data key="d0">768</data>
+      <data key="d1">780</data>
+      <data key="d2">26</data>
     </node>
     <node id="N">
-      <data key="d0">26</data>
-      <data key="d1">307</data>
+      <data key="d0">237</data>
+      <data key="d1">648</data>
+      <data key="d2">46</data>
     </node>
     <node id="O">
-      <data key="d0">239</data>
-      <data key="d1">306</data>
+      <data key="d0">323</data>
+      <data key="d1">943</data>
+      <data key="d2">45</data>
     </node>
     <node id="P">
-      <data key="d0">54</data>
-      <data key="d1">135</data>
+      <data key="d0">581</data>
+      <data key="d1">7</data>
+      <data key="d2">41</data>
     </node>
     <node id="Q">
-      <data key="d0">339</data>
-      <data key="d1">228</data>
+      <data key="d0">584</data>
+      <data key="d1">206</data>
+      <data key="d2">7</data>
     </node>
     <node id="R">
-      <data key="d0">68</data>
-      <data key="d1">4</data>
+      <data key="d0">480</data>
+      <data key="d1">888</data>
+      <data key="d2">20</data>
     </node>
     <node id="S">
-      <data key="d0">172</data>
-      <data key="d1">129</data>
+      <data key="d0">900</data>
+      <data key="d1">298</data>
+      <data key="d2">20</data>
     </node>
     <node id="T">
-      <data key="d0">85</data>
-      <data key="d1">26</data>
+      <data key="d0">780</data>
+      <data key="d1">562</data>
+      <data key="d2">24</data>
     </node>
     <node id="U">
-      <data key="d0">75</data>
-      <data key="d1">340</data>
+      <data key="d0">900</data>
+      <data key="d1">17</data>
+      <data key="d2">10</data>
     </node>
     <node id="V">
-      <data key="d0">148</data>
-      <data key="d1">5</data>
+      <data key="d0">544</data>
+      <data key="d1">693</data>
+      <data key="d2">8</data>
     </node>
     <node id="W">
-      <data key="d0">210</data>
-      <data key="d1">348</data>
+      <data key="d0">157</data>
+      <data key="d1">991</data>
+      <data key="d2">4</data>
     </node>
     <node id="X">
-      <data key="d0">251</data>
-      <data key="d1">307</data>
+      <data key="d0">791</data>
+      <data key="d1">960</data>
+      <data key="d2">22</data>
     </node>
-    <edge source="A" target="X">
-      <data key="d2">6</data>
-    </edge>
-    <edge source="A" target="W">
-      <data key="d2">5</data>
-    </edge>
-    <edge source="A" target="S">
-      <data key="d2">7</data>
-    </edge>
-    <edge source="B" target="D">
-      <data key="d2">5</data>
-    </edge>
-    <edge source="B" target="J">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="B" target="L">
-      <data key="d2">5</data>
-    </edge>
-    <edge source="C" target="P">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="C" target="E">
-      <data key="d2">1</data>
-    </edge>
-    <edge source="D" target="J">
-      <data key="d2">9</data>
-    </edge>
-    <edge source="E" target="J">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="E" target="K">
-      <data key="d2">5</data>
-    </edge>
-    <edge source="E" target="F">
-      <data key="d2">3</data>
-    </edge>
-    <edge source="E" target="V">
-      <data key="d2">6</data>
-    </edge>
-    <edge source="F" target="H">
-      <data key="d2">7</data>
-    </edge>
-    <edge source="G" target="M">
-      <data key="d2">6</data>
-    </edge>
-    <edge source="G" target="U">
-      <data key="d2">7</data>
-    </edge>
-    <edge source="G" target="T">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="G" target="P">
-      <data key="d2">7</data>
-    </edge>
-    <edge source="H" target="T">
-      <data key="d2">4</data>
-    </edge>
-    <edge source="H" target="I">
-      <data key="d2">9</data>
-    </edge>
-    <edge source="H" target="O">
-      <data key="d2">4</data>
-    </edge>
-    <edge source="I" target="T">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="I" target="M">
-      <data key="d2">6</data>
-    </edge>
-    <edge source="J" target="U">
-      <data key="d2">8</data>
-    </edge>
-    <edge source="J" target="T">
-      <data key="d2">4</data>
-    </edge>
-    <edge source="K" target="U">
-      <data key="d2">1</data>
-    </edge>
-    <edge source="L" target="W">
-      <data key="d2">8</data>
-    </edge>
-    <edge source="N" target="Q">
-      <data key="d2">8</data>
-    </edge>
-    <edge source="N" target="W">
-      <data key="d2">8</data>
-    </edge>
-    <edge source="N" target="U">
-      <data key="d2">7</data>
-    </edge>
-    <edge source="O" target="V">
-      <data key="d2">8</data>
-    </edge>
-    <edge source="Q" target="W">
-      <data key="d2">4</data>
-    </edge>
-    <edge source="R" target="S">
-      <data key="d2">2</data>
-    </edge>
-    <edge source="T" target="X">
-      <data key="d2">8</data>
-    </edge>
-    <edge source="U" target="V">
-      <data key="d2">6</data>
-    </edge>
+    <edge source="A" target="J" />
+    <edge source="A" target="X" />
+    <edge source="A" target="U" />
+    <edge source="A" target="D" />
+    <edge source="A" target="G" />
+    <edge source="A" target="M" />
+    <edge source="B" target="W" />
+    <edge source="B" target="C" />
+    <edge source="C" target="G" />
+    <edge source="C" target="M" />
+    <edge source="D" target="E" />
+    <edge source="F" target="S" />
+    <edge source="G" target="V" />
+    <edge source="G" target="L" />
+    <edge source="G" target="R" />
+    <edge source="G" target="U" />
+    <edge source="H" target="V" />
+    <edge source="H" target="M" />
+    <edge source="H" target="U" />
+    <edge source="I" target="P" />
+    <edge source="I" target="Q" />
+    <edge source="I" target="R" />
+    <edge source="I" target="L" />
+    <edge source="J" target="Q" />
+    <edge source="K" target="M" />
+    <edge source="K" target="L" />
+    <edge source="L" target="X" />
+    <edge source="N" target="U" />
+    <edge source="N" target="Q" />
+    <edge source="N" target="P" />
+    <edge source="O" target="R" />
+    <edge source="O" target="T" />
+    <edge source="Q" target="T" />
+    <edge source="Q" target="V" />
+    <edge source="V" target="W" />
   </graph>
 </graphml>

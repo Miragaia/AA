@@ -6,6 +6,8 @@ import math
 import getopt
 import sys
 
+import matplotlib.pyplot as plt
+
 def store_graph(vertices, num_vertices, percentage, graph):
     filename = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{percentage}.graphml"
 
@@ -23,14 +25,28 @@ def store_graph(vertices, num_vertices, percentage, graph):
     # Draw main node labels (node names)
     nx.draw(graph, pos, with_labels=True, node_color='lightblue')
     
-    # Draw weights with an offset to the right
-    weight_labels = {v: vertices[v][1] for v in graph.nodes}  # Label with node weights
-    label_pos = {k: (x + 40, y) for k, (x, y) in pos.items()}  # Offset weight labels to the right
+    # Apply an offset for weight labels in display (pixel) coordinates
+    fig, ax = plt.gcf(), plt.gca()
+    transform = ax.transData.transform
+    inverse_transform = ax.transData.inverted().transform
+
+    weight_labels = {v: vertices[v][1] for v in graph.nodes}
+    label_pos = {}
+
+    for k, (x, y) in pos.items():
+        # Transform data coordinates to display coordinates
+        display_x, display_y = transform((x, y))
+        # Apply offset in display coordinates (e.g., 15 pixels to the right)
+        display_x += 25  # Adjust this value for more/less offset
+        # Convert back to data coordinates
+        label_pos[k] = inverse_transform((display_x, display_y))
+
     nx.draw_networkx_labels(graph, label_pos, labels=weight_labels, font_color="red")
     
     # Save the figure
     plt.savefig(f"graphs/png/graph_num_vertices_{num_vertices}_percentage_{percentage}.png")
     plt.clf()
+
 
 
 
