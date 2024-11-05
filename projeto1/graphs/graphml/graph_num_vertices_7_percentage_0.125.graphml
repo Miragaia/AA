@@ -5,41 +5,41 @@
   <key id="d0" for="node" attr.name="x" attr.type="long" />
   <graph edgedefault="undirected">
     <node id="A">
-      <data key="d0">547</data>
-      <data key="d1">464</data>
+      <data key="d0">16</data>
+      <data key="d1">93</data>
     </node>
     <node id="B">
-      <data key="d0">534</data>
-      <data key="d1">682</data>
+      <data key="d0">84</data>
+      <data key="d1">48</data>
     </node>
     <node id="C">
-      <data key="d0">262</data>
-      <data key="d1">94</data>
+      <data key="d0">62</data>
+      <data key="d1">58</data>
     </node>
     <node id="D">
-      <data key="d0">28</data>
-      <data key="d1">126</data>
+      <data key="d0">61</data>
+      <data key="d1">77</data>
     </node>
     <node id="E">
-      <data key="d0">744</data>
-      <data key="d1">666</data>
+      <data key="d0">91</data>
+      <data key="d1">72</data>
     </node>
     <node id="F">
-      <data key="d0">378</data>
-      <data key="d1">901</data>
+      <data key="d0">78</data>
+      <data key="d1">8</data>
     </node>
     <node id="G">
-      <data key="d0">850</data>
-      <data key="d1">495</data>
+      <data key="d0">20</data>
+      <data key="d1">56</data>
     </node>
-    <edge source="A" target="G">
-      <data key="d2">10</data>
+    <edge source="A" target="C">
+      <data key="d2">37</data>
     </edge>
-    <edge source="B" target="C">
+    <edge source="B" target="G">
       <data key="d2">16</data>
     </edge>
-    <edge source="D" target="E">
-      <data key="d2">39</data>
+    <edge source="D" target="F">
+      <data key="d2">22</data>
     </edge>
   </graph>
 </graphml>

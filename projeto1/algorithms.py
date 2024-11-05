@@ -19,7 +19,6 @@ def exhaustive_search_mweds(G):
                 if weight < min_weight:
                     min_weight = weight
                     min_weight_set = edge_subset
-    
     return min_weight_set, min_weight
 
 def greedy_mweds(G):

@@ -70,11 +70,16 @@ def create_vertices(vertices_num, max_value_coordinate):
     return vertices
 
 def create_graphs(vertices_num_last_graph, max_value_coordinate):
+    graphs_with_metadata = []
     for num_vertices in range(4, vertices_num_last_graph + 1):
         vertices = create_vertices(num_vertices, max_value_coordinate)
         for percentage in [0.125, 0.25, 0.50, 0.75]:
             G = create_edges_and_graph(percentage, vertices, num_vertices)
             store_graph(vertices, num_vertices, percentage, G)
+            # Store graph with metadata for later use
+            graphs_with_metadata.append((G, num_vertices, percentage))
+    return graphs_with_metadata
+
 
 def read_arguments():
     argumentList = sys.argv[1:]
@@ -98,4 +103,5 @@ def generate_weighted_graph(vertices_num_last_graph, max_value_coordinate):
         os.makedirs("graphs/graphml", exist_ok=True)
         os.makedirs("graphs/png", exist_ok=True)
     random.seed(108317)
-    create_graphs(vertices_num_last_graph, max_value_coordinate)
+    graphs_with_metadata = create_graphs(vertices_num_last_graph, max_value_coordinate)
+    return graphs_with_metadata
