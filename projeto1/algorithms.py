@@ -9,33 +9,33 @@ def is_edge_dominating_set(G, edge_set):
 
 
 def is_edge_dominating_set_optimized(G, edge_set, all_edges):
-    # Create a set to track covered edges
-    covered_edges = set(edge_set)
-    for u, v in edge_set:
+    covered_edges = set()
+
+    for u, v, _ in edge_set:
         covered_edges.update(G.edges(u))
         covered_edges.update(G.edges(v))
-        if len(covered_edges) == all_edges:
+
+        if len(covered_edges) >= all_edges:
             return True
+
     return False
 
+#usar profiler lib python
 def exhaustive_search_mweds(G):
     min_weight = float('inf')
     min_weight_set = []
-    edges = list(G.edges(data='weight'))
+    edges = sorted(G.edges(data='weight'), key=lambda x: x[2])
     all_edges = len(G.edges)
-    
+
     for r in range(1, len(edges) + 1):
         for edge_subset in combinations(edges, r):
-            weight = sum(w for u, v, w in edge_subset)
-            if weight >= min_weight:
-                continue  # Prune subsets with weight >= current minimum
-
-            edge_set = [(u, v) for u, v, w in edge_subset]
-            if is_edge_dominating_set_optimized(G, edge_set, all_edges):
-                min_weight = weight
-                min_weight_set = edge_subset
-                break  # Break early if a solution of this size is found
-        if min_weight_set:  # Stop if we found a dominating set of minimum weight
+            if is_edge_dominating_set_optimized(G, edge_subset, all_edges):
+                weight = sum(w for u, v, w in edge_subset)
+                if weight < min_weight:
+                    min_weight = weight
+                    min_weight_set = edge_subset
+                    break
+        if min_weight_set:
             break
 
     return min_weight_set, min_weight

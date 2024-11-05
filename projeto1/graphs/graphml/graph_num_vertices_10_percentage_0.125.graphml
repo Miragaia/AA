@@ -45,22 +45,22 @@
       <data key="d1">41</data>
     </node>
     <edge source="A" target="F">
-      <data key="d2">50</data>
+      <data key="d2">100</data>
     </edge>
     <edge source="B" target="G">
-      <data key="d2">43</data>
+      <data key="d2">86</data>
     </edge>
     <edge source="B" target="J">
-      <data key="d2">6</data>
+      <data key="d2">11</data>
     </edge>
     <edge source="C" target="E">
-      <data key="d2">23</data>
+      <data key="d2">45</data>
     </edge>
     <edge source="D" target="H">
-      <data key="d2">12</data>
+      <data key="d2">23</data>
     </edge>
     <edge source="I" target="J">
-      <data key="d2">10</data>
+      <data key="d2">20</data>
     </edge>
   </graph>
 </graphml>

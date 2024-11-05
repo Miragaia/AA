@@ -25,13 +25,13 @@
       <data key="d1">85</data>
     </node>
     <edge source="A" target="E">
-      <data key="d2">35</data>
+      <data key="d2">70</data>
     </edge>
     <edge source="B" target="D">
-      <data key="d2">36</data>
+      <data key="d2">71</data>
     </edge>
     <edge source="C" target="E">
-      <data key="d2">49</data>
+      <data key="d2">97</data>
     </edge>
   </graph>
 </graphml>

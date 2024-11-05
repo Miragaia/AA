@@ -21,7 +21,7 @@
       <data key="d1">55</data>
     </node>
     <edge source="B" target="C">
-      <data key="d2">25</data>
+      <data key="d2">49</data>
     </edge>
   </graph>
 </graphml>

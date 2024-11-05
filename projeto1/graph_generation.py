@@ -51,7 +51,7 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
             v2 = random.choice([v for v in vertices.keys() if v != v1 and v not in G[v1]])
 
         # Assign a random weight to the edge
-        weight = random.randint(1, 50)
+        weight = random.randint(1, 100)
         G.add_edge(v1, v2, weight=weight)
 
     return G

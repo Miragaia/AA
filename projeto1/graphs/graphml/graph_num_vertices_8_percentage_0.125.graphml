@@ -40,13 +40,13 @@
       <data key="d2">1</data>
     </edge>
     <edge source="B" target="F">
-      <data key="d2">36</data>
+      <data key="d2">72</data>
     </edge>
     <edge source="C" target="H">
-      <data key="d2">30</data>
+      <data key="d2">60</data>
     </edge>
     <edge source="E" target="G">
-      <data key="d2">15</data>
+      <data key="d2">30</data>
     </edge>
   </graph>
 </graphml>

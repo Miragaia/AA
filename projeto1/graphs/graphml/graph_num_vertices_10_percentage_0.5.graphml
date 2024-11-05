@@ -45,73 +45,73 @@
       <data key="d1">41</data>
     </node>
     <edge source="A" target="I">
-      <data key="d2">9</data>
+      <data key="d2">17</data>
     </edge>
     <edge source="A" target="C">
-      <data key="d2">16</data>
+      <data key="d2">31</data>
     </edge>
     <edge source="A" target="B">
       <data key="d2">1</data>
     </edge>
     <edge source="A" target="J">
-      <data key="d2">12</data>
-    </edge>
-    <edge source="B" target="E">
-      <data key="d2">3</data>
-    </edge>
-    <edge source="B" target="F">
-      <data key="d2">48</data>
-    </edge>
-    <edge source="B" target="C">
       <data key="d2">23</data>
     </edge>
+    <edge source="B" target="E">
+      <data key="d2">6</data>
+    </edge>
+    <edge source="B" target="F">
+      <data key="d2">95</data>
+    </edge>
+    <edge source="B" target="C">
+      <data key="d2">46</data>
+    </edge>
     <edge source="B" target="G">
-      <data key="d2">30</data>
+      <data key="d2">59</data>
     </edge>
     <edge source="B" target="H">
-      <data key="d2">38</data>
+      <data key="d2">75</data>
     </edge>
     <edge source="B" target="D">
-      <data key="d2">21</data>
+      <data key="d2">42</data>
     </edge>
     <edge source="B" target="I">
-      <data key="d2">20</data>
+      <data key="d2">39</data>
     </edge>
     <edge source="C" target="D">
-      <data key="d2">33</data>
+      <data key="d2">65</data>
     </edge>
     <edge source="C" target="E">
-      <data key="d2">8</data>
+      <data key="d2">16</data>
     </edge>
     <edge source="C" target="J">
-      <data key="d2">40</data>
+      <data key="d2">79</data>
     </edge>
     <edge source="C" target="I">
-      <data key="d2">34</data>
+      <data key="d2">68</data>
     </edge>
     <edge source="E" target="H">
-      <data key="d2">38</data>
+      <data key="d2">75</data>
     </edge>
     <edge source="E" target="J">
-      <data key="d2">31</data>
+      <data key="d2">61</data>
     </edge>
     <edge source="E" target="G">
-      <data key="d2">40</data>
+      <data key="d2">80</data>
     </edge>
     <edge source="E" target="F">
-      <data key="d2">18</data>
+      <data key="d2">35</data>
     </edge>
     <edge source="F" target="G">
-      <data key="d2">17</data>
+      <data key="d2">33</data>
     </edge>
     <edge source="F" target="H">
-      <data key="d2">21</data>
+      <data key="d2">42</data>
     </edge>
     <edge source="G" target="I">
-      <data key="d2">11</data>
+      <data key="d2">22</data>
     </edge>
     <edge source="H" target="J">
-      <data key="d2">38</data>
+      <data key="d2">76</data>
     </edge>
   </graph>
 </graphml>

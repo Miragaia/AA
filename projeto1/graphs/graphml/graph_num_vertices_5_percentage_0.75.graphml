@@ -25,28 +25,28 @@
       <data key="d1">85</data>
     </node>
     <edge source="A" target="C">
-      <data key="d2">43</data>
+      <data key="d2">85</data>
     </edge>
     <edge source="A" target="D">
-      <data key="d2">34</data>
+      <data key="d2">67</data>
     </edge>
     <edge source="A" target="B">
-      <data key="d2">6</data>
+      <data key="d2">11</data>
     </edge>
     <edge source="B" target="E">
-      <data key="d2">25</data>
+      <data key="d2">50</data>
     </edge>
     <edge source="B" target="C">
-      <data key="d2">27</data>
+      <data key="d2">54</data>
     </edge>
     <edge source="C" target="D">
-      <data key="d2">4</data>
+      <data key="d2">7</data>
     </edge>
     <edge source="C" target="E">
-      <data key="d2">2</data>
+      <data key="d2">4</data>
     </edge>
     <edge source="D" target="E">
-      <data key="d2">34</data>
+      <data key="d2">68</data>
     </edge>
   </graph>
 </graphml>

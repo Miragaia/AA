@@ -53,31 +53,31 @@
       <data key="d1">25</data>
     </node>
     <edge source="A" target="G">
-      <data key="d2">3</data>
+      <data key="d2">5</data>
     </edge>
     <edge source="A" target="L">
-      <data key="d2">6</data>
+      <data key="d2">11</data>
     </edge>
     <edge source="B" target="F">
-      <data key="d2">9</data>
+      <data key="d2">18</data>
     </edge>
     <edge source="C" target="J">
-      <data key="d2">38</data>
+      <data key="d2">76</data>
     </edge>
     <edge source="D" target="K">
-      <data key="d2">44</data>
+      <data key="d2">87</data>
     </edge>
     <edge source="D" target="L">
-      <data key="d2">45</data>
+      <data key="d2">89</data>
     </edge>
     <edge source="D" target="J">
-      <data key="d2">8</data>
+      <data key="d2">16</data>
     </edge>
     <edge source="E" target="I">
-      <data key="d2">13</data>
+      <data key="d2">26</data>
     </edge>
     <edge source="H" target="L">
-      <data key="d2">30</data>
+      <data key="d2">59</data>
     </edge>
   </graph>
 </graphml>

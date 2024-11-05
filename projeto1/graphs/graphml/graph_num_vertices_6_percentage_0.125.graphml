@@ -29,10 +29,10 @@
       <data key="d1">10</data>
     </node>
     <edge source="A" target="E">
-      <data key="d2">9</data>
+      <data key="d2">18</data>
     </edge>
     <edge source="C" target="F">
-      <data key="d2">46</data>
+      <data key="d2">91</data>
     </edge>
   </graph>
 </graphml>
