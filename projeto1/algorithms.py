@@ -1,36 +1,36 @@
 from itertools import combinations
+from functools import lru_cache
 
-def is_edge_dominating_set(G, edge_set):
-    covered_edges = set(edge_set)
-    for u, v in edge_set:
-        covered_edges.update(G.edges(u))
-        covered_edges.update(G.edges(v))
-    return len(covered_edges) == len(G.edges)
+def precompute_edge_dict(G):
+    edge_dict = {node: set(G.edges(node)) for node in G.nodes}
+    return edge_dict
 
-
-def is_edge_dominating_set_optimized(G, edge_set, all_edges):
+def is_edge_dominating_set(edge_dict, edge_set, all_edges):
     covered_edges = set()
 
-    for u, v, _ in edge_set:
-        covered_edges.update(G.edges(u))
-        covered_edges.update(G.edges(v))
+    for u, v, _ in edge_set:  # Now that edge_set includes (u, v, weight), no unpacking error
+        covered_edges |= edge_dict[u]
+        covered_edges |= edge_dict[v]
 
-        if len(covered_edges) >= all_edges:
+        if len(covered_edges) == all_edges:
             return True
 
     return False
 
-#usar profiler lib python
 def exhaustive_search_mweds(G):
     min_weight = float('inf')
     min_weight_set = []
-    edges = sorted(G.edges(data='weight'), key=lambda x: x[2])
-    all_edges = len(G.edges)
+    
+    # Retrieve edges with weights using data=True
+    edges = list(G.edges(data=True))  # List of (u, v, weight) tuples
+    all_edges = G.number_of_edges()
 
-    for r in range(1, len(edges) + 1):
+    edge_dict = precompute_edge_dict(G)
+
+    for r in range(1, all_edges + 1):
         for edge_subset in combinations(edges, r):
-            if is_edge_dominating_set_optimized(G, edge_subset, all_edges):
-                weight = sum(w for u, v, w in edge_subset)
+            if is_edge_dominating_set(edge_dict, edge_subset, all_edges):
+                weight = sum(w['weight'] for u, v, w in edge_subset)  # Sum weights
                 if weight < min_weight:
                     min_weight = weight
                     min_weight_set = edge_subset
@@ -39,6 +39,8 @@ def exhaustive_search_mweds(G):
             break
 
     return min_weight_set, min_weight
+
+
 
 def greedy_mweds(G):
     edge_list = sorted(G.edges(data='weight'), key=lambda x: x[2])

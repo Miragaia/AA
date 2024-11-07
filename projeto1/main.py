@@ -1,8 +1,18 @@
 import pandas as pd
 import time
+import cProfile
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import exhaustive_search_mweds, greedy_mweds
 from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv
+
+def profile_algorithm(algorithm_func, *args, **kwargs):
+    """Profile an algorithm's execution."""
+    profiler = cProfile.Profile()
+    profiler.enable()
+    result = algorithm_func(*args, **kwargs)
+    profiler.disable()
+    profiler.print_stats(sort='cumtime')
+    return result
 
 def main():
     results_exhaustive = []
@@ -13,9 +23,9 @@ def main():
     graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
     
     for G, num_vertices, edge_prob in graphs_with_metadata:
-        # Exhaustive Search
+        # Exhaustive Search with profiling
         start_time = time.time()
-        exhaustive_set, exhaustive_weight = exhaustive_search_mweds(G)
+        exhaustive_set, exhaustive_weight = profile_algorithm(exhaustive_search_mweds, G)
         end_time = time.time()
         exhaustive_time = end_time - start_time
         exhaustive_operations = len(exhaustive_set)
@@ -28,9 +38,9 @@ def main():
             'num_operations': exhaustive_operations
         })
         
-        # Greedy Heuristic
+        # Greedy Heuristic with profiling
         start_time = time.time()
-        greedy_set, greedy_weight = greedy_mweds(G)
+        greedy_set, greedy_weight = profile_algorithm(greedy_mweds, G)
         end_time = time.time()
         greedy_time = end_time - start_time
         greedy_operations = len(greedy_set)

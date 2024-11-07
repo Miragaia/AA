@@ -5,27 +5,30 @@
   <key id="d0" for="node" attr.name="x" attr.type="long" />
   <graph edgedefault="undirected">
     <node id="A">
-      <data key="d0">46</data>
-      <data key="d1">100</data>
+      <data key="d0">865</data>
+      <data key="d1">766</data>
     </node>
     <node id="B">
-      <data key="d0">18</data>
-      <data key="d1">22</data>
+      <data key="d0">494</data>
+      <data key="d1">263</data>
     </node>
     <node id="C">
-      <data key="d0">49</data>
-      <data key="d1">62</data>
+      <data key="d0">365</data>
+      <data key="d1">797</data>
     </node>
     <node id="D">
-      <data key="d0">92</data>
-      <data key="d1">38</data>
+      <data key="d0">144</data>
+      <data key="d1">176</data>
     </node>
     <node id="E">
-      <data key="d0">52</data>
-      <data key="d1">85</data>
+      <data key="d0">387</data>
+      <data key="d1">495</data>
     </node>
+    <edge source="A" target="E">
+      <data key="d2">50</data>
+    </edge>
     <edge source="A" target="C">
-      <data key="d2">85</data>
+      <data key="d2">54</data>
     </edge>
     <edge source="A" target="D">
       <data key="d2">67</data>
@@ -33,20 +36,17 @@
     <edge source="A" target="B">
       <data key="d2">11</data>
     </edge>
-    <edge source="B" target="E">
-      <data key="d2">50</data>
-    </edge>
-    <edge source="B" target="C">
-      <data key="d2">54</data>
-    </edge>
-    <edge source="C" target="D">
-      <data key="d2">7</data>
+    <edge source="B" target="D">
+      <data key="d2">11</data>
     </edge>
     <edge source="C" target="E">
+      <data key="d2">68</data>
+    </edge>
+    <edge source="C" target="D">
       <data key="d2">4</data>
     </edge>
     <edge source="D" target="E">
-      <data key="d2">68</data>
+      <data key="d2">7</data>
     </edge>
   </graph>
 </graphml>
