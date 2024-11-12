@@ -1,35 +1,34 @@
 from itertools import combinations
 from functools import lru_cache
+import networkx as nx
 
-def precompute_edge_dict(G):
-    edge_dict = {node: set(G.edges(node)) for node in G.nodes}
-    return edge_dict
-
-def is_edge_dominating_set(edge_dict, edge_set, all_edges):
-    covered_edges = set()
-
-    for u, v, _ in edge_set:
-        covered_edges |= edge_dict[u]
-        covered_edges |= edge_dict[v]
-
-    return len(covered_edges) == all_edges
+def is_edge_dominating_set(G, edge_set):
+    #For each edge not in the subset, check if it has at least one vertice in the subset
+    for u, v in G.edges:
+        #Check if the edge has a vertex in common with some edge of the subset
+        if not any((u in (u1, v1) or v in (u1, v1)) for u1, v1, w in edge_set):
+            return False
+    return True
 
 def exhaustive_search_mweds(G):
     min_weight = float('inf')
     min_weight_set = []
     
-    edges = list(G.edges(data=True))  # Includes edge weights
+
+    edges = G.edges(data= "weight")  # Includes edge weights
     all_edges = G.number_of_edges()
-    edge_dict = precompute_edge_dict(G)
 
     for r in range(1, all_edges + 1):
         for edge_subset in combinations(edges, r):
-            if is_edge_dominating_set(edge_dict, edge_subset, all_edges):
-                weight = sum(w['weight'] for u, v, w in edge_subset)
+            edge_set = set((u, v, w) for u, v, w in edge_subset)
+            if is_edge_dominating_set(G, edge_set):
+                weight = sum(w for u, v, w in edge_set)
                 if weight < min_weight:
                     min_weight = weight
-                    min_weight_set = edge_subset
-
+                    min_weight_set = edge_set
+            else:
+                continue
+            
     return min_weight_set, min_weight
 
 def greedy_mweds(G):
