@@ -1,6 +1,9 @@
 import pandas as pd
 import time
 import cProfile
+import networkx as nx
+import matplotlib.pyplot as plt
+import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import exhaustive_search_mweds, greedy_mweds
 from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv
@@ -14,6 +17,39 @@ def profile_algorithm(algorithm_func, *args, **kwargs):
     profiler.print_stats(sort='cumtime')
     return result
 
+
+def draw_and_save_graph(graph_file, edge_set, filename, title):
+    """Draws the graph with edges in edge_set highlighted in red, shows edge weights, and saves as PNG, using the saved layout."""
+    # Load graph from GraphML file
+    G = nx.read_graphml(graph_file)
+
+    # Retrieve positions from node attributes
+    pos = {node: (G.nodes[node]['x'], G.nodes[node]['y']) for node in G.nodes()}
+
+    plt.figure(figsize=(8, 8))
+
+    # Draw all edges in light gray
+    nx.draw_networkx_edges(G, pos, edgelist=G.edges, edge_color="lightgray")
+
+    # Draw edges in the edge dominating set in red
+    nx.draw_networkx_edges(G, pos, edgelist=edge_set, edge_color="red", width=2)
+
+    # Retrieve weights for edges in the solution set
+    edge_labels = {edge: G[edge[0]][edge[1]]['weight'] for edge in edge_set}
+    
+    # Draw edge labels (weights) for edges in the solution
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color="red")
+
+    # Draw nodes
+    nx.draw_networkx_nodes(G, pos, node_size=300, node_color="lightblue")
+    nx.draw_networkx_labels(G, pos, font_size=10, font_color="black")
+
+    # Add title and save
+    plt.title(title)
+    plt.savefig(filename)
+    plt.close()
+
+
 def main():
     results_exhaustive = []
     results_greedy = []
@@ -22,7 +58,10 @@ def main():
     vertices_num_last_graph, max_value_coordinate = read_arguments()
     graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
     
-    for G, num_vertices, edge_prob in graphs_with_metadata:
+    for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
+        # File path for the stored graph layout
+        graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
+        
         # Exhaustive Search with profiling
         start_time = time.time()
         exhaustive_set, exhaustive_weight = profile_algorithm(exhaustive_search_mweds, G)
@@ -64,6 +103,19 @@ def main():
             'greedy_execution_time': greedy_time,
             'time_ratio': greedy_time / exhaustive_time if exhaustive_time != 0 else float('inf')
         })
+
+        # Draw and save graphs with marked solutions
+        exhaustive_edges = [(u, v) for u, v, w in exhaustive_set]
+        greedy_edges = [(u, v) for u, v, w in greedy_set]
+        
+        draw_and_save_graph(
+            graph_file, exhaustive_edges, f"exhaustive_graph_{i}.png", 
+            f"Exhaustive Solution (Graph {i})"
+        )
+        draw_and_save_graph(
+            graph_file, greedy_edges, f"greedy_graph_{i}.png", 
+            f"Greedy Solution (Graph {i})"
+        )
 
     # Convert results to DataFrames
     df_exhaustive = pd.DataFrame(results_exhaustive)
