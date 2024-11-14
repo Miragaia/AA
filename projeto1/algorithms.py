@@ -36,6 +36,7 @@ def exhaustive_search_mweds(G):
             else:
                 continue
             
+    print(basic_operations)
     return min_weight_set, min_weight, basic_operations
 
 def greedy_mweds(G):

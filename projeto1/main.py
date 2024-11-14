@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import exhaustive_search_mweds, greedy_mweds
-from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity
+from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity, basic_operations_num_aggregated
+
 def profile_algorithm(algorithm_func, *args, **kwargs):
     """Profile an algorithm's execution."""
 
@@ -55,6 +56,9 @@ def main():
     comparison_results = []
 
     vertices_num_last_graph, max_value_coordinate = read_arguments()
+    if vertices_num_last_graph <= 3:
+        raise ValueError("The number of vertices must be greater than 3.")
+    
     graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
     
     for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
@@ -69,7 +73,6 @@ def main():
             exhaustive_set, exhaustive_weight, exhaustive_operations = profile_algorithm(exhaustive_search_mweds, G)
             end_time = time.time()
             exhaustive_time = end_time - start_time
-            exhaustive_operations = len(exhaustive_set)
             results_exhaustive.append({
                 'vertices_num': num_vertices,
                 'percentage_max_num_edges': edge_prob,
@@ -84,7 +87,6 @@ def main():
         greedy_set, greedy_weight, greedy_operations = profile_algorithm(greedy_mweds, G)
         end_time = time.time()
         greedy_time = end_time - start_time
-        greedy_operations = len(greedy_set)
         results_greedy.append({
             'vertices_num': num_vertices,
             'percentage_max_num_edges': edge_prob,
@@ -146,6 +148,7 @@ def main():
     executions_times(df_greedy, "Greedy Heuristic")
     basic_operations_num(df_exhaustive, "Exhaustive Search")
     basic_operations_num(df_greedy, "Greedy Heuristic")
+    basic_operations_num_aggregated(df_exhaustive, df_greedy)
     plot_time_complexity(df_exhaustive, df_greedy)
     compare_solutions(df_comparison)
 

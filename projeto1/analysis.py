@@ -6,7 +6,6 @@ def save_to_csv(df, filename):
     print(f"Results saved to {filename}")
 
 def executions_times(df, algorithm_name):
-    # Loop through each unique edge density and plot separately
     unique_densities = df['percentage_max_num_edges'].unique()
     for density in unique_densities:
         subset = df[df['percentage_max_num_edges'] == density]
@@ -30,14 +29,48 @@ def basic_operations_num(df, algorithm_name):
     plt.xlabel('Number of Vertices')
     plt.ylabel('Number of Basic Operations')
     plt.title(f'Basic Operations Count for {algorithm_name}')
+    plt.yscale('log')
     plt.legend()
     plt.savefig(f"graphics/basic_ops/{algorithm_name}_basic_ops.png")
+    plt.clf()
+
+def basic_operations_num_aggregated(df_exhaustive, df_greedy):
+    unique_densities_exhaustive = df_exhaustive['percentage_max_num_edges'].unique()
+    unique_densities_greedy = df_greedy['percentage_max_num_edges'].unique()
+    
+    plt.figure(figsize=(10, 6))
+
+    for density in unique_densities_exhaustive:
+        subset = df_exhaustive[df_exhaustive['percentage_max_num_edges'] == density]
+        plt.plot(
+            subset['vertices_num'], 
+            subset['num_operations'], 
+            marker='o', 
+            linestyle='-', 
+            label=f"Exhaustive - {int(density * 100)}% Density"
+        )
+
+    for density in unique_densities_greedy:
+        subset = df_greedy[df_greedy['percentage_max_num_edges'] == density]
+        plt.plot(
+            subset['vertices_num'], 
+            subset['num_operations'], 
+            marker='x', 
+            linestyle='--', 
+            label=f"Greedy - {int(density * 100)}% Density"
+        )
+    
+    plt.xlabel('Number of Vertices')
+    plt.ylabel('Number of Basic Operations')
+    plt.title('Basic Operations Count for Exhaustive Search and Greedy Heuristic')
+    plt.yscale('log')
+    plt.legend()
+    plt.savefig("graphics/basic_ops/combined_basic_ops.png")
     plt.clf()
 
 def plot_time_complexity(df_exhaustive, df_greedy):
     plt.figure(figsize=(10, 6))
 
-    # Plot time complexity for each density separately
     for density in df_exhaustive['percentage_max_num_edges'].unique():
         subset_exhaustive = df_exhaustive[df_exhaustive['percentage_max_num_edges'] == density]
         subset_greedy = df_greedy[df_greedy['percentage_max_num_edges'] == density]
@@ -60,7 +93,6 @@ def compare_solutions(comparison_df):
     for percentage in unique_percentages:
         subset = comparison_df[comparison_df['percentage_max_num_edges'] == percentage]
 
-        # Total weight comparison
         plt.plot(subset['vertices_num'], subset['exhaustive_total_weight'], marker='+', color='red', label='Exhaustive Search')
         plt.plot(subset['vertices_num'], subset['greedy_total_weight'], marker='x', color='blue', label='Greedy Heuristic')
         plt.title(f"Total Weight Comparison - {int(percentage * 100)}% Edge Density")
@@ -70,7 +102,6 @@ def compare_solutions(comparison_df):
         plt.savefig(f"graphics/weights/total_weight_comparison_{int(percentage * 100)}.png")
         plt.clf()
 
-        # Execution time ratio
         plt.plot(subset['vertices_num'], subset['time_ratio'], marker='o', color='purple')
         plt.title(f"Execution Time Ratio (Greedy / Exhaustive) - {int(percentage * 100)}% Edge Density")
         plt.xlabel("Number of Vertices")
