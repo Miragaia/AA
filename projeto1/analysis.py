@@ -168,3 +168,50 @@ def predict_large_graph_times_75(df_exhaustive, df_greedy, vertices_to_predict):
     plt.clf()
 
     print("Predicted execution times for 75% density plotted and saved.")
+
+def predict_large_graph_space(vertices_to_predict, densities=[0.125, 0.25, 0.5, 0.75]):
+    predicted_space_exhaustive = {}
+    predicted_space_greedy = {}
+
+    for density in densities:
+        space_exhaustive_density = []
+        space_greedy_density = []
+
+        for vertices in vertices_to_predict:
+            # Calculate edges based on density
+            edges = int(vertices * (vertices - 1) * density / 2)
+
+            # Space complexity for exhaustive (2^V)
+            space_exhaustive = 2 ** vertices
+            space_exhaustive_density.append(space_exhaustive)
+
+            # Space complexity for greedy (V + E)
+            space_greedy = vertices + edges
+            space_greedy_density.append(space_greedy)
+
+        # Store results for each density level
+        predicted_space_exhaustive[density] = space_exhaustive_density
+        predicted_space_greedy[density] = space_greedy_density
+
+    # Visualization
+    plt.figure(figsize=(12, 8))
+
+    # Plot exhaustive predictions
+    for density, space_data in predicted_space_exhaustive.items():
+        plt.plot(vertices_to_predict, space_data, label=f"Exhaustive - {int(density * 100)}% Density", linestyle='--', marker='o')
+
+    # Plot greedy predictions
+    for density, space_data in predicted_space_greedy.items():
+        plt.plot(vertices_to_predict, space_data, label=f"Greedy - {int(density * 100)}% Density", linestyle='-', marker='x')
+
+    # Formatting the plot
+    plt.xlabel("Number of Vertices")
+    plt.ylabel("Space Complexity (Units)")
+    plt.yscale('log')
+    plt.title("Predicted Space Complexity for Various Densities")
+    plt.legend()
+    plt.grid(True)
+    plt.savefig("graphics/predicted_space_complexity/space_complexity_predictions.png")
+    plt.clf()
+
+    print("Predicted space complexities plotted and saved.")

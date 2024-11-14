@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import exhaustive_search_mweds, greedy_mweds
-from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity, basic_operations_num_aggregated, predict_large_graph_times_75
+from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity, basic_operations_num_aggregated, predict_large_graph_times_75, predict_large_graph_space
 
 def profile_algorithm(algorithm_func, *args, **kwargs):
     """Profile an algorithm's execution."""
@@ -66,7 +66,7 @@ def main():
         graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
         
         #limitation to 8 vertices because of the time complexity of the exhaustive search (needed for visualization to be limited)
-        if num_vertices <= 8:
+        if num_vertices <= 7:
 
             # Exhaustive Search with profiling
             start_time = time.time()
@@ -152,6 +152,7 @@ def main():
     plot_time_complexity(df_exhaustive, df_greedy)
     compare_solutions(df_comparison)
     predict_large_graph_times_75(df_exhaustive, df_greedy, [8, 9, 10, 15, 20, 25, 30])
+    predict_large_graph_space([8, 9, 10, 15, 20, 25, 30])
 
 
 if __name__ == "__main__":

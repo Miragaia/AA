@@ -1,0 +1,8 @@
+vertices_num,predicted_space_complexity
+8,29.0
+9,36.0
+10,43.75
+15,93.75
+20,162.5
+25,250.0
+30,356.25
