@@ -66,7 +66,7 @@ def main():
         graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
         
         #limitation to 8 vertices because of the time complexity of the exhaustive search (needed for visualization to be limited)
-        if num_vertices <= 7:
+        if num_vertices <= 8:
 
             # Exhaustive Search with profiling
             start_time = time.time()
