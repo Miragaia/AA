@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import exhaustive_search_mweds, greedy_mweds
-from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity, basic_operations_num_aggregated
+from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity, basic_operations_num_aggregated, predict_large_graph_times_75
 
 def profile_algorithm(algorithm_func, *args, **kwargs):
     """Profile an algorithm's execution."""
@@ -151,6 +151,7 @@ def main():
     basic_operations_num_aggregated(df_exhaustive, df_greedy)
     plot_time_complexity(df_exhaustive, df_greedy)
     compare_solutions(df_comparison)
+    predict_large_graph_times_75(df_exhaustive, df_greedy, [8, 9, 10, 15, 20, 25, 30])
 
 
 if __name__ == "__main__":
