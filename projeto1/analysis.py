@@ -30,6 +30,25 @@ def basic_operations_num(df, algorithm_name):
     plt.savefig(f"graphics/{algorithm_name}_basic_ops.png")
     plt.clf()
 
+def plot_time_complexity(df_exhaustive, df_greedy):
+    plt.figure(figsize=(10, 6))
+
+    # Plotting time complexity for both algorithms
+    plt.plot(df_exhaustive['vertices_num'], df_exhaustive['execution_time'], label='Exhaustive Search', color='red', marker='o')
+    plt.plot(df_greedy['vertices_num'], df_greedy['execution_time'], label='Greedy Heuristic', color='blue', marker='x')
+
+    # Customizing the plot
+    plt.xlabel('Number of Vertices')
+    plt.ylabel('Execution Time (seconds)')
+    plt.title('Time Complexity by Number of Vertices')
+    plt.yscale('log')  # Use a log scale for time if range varies significantly
+    plt.legend()
+    plt.grid(True)
+
+    # Save or show plot
+    plt.savefig("graphics/time_complexity_plot.png")
+    plt.clf()
+
 def compare_solutions(comparison_df):
     unique_percentages = comparison_df['percentage_max_num_edges'].unique()
     

@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import exhaustive_search_mweds, greedy_mweds
-from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv
-
+from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity
 def profile_algorithm(algorithm_func, *args, **kwargs):
     """Profile an algorithm's execution."""
     profiler = cProfile.Profile()
@@ -67,23 +66,26 @@ def main():
     graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
     
     for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
+
         # File path for the stored graph layout
         graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
         
-        # Exhaustive Search with profiling
-        start_time = time.time()
-        exhaustive_set, exhaustive_weight, exhaustive_operations = profile_algorithm(exhaustive_search_mweds, G)
-        end_time = time.time()
-        exhaustive_time = end_time - start_time
-        exhaustive_operations = len(exhaustive_set)
-        results_exhaustive.append({
-            'vertices_num': num_vertices,
-            'percentage_max_num_edges': edge_prob,
-            'total_weight': exhaustive_weight,
-            'solution_size': len(exhaustive_set),
-            'execution_time': exhaustive_time,
-            'num_operations': exhaustive_operations
-        })
+        if num_vertices <= 7:
+
+            # Exhaustive Search with profiling
+            start_time = time.time()
+            exhaustive_set, exhaustive_weight, exhaustive_operations = profile_algorithm(exhaustive_search_mweds, G)
+            end_time = time.time()
+            exhaustive_time = end_time - start_time
+            exhaustive_operations = len(exhaustive_set)
+            results_exhaustive.append({
+                'vertices_num': num_vertices,
+                'percentage_max_num_edges': edge_prob,
+                'total_weight': exhaustive_weight,
+                'solution_size': len(exhaustive_set),
+                'execution_time': exhaustive_time,
+                'num_operations': exhaustive_operations
+            })
         
         # Greedy Heuristic with profiling
         start_time = time.time()
@@ -118,11 +120,12 @@ def main():
         exhaustive_edges = [(u, v) for u, v, w in exhaustive_set]
         greedy_edges = [(u, v) for u, v, w in greedy_set]
         
-        draw_and_save_graph(
-            graph_file, exhaustive_edges, num_vertices, edge_prob, "exhaustive", "Exhaustive Solution")
-        
-        draw_and_save_graph(
-            graph_file, greedy_edges, num_vertices, edge_prob, "greedy", "Greedy Solution")
+        if num_vertices <= 7:
+            draw_and_save_graph(
+                graph_file, exhaustive_edges, num_vertices, edge_prob, "exhaustive", "Exhaustive Solution")
+            
+            draw_and_save_graph(
+                graph_file, greedy_edges, num_vertices, edge_prob, "greedy", "Greedy Solution")
 
     # Convert results to DataFrames
     df_exhaustive = pd.DataFrame(results_exhaustive)
@@ -139,6 +142,7 @@ def main():
     executions_times(df_greedy, "Greedy Heuristic")
     basic_operations_num(df_exhaustive, "Exhaustive Search")
     basic_operations_num(df_greedy, "Greedy Heuristic")
+    plot_time_complexity(df_exhaustive, df_greedy)
     compare_solutions(df_comparison)
 
 
