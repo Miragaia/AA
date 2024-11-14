@@ -16,7 +16,7 @@ def executions_times(df, algorithm_name):
     plt.ylabel("Execution Time (s)")
     plt.title(f"Execution Time - {algorithm_name}")
     plt.legend()
-    plt.savefig(f"graphics/{algorithm_name}_execution_times.png")
+    plt.savefig(f"graphics/executions_times/{algorithm_name}_execution_times.png")
     plt.clf()
 
 def basic_operations_num(df, algorithm_name):
@@ -31,7 +31,7 @@ def basic_operations_num(df, algorithm_name):
     plt.ylabel('Number of Basic Operations')
     plt.title(f'Basic Operations Count for {algorithm_name}')
     plt.legend()
-    plt.savefig(f"graphics/{algorithm_name}_basic_ops.png")
+    plt.savefig(f"graphics/basic_ops/{algorithm_name}_basic_ops.png")
     plt.clf()
 
 def plot_time_complexity(df_exhaustive, df_greedy):
@@ -51,7 +51,7 @@ def plot_time_complexity(df_exhaustive, df_greedy):
     plt.yscale('log')
     plt.legend()
     plt.grid(True)
-    plt.savefig("graphics/time_complexity_plot.png")
+    plt.savefig("graphics/time_complexity/time_complexity_plot.png")
     plt.clf()
 
 def compare_solutions(comparison_df):
@@ -67,7 +67,7 @@ def compare_solutions(comparison_df):
         plt.xlabel("Number of Vertices")
         plt.ylabel("Total Weight")
         plt.legend()
-        plt.savefig(f"graphics/total_weight_comparison_{int(percentage * 100)}.png")
+        plt.savefig(f"graphics/weights/total_weight_comparison_{int(percentage * 100)}.png")
         plt.clf()
 
         # Execution time ratio
@@ -75,5 +75,5 @@ def compare_solutions(comparison_df):
         plt.title(f"Execution Time Ratio (Greedy / Exhaustive) - {int(percentage * 100)}% Edge Density")
         plt.xlabel("Number of Vertices")
         plt.ylabel("Time Ratio (Greedy / Exhaustive)")
-        plt.savefig(f"graphics/execution_time_ratio_{int(percentage * 100)}.png")
+        plt.savefig(f"graphics/time_ratio/execution_time_ratio_{int(percentage * 100)}.png")
         plt.clf()

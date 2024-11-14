@@ -102,19 +102,33 @@ def main():
             'num_operations': greedy_operations
         })
 
-        # Comparison metrics
-        comparison_results.append({
-            'vertices_num': num_vertices,
-            'percentage_max_num_edges': edge_prob,
-            'exhaustive_total_weight': exhaustive_weight,
-            'greedy_total_weight': greedy_weight,
-            'weight_difference': exhaustive_weight - greedy_weight,
-            'exhaustive_execution_time': exhaustive_time,
-            'greedy_execution_time': greedy_time,
-            'time_ratio': greedy_time / exhaustive_time if exhaustive_time != 0 else float('inf'),
-            'exhaustive_num_operations': exhaustive_operations,
-            'greedy_num_operations': greedy_operations,
-        })
+        if num_vertices <= 7:
+            # Comparison metrics
+            comparison_results.append({
+                'vertices_num': num_vertices,
+                'percentage_max_num_edges': edge_prob,
+                'exhaustive_total_weight': exhaustive_weight,
+                'greedy_total_weight': greedy_weight,
+                'weight_difference': exhaustive_weight - greedy_weight,
+                'exhaustive_execution_time': exhaustive_time,
+                'greedy_execution_time': greedy_time,
+                'time_ratio': greedy_time / exhaustive_time if exhaustive_time != 0 else float('inf'),
+                'exhaustive_num_operations': exhaustive_operations,
+                'greedy_num_operations': greedy_operations,
+            })
+        else:
+            comparison_results.append({
+                'vertices_num': num_vertices,
+                'percentage_max_num_edges': edge_prob,
+                'exhaustive_total_weight': None,
+                'greedy_total_weight': greedy_weight,
+                'weight_difference': None,
+                'exhaustive_execution_time': None,
+                'greedy_execution_time': greedy_time,
+                'time_ratio': None,
+                'exhaustive_num_operations': None,
+                'greedy_num_operations': greedy_operations,
+            })
 
         # Draw and save graphs with marked solutions
         exhaustive_edges = [(u, v) for u, v, w in exhaustive_set]
