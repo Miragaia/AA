@@ -17,8 +17,8 @@ def exhaustive_search_mweds(G):
     all_edges = G.number_of_edges()
 
     for r in range(1, all_edges + 1):
-        for edge_subset in combinations(edges, r):
-            edge_set = set((u, v, w) for u, v, w in edge_subset)
+        for edge_set in combinations(edges, r):
+            # edge_set = set((u, v, w) for u, v, w in edge_subset)
             if is_edge_dominating_set(G, edge_set):
                 weight = sum(w for u, v, w in edge_set)
                 if weight < min_weight:
@@ -28,26 +28,6 @@ def exhaustive_search_mweds(G):
                 continue
             
     return min_weight_set, min_weight
-
-def greedy_mweds(G):
-    edge_list = sorted(G.edges(data='weight'), key=lambda x: x[2])
-    dominating_set = []
-    covered_edges = set()
-
-    for u, v, weight in edge_list:
-        if (u, v) not in covered_edges:
-            dominating_set.append((u, v, weight))
-            covered_edges.update(G.edges(u))
-            covered_edges.update(G.edges(v))
-
-            # Stop once all edges are covered
-            if len(covered_edges) >= len(G.edges):
-                break
-
-    total_weight = sum(weight for u, v, weight in dominating_set)
-    return dominating_set, total_weight
-
-import networkx as nx
 
 def greedy_mweds(G):
     edge_list = sorted(G.edges(data='weight'), key=lambda x: x[2])
