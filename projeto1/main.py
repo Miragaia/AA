@@ -20,8 +20,8 @@ def profile_algorithm(algorithm_func, *args, **kwargs):
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
-    Draws the graph with edges in edge_set highlighted in red, shows edge weights, 
-    and saves as PNG using the specified naming convention.
+    Draws the graph with all edges showing weights, highlights edges in edge_set in red, 
+    and saves as PNG with the specified naming convention.
     """
     # Load graph from GraphML file
     G = nx.read_graphml(graph_file)
@@ -31,21 +31,22 @@ def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorith
 
     plt.figure(figsize=(8, 8))
 
-    # Draw all edges in light gray
-    nx.draw_networkx_edges(G, pos, edgelist=G.edges, edge_color="lightgray")
+    # Separate the edges in the solution set (edge_set) and the rest
+    non_solution_edges = [edge for edge in G.edges if edge not in edge_set]
 
-    # Draw edges in the edge dominating set in red
+    # Draw non-solution edges in light gray
+    nx.draw_networkx_edges(G, pos, edgelist=non_solution_edges, edge_color="lightgray")
+
+    # Draw solution edges in red
     nx.draw_networkx_edges(G, pos, edgelist=edge_set, edge_color="red", width=2)
-
-    # Retrieve weights for edges in the solution set
-    edge_labels = {edge: G[edge[0]][edge[1]]['weight'] for edge in edge_set}
-    
-    # Draw edge labels (weights) for edges in the solution
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color="red")
 
     # Draw nodes
     nx.draw_networkx_nodes(G, pos, node_size=300, node_color="lightblue")
     nx.draw_networkx_labels(G, pos, font_size=10, font_color="black")
+
+    # Display edge weights for all edges
+    all_edge_labels = {(u, v): G[u][v]['weight'] for u, v in G.edges}
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=all_edge_labels, font_color="black")
 
     # Add title
     plt.title(title)
