@@ -62,7 +62,7 @@ def main():
         graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
         
         #limitation to 8 vertices because of the time complexity of the exhaustive search (needed for visualization to be limited)
-        if num_vertices <= 7:
+        if num_vertices <= 8:
 
             # Exhaustive Search with profiling
             start_time = time.time()
@@ -94,7 +94,7 @@ def main():
             'num_operations': greedy_operations
         })
 
-        if num_vertices <= 7:
+        if num_vertices <= 8:
             # Comparison metrics
             comparison_results.append({
                 'vertices_num': num_vertices,
@@ -126,7 +126,7 @@ def main():
         exhaustive_edges = [(u, v) for u, v, w in exhaustive_set]
         greedy_edges = [(u, v) for u, v, w in greedy_set]
         
-        if num_vertices <= 7:
+        if num_vertices <= 8:
             draw_and_save_graph(
                 graph_file, exhaustive_edges, num_vertices, edge_prob, "exhaustive", "Exhaustive Solution")
             
