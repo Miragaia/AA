@@ -9,6 +9,7 @@ from algorithms import exhaustive_search_mweds, greedy_mweds
 from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity
 def profile_algorithm(algorithm_func, *args, **kwargs):
     """Profile an algorithm's execution."""
+
     profiler = cProfile.Profile()
     profiler.enable()
     result = algorithm_func(*args, **kwargs)
@@ -22,38 +23,29 @@ def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorith
     Draws the graph with all edges showing weights, highlights edges in edge_set in red, 
     and saves as PNG with the specified naming convention.
     """
-    # Load graph from GraphML file
+   
     G = nx.read_graphml(graph_file)
 
-    # Retrieve positions from node attributes
     pos = {node: (G.nodes[node]['x'], G.nodes[node]['y']) for node in G.nodes()}
 
     plt.figure(figsize=(8, 8))
 
-    # Separate the edges in the solution set (edge_set) and the rest
     non_solution_edges = [edge for edge in G.edges if edge not in edge_set]
 
-    # Draw non-solution edges in light gray
     nx.draw_networkx_edges(G, pos, edgelist=non_solution_edges, edge_color="lightgray")
 
-    # Draw solution edges in red
     nx.draw_networkx_edges(G, pos, edgelist=edge_set, edge_color="red", width=2)
 
-    # Draw nodes
     nx.draw_networkx_nodes(G, pos, node_size=300, node_color="lightblue")
     nx.draw_networkx_labels(G, pos, font_size=10, font_color="black")
 
-    # Display edge weights for all edges
     all_edge_labels = {(u, v): G[u][v]['weight'] for u, v in G.edges}
     nx.draw_networkx_edge_labels(G, pos, edge_labels=all_edge_labels, font_color="black")
 
-    # Add title
     plt.title(title)
 
-    # Generate filename based on algorithm type, num_vertices, and percentage
     filename = f"graphs_solution/{algorithm_type}_{num_vertices}_percentage_{percentage}.png"
 
-    # Save the figure
     plt.savefig(filename)
     plt.close()
 
@@ -67,9 +59,9 @@ def main():
     
     for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
 
-        # File path for the stored graph layout
         graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
         
+        #limitation to 8 vertices because of the time complexity of the exhaustive search (needed for visualization to be limited)
         if num_vertices <= 7:
 
             # Exhaustive Search with profiling
@@ -141,12 +133,10 @@ def main():
             draw_and_save_graph(
                 graph_file, greedy_edges, num_vertices, edge_prob, "greedy", "Greedy Solution")
 
-    # Convert results to DataFrames
     df_exhaustive = pd.DataFrame(results_exhaustive)
     df_greedy = pd.DataFrame(results_greedy)
     df_comparison = pd.DataFrame(comparison_results)
 
-    # Save results to CSV files
     save_to_csv(df_exhaustive, "exhaustive_results.csv")
     save_to_csv(df_greedy, "greedy_results.csv")
     save_to_csv(df_comparison, "comparison_results.csv")

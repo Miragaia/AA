@@ -9,14 +9,11 @@ import sys
 def store_graph(vertices, num_vertices, percentage, graph):
     filename = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{percentage}.graphml"
 
-    # Add node attributes for coordinates
     nx.set_node_attributes(graph, {v: vertices[v][0] for v in vertices}, 'x')
     nx.set_node_attributes(graph, {v: vertices[v][1] for v in vertices}, 'y')
 
-    # Save the graph in GraphML format
     nx.write_graphml(graph, filename)
 
-    # Draw the graph
     pos = {v: vertices[v] for v in graph.nodes}
     labels = nx.get_edge_attributes(graph, 'weight')
     nx.draw(graph, pos, with_labels=True, node_color='lightblue')
@@ -32,7 +29,6 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
     num_edges = math.ceil(percentage_max_num_edges * calculate_max_num_edges(num_vertices))
     isolated_vertices = list(vertices.keys())
 
-    # Add all vertices to the graph initially
     for v in vertices.keys():
         G.add_node(v)
 
@@ -45,12 +41,12 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
             if v2 in isolated_vertices:
                 isolated_vertices.remove(v2)
         else:
-            # Choose a random vertex that is not yet connected to all vertices
+            
             v1 = random.choice([v for v in vertices.keys() if len(list(G.neighbors(v))) < num_vertices - 1])
-            # Choose a random vertex that is not yet connected to v1
+
             v2 = random.choice([v for v in vertices.keys() if v != v1 and v not in G[v1]])
 
-        # Assign a random weight to the edge
+        
         weight = random.randint(1, 100)
         G.add_edge(v1, v2, weight=weight)
 
@@ -59,7 +55,7 @@ def create_edges_and_graph(percentage_max_num_edges, vertices, num_vertices):
 
 def create_vertices(vertices_num, max_value_coordinate):
     vertices = {}
-    alphabet_labels = [chr(65 + i) for i in range(vertices_num)]  # A, B, C, ...
+    alphabet_labels = [chr(65 + i) for i in range(vertices_num)]
     
     for i, label in enumerate(alphabet_labels):
         while True:
