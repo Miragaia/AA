@@ -15,12 +15,19 @@ def executions_times(df, algorithm_name):
     plt.clf()
 
 def basic_operations_num(df, algorithm_name):
-    plt.plot(df['vertices_num'], df['num_operations'], marker='o', label=algorithm_name)
-    plt.xlabel("Number of Vertices")
-    plt.ylabel("Number of Basic Operations")
-    plt.title(f"Basic Operations - {algorithm_name}")
-    plt.legend()
-    plt.savefig(f"graphics/{algorithm_name}_basic_operations.png")
+    """
+    Plots the number of basic operations for each graph, given the DataFrame results.
+    
+    Parameters:
+        df (pd.DataFrame): DataFrame containing the results for the basic operations count.
+        algorithm_name (str): Name of the algorithm (e.g., 'Exhaustive Search', 'Greedy Heuristic')
+    """
+    plt.figure(figsize=(10, 6))
+    plt.plot(df['vertices_num'], df['num_operations'], marker='o', linestyle='-')
+    plt.xlabel('Number of Vertices')
+    plt.ylabel('Number of Basic Operations')
+    plt.title(f'Basic Operations Count for {algorithm_name}')
+    plt.savefig(f"graphics/{algorithm_name}_basic_ops.png")
     plt.clf()
 
 def compare_solutions(comparison_df):

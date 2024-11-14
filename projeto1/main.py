@@ -72,7 +72,7 @@ def main():
         
         # Exhaustive Search with profiling
         start_time = time.time()
-        exhaustive_set, exhaustive_weight = profile_algorithm(exhaustive_search_mweds, G)
+        exhaustive_set, exhaustive_weight, exhaustive_operations = profile_algorithm(exhaustive_search_mweds, G)
         end_time = time.time()
         exhaustive_time = end_time - start_time
         exhaustive_operations = len(exhaustive_set)
@@ -87,7 +87,7 @@ def main():
         
         # Greedy Heuristic with profiling
         start_time = time.time()
-        greedy_set, greedy_weight = profile_algorithm(greedy_mweds, G)
+        greedy_set, greedy_weight, greedy_operations = profile_algorithm(greedy_mweds, G)
         end_time = time.time()
         greedy_time = end_time - start_time
         greedy_operations = len(greedy_set)
@@ -109,7 +109,9 @@ def main():
             'weight_difference': exhaustive_weight - greedy_weight,
             'exhaustive_execution_time': exhaustive_time,
             'greedy_execution_time': greedy_time,
-            'time_ratio': greedy_time / exhaustive_time if exhaustive_time != 0 else float('inf')
+            'time_ratio': greedy_time / exhaustive_time if exhaustive_time != 0 else float('inf'),
+            'exhaustive_num_operations': exhaustive_operations,
+            'greedy_num_operations': greedy_operations,
         })
 
         # Draw and save graphs with marked solutions
