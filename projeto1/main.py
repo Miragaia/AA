@@ -18,8 +18,11 @@ def profile_algorithm(algorithm_func, *args, **kwargs):
     return result
 
 
-def draw_and_save_graph(graph_file, edge_set, filename, title):
-    """Draws the graph with edges in edge_set highlighted in red, shows edge weights, and saves as PNG, using the saved layout."""
+def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
+    """
+    Draws the graph with edges in edge_set highlighted in red, shows edge weights, 
+    and saves as PNG using the specified naming convention.
+    """
     # Load graph from GraphML file
     G = nx.read_graphml(graph_file)
 
@@ -44,11 +47,15 @@ def draw_and_save_graph(graph_file, edge_set, filename, title):
     nx.draw_networkx_nodes(G, pos, node_size=300, node_color="lightblue")
     nx.draw_networkx_labels(G, pos, font_size=10, font_color="black")
 
-    # Add title and save
+    # Add title
     plt.title(title)
+
+    # Generate filename based on algorithm type, num_vertices, and percentage
+    filename = f"graphs_solution/{algorithm_type}_{num_vertices}_percentage_{percentage}.png"
+
+    # Save the figure
     plt.savefig(filename)
     plt.close()
-
 
 def main():
     results_exhaustive = []
@@ -109,13 +116,10 @@ def main():
         greedy_edges = [(u, v) for u, v, w in greedy_set]
         
         draw_and_save_graph(
-            graph_file, exhaustive_edges, f"exhaustive_graph_{i}.png", 
-            f"Exhaustive Solution (Graph {i})"
-        )
+            graph_file, exhaustive_edges, num_vertices, edge_prob, "exhaustive", "Exhaustive Solution")
+        
         draw_and_save_graph(
-            graph_file, greedy_edges, f"greedy_graph_{i}.png", 
-            f"Greedy Solution (Graph {i})"
-        )
+            graph_file, greedy_edges, num_vertices, edge_prob, "greedy", "Greedy Solution")
 
     # Convert results to DataFrames
     df_exhaustive = pd.DataFrame(results_exhaustive)
