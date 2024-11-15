@@ -215,3 +215,27 @@ def predict_large_graph_space(vertices_to_predict, densities=[0.125, 0.25, 0.5, 
     plt.clf()
 
     print("Predicted space complexities plotted and saved.")
+
+def greedy_weight_accuracy(df):
+    """
+    Plots the accuracy of the greedy heuristic's weight compared to the exhaustive search.
+    The accuracy is calculated as:
+    Accuracy = 100 * (1 - abs(Greedy Total Weight - Exhaustive Total Weight) / Exhaustive Total Weight)
+    """
+    unique_densities = df['percentage_max_num_edges'].unique()
+    
+    plt.figure(figsize=(10, 6))
+
+    for density in unique_densities:
+        subset = df[df['percentage_max_num_edges'] == density]
+        accuracy = (subset['exhaustive_total_weight'] / subset['greedy_total_weight']) * 100
+        
+        plt.plot(subset['vertices_num'], accuracy, marker='o', label=f'{int(density * 100)}% Density')
+    
+    plt.xlabel('Number of Vertices')
+    plt.ylabel('Greedy Heuristic Weight Accuracy (%)')
+    plt.title('Greedy Heuristic Weight Accuracy Compared to Exhaustive Search')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig("graphics/accuracy/greedy_weight_accuracy.png")
+    plt.clf()
