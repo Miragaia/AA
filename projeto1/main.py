@@ -70,7 +70,7 @@ def main():
 
             # Exhaustive Search with profiling
             start_time = time.time()
-            exhaustive_set, exhaustive_weight, exhaustive_operations = profile_algorithm(exhaustive_search_mweds, G)
+            exhaustive_set, exhaustive_weight, exhaustive_operations,exhaustive_configurations = profile_algorithm(exhaustive_search_mweds, G)
             end_time = time.time()
             exhaustive_time = end_time - start_time
             results_exhaustive.append({
@@ -79,12 +79,13 @@ def main():
                 'total_weight': exhaustive_weight,
                 'solution_size': len(exhaustive_set),
                 'execution_time': exhaustive_time,
-                'num_operations': exhaustive_operations
+                'num_operations': exhaustive_operations,
+                'exhaustive_configurations': exhaustive_configurations
             })
         
         # Greedy Heuristic with profiling
         start_time = time.time()
-        greedy_set, greedy_weight, greedy_operations = profile_algorithm(greedy_mweds, G)
+        greedy_set, greedy_weight, greedy_operations, greedy_configurations = profile_algorithm(greedy_mweds, G)
         end_time = time.time()
         greedy_time = end_time - start_time
         results_greedy.append({
@@ -93,7 +94,8 @@ def main():
             'total_weight': greedy_weight,
             'solution_size': len(greedy_set),
             'execution_time': greedy_time,
-            'num_operations': greedy_operations
+            'num_operations': greedy_operations,
+            'greedy_configurations': greedy_configurations
         })
 
         if num_vertices <= 8:
@@ -109,6 +111,8 @@ def main():
                 'time_ratio': greedy_time / exhaustive_time if exhaustive_time != 0 else float('inf'),
                 'exhaustive_num_operations': exhaustive_operations,
                 'greedy_num_operations': greedy_operations,
+                'exhaustive_configurations': exhaustive_configurations,
+                'greedy_configurations': greedy_configurations
             })
         else:
             comparison_results.append({
@@ -122,6 +126,8 @@ def main():
                 'time_ratio': None,
                 'exhaustive_num_operations': None,
                 'greedy_num_operations': greedy_operations,
+                'exhaustive_configurations': None,
+                'greedy_configurations': greedy_configurations
             })
 
         # Draw and save graphs with marked solutions

@@ -12,7 +12,8 @@ def is_edge_dominating_set(G, edge_set):
 def exhaustive_search_mweds(G):
     min_weight = float('inf')
     min_weight_set = []
-    basic_operations = 0    
+    basic_operations = 0
+    num_configurations = 0     
 
     edges = G.edges(data= "weight")
     all_edges = G.number_of_edges()
@@ -20,6 +21,7 @@ def exhaustive_search_mweds(G):
 
     for r in range(1, all_edges + 1):
         for edge_set in combinations(edges, r):
+            num_configurations += 1
             basic_operations += 1
 
             is_dominating, operations = is_edge_dominating_set(G, edge_set)
@@ -37,15 +39,18 @@ def exhaustive_search_mweds(G):
                 continue
             
     print(basic_operations)
-    return min_weight_set, min_weight, basic_operations
+    return min_weight_set, min_weight, basic_operations, num_configurations
 
 def greedy_mweds(G):
     edge_list = sorted(G.edges(data='weight'), key=lambda x: x[2])
     dominating_set = []
     covered_edges = set()
     basic_operations = 0 
+    num_configurations = 0
 
     for u, v, weight in edge_list:
+        num_configurations += 1
+
         if (u, v) not in covered_edges:
             dominating_set.append((u, v, weight))
             covered_edges.update(G.edges(u))
@@ -57,4 +62,4 @@ def greedy_mweds(G):
                 break 
 
     total_weight = sum(weight for u, v, weight in dominating_set)
-    return dominating_set, total_weight, basic_operations
+    return dominating_set, total_weight, basic_operations, num_configurations
