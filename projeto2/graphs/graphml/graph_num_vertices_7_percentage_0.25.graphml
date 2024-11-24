@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d2" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d1" for="node" attr.name="y" attr.type="long" />
+  <key id="d0" for="node" attr.name="x" attr.type="long" />
+  <graph edgedefault="undirected">
+    <node id="A">
+      <data key="d0">547</data>
+      <data key="d1">464</data>
+    </node>
+    <node id="B">
+      <data key="d0">534</data>
+      <data key="d1">682</data>
+    </node>
+    <node id="C">
+      <data key="d0">262</data>
+      <data key="d1">94</data>
+    </node>
+    <node id="D">
+      <data key="d0">28</data>
+      <data key="d1">126</data>
+    </node>
+    <node id="E">
+      <data key="d0">744</data>
+      <data key="d1">666</data>
+    </node>
+    <node id="F">
+      <data key="d0">378</data>
+      <data key="d1">901</data>
+    </node>
+    <node id="G">
+      <data key="d0">850</data>
+      <data key="d1">495</data>
+    </node>
+    <edge source="A" target="D">
+      <data key="d2">74</data>
+    </edge>
+    <edge source="A" target="G">
+      <data key="d2">59</data>
+    </edge>
+    <edge source="B" target="F">
+      <data key="d2">97</data>
+    </edge>
+    <edge source="C" target="E">
+      <data key="d2">44</data>
+    </edge>
+    <edge source="C" target="F">
+      <data key="d2">10</data>
+    </edge>
+    <edge source="D" target="F">
+      <data key="d2">84</data>
+    </edge>
+  </graph>
+</graphml>

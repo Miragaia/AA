@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d2" for="edge" attr.name="weight" attr.type="long" />
+  <key id="d1" for="node" attr.name="y" attr.type="long" />
+  <key id="d0" for="node" attr.name="x" attr.type="long" />
+  <graph edgedefault="undirected">
+    <node id="A">
+      <data key="d0">407</data>
+      <data key="d1">826</data>
+    </node>
+    <node id="B">
+      <data key="d0">599</data>
+      <data key="d1">697</data>
+    </node>
+    <node id="C">
+      <data key="d0">390</data>
+      <data key="d1">875</data>
+    </node>
+    <node id="D">
+      <data key="d0">575</data>
+      <data key="d1">240</data>
+    </node>
+    <node id="E">
+      <data key="d0">952</data>
+      <data key="d1">650</data>
+    </node>
+    <node id="F">
+      <data key="d0">234</data>
+      <data key="d1">810</data>
+    </node>
+    <node id="G">
+      <data key="d0">18</data>
+      <data key="d1">108</data>
+    </node>
+    <node id="H">
+      <data key="d0">585</data>
+      <data key="d1">324</data>
+    </node>
+    <node id="I">
+      <data key="d0">7</data>
+      <data key="d1">591</data>
+    </node>
+    <edge source="A" target="I">
+      <data key="d2">11</data>
+    </edge>
+    <edge source="A" target="D">
+      <data key="d2">28</data>
+    </edge>
+    <edge source="B" target="C">
+      <data key="d2">37</data>
+    </edge>
+    <edge source="D" target="E">
+      <data key="d2">69</data>
+    </edge>
+    <edge source="D" target="G">
+      <data key="d2">99</data>
+    </edge>
+    <edge source="D" target="H">
+      <data key="d2">22</data>
+    </edge>
+    <edge source="D" target="F">
+      <data key="d2">67</data>
+    </edge>
+    <edge source="E" target="H">
+      <data key="d2">69</data>
+    </edge>
+    <edge source="F" target="H">
+      <data key="d2">21</data>
+    </edge>
+  </graph>
+</graphml>
