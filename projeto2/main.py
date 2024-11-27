@@ -6,18 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import randomized_mweds, randomized_heuristic_mweds
-from analysis import executions_times, basic_operations_num, compare_solutions, save_to_csv, plot_time_complexity, basic_operations_num_aggregated, predict_large_graph_times_75, predict_large_graph_space, greedy_weight_accuracy
-
-def profile_algorithm(algorithm_func, *args, **kwargs):
-    """Profile an algorithm's execution."""
-
-    profiler = cProfile.Profile()
-    profiler.enable()
-    result = algorithm_func(*args, **kwargs)
-    profiler.disable()
-    profiler.print_stats(sort='cumtime')
-    return result
-
+from analysis import save_to_csv
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
@@ -70,7 +59,7 @@ def main():
 
         # randomized Search with profiling
         start_time = time.time()
-        randomized__set, randomized_weight, randomized_operations,randomized_configurations = profile_algorithm(randomized_mweds, G)
+        randomized__set, randomized_weight, randomized_operations,randomized_configurations = randomized_mweds(G)
         end_time = time.time()
         randomized_time = end_time - start_time
         results_randomized.append({
@@ -85,7 +74,7 @@ def main():
         
         # randomized_heuristic Heuristic with profiling
         start_time = time.time()
-        randomized_heuristic_set, randomized_heuristic_weight, randomized_heuristic_operations, randomized_heuristic_configurations = profile_algorithm(randomized_heuristic_mweds, G)
+        randomized_heuristic_set, randomized_heuristic_weight, randomized_heuristic_operations, randomized_heuristic_configurations = randomized_heuristic_mweds(G)
         end_time = time.time()
         randomized_heuristic_time = end_time - start_time
         results_randomized_heuristic.append({
@@ -112,38 +101,6 @@ def main():
                 'randomized_configurations': randomized_configurations,
                 'randomized_heuristic_configurations': randomized_heuristic_configurations
             })
-
-        # if num_vertices <= 8:
-        #     # Comparison metrics
-        #     comparison_results.append({
-        #         'vertices_num': num_vertices,
-        #         'percentage_max_num_edges': edge_prob,
-        #         'randomized_total_weight': randomized_weight,
-        #         'randomized_heuristic_total_weight': randomized_heuristic_weight,
-        #         'weight_difference': randomized_weight - randomized_heuristic_weight,
-        #         'randomized_execution_time': randomized_time,
-        #         'randomized_heuristic_execution_time': randomized_heuristic_time,
-        #         'time_ratio': randomized_heuristic_time / randomized_time if randomized_time != 0 else float('inf'),
-        #         'randomized_num_operations': randomized_operations,
-        #         'randomized_heuristic_num_operations': randomized_heuristic_operations,
-        #         'randomized_configurations': randomized_configurations,
-        #         'randomized_heuristic_configurations': randomized_heuristic_configurations
-        #     })
-        # else:
-        #     comparison_results.append({
-        #         'vertices_num': num_vertices,
-        #         'percentage_max_num_edges': edge_prob,
-        #         'randomized_total_weight': None,
-        #         'randomized_heuristic_total_weight': randomized_heuristic_weight,
-        #         'weight_difference': None,
-        #         'randomized_execution_time': None,
-        #         'randomized_heuristic_execution_time': randomized_weight,
-        #         'time_ratio': None,
-        #         'randomized_num_operations': None,
-        #         'randomized_heuristic_num_operations': randomized_heuristic_operations,
-        #         'randomized_configurations': None,
-        #         'randomized_heuristic_configurations': randomized_heuristic_configurations
-        #     })
 
         # Draw and save graphs with marked solutions
         randomized_edges = [(u, v) for u, v, w in randomized__set]

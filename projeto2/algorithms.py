@@ -69,6 +69,7 @@ def randomized_heuristic_mweds(G, max_iterations=1000):
         covered_edges = set()
 
         for u, v, weight in sorted_edges:
+            num_configurations += 1
             if (u, v) not in covered_edges:
                 dominating_set.append((u, v, weight))
                 covered_edges.update(G.edges(u))
