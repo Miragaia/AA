@@ -13,7 +13,8 @@ def is_edge_dominating_set(G, edge_set):
 
 def randomized_mweds(G, max_iterations=1000):
     """
-    Randomized algorithm to find a Minimum Weight Edge Dominating Set.
+    Randomized algorithm to find a Minimum Weight Edge Dominating Set,
+    avoiding duplicate subsets of edges.
     """
     edges = list(G.edges(data="weight"))
     num_edges = len(edges)
@@ -22,11 +23,22 @@ def randomized_mweds(G, max_iterations=1000):
     basic_operations = 0
     num_configurations = 0
 
+    # Use a set to keep track of already seen subsets
+    seen_subsets = set()
+
     for _ in range(max_iterations):
         num_configurations += 1
 
-        # Randomly select a subset of edges
+        # Generate a random subset
         candidate_set = random.sample(edges, random.randint(1, num_edges))
+        candidate_set_key = tuple(sorted(candidate_set))  # Sort and convert to tuple for hashing
+
+        # Skip if this subset has already been processed
+        if candidate_set_key in seen_subsets:
+            continue
+
+        # Mark this subset as processed
+        seen_subsets.add(candidate_set_key)
         basic_operations += len(candidate_set)
 
         # Check if it is a dominating set
@@ -46,12 +58,13 @@ def randomized_mweds(G, max_iterations=1000):
     return best_solution, min_weight, basic_operations, num_configurations
 
 
+
 def dynamic_randomized_mweds(
     G, 
     max_iterations=10000, 
     initial_search_size=2, 
-    base_threshold=0.25, 
-    refine_threshold=0.5
+    base_threshold=0.0125, 
+    refine_threshold=0.25
 ):
     """
     Dynamic randomized heuristic for MWEDS with adjustable search size and thresholds.
@@ -64,35 +77,38 @@ def dynamic_randomized_mweds(
     """
     edges = list(G.edges(data="weight"))
     num_edges = len(edges)
-    best_solution = edges  # Initialize with all edges as a fallback
-    min_weight = sum(w for _, _, w in edges)  # Total weight of all edges
+    best_solution = edges
+    min_weight = sum(w for _, _, w in edges)
     basic_operations = 0
     num_configurations = 0
 
-    # Start with a small subset size
     search_size = initial_search_size
-
-    # Use the total number of edges as a measure of graph size
     max_possible_configurations = num_edges
+
+    # Use a set to track unique subsets
+    seen_subsets = set()
 
     for iteration in range(max_iterations):
         num_configurations += 1
 
         progress = iteration / max_possible_configurations
 
-        # Adjust search size dynamically based on progress
         if progress > base_threshold and best_solution == edges:
-            # If no valid solution yet, increase search size
             search_size = min(search_size + 1, num_edges)
         elif progress > refine_threshold and best_solution != edges:
-            # If solution exists and progress is beyond refine_threshold, refine by decreasing size
             search_size = max(search_size - 1, 1)
 
-        # Randomly select a subset of edges of the current search size
+        # Generate a candidate set and check if it has been seen before
         candidate_set = random.sample(edges, random.randint(1, min(search_size, num_edges)))
+        candidate_set_key = tuple(sorted(candidate_set))
+        
+        if candidate_set_key in seen_subsets:
+            continue  # Skip if already processed
+        
+        # Mark this subset as processed
+        seen_subsets.add(candidate_set_key)
         basic_operations += len(candidate_set)
 
-        # Check if it is a dominating set
         is_dominating, operations = is_edge_dominating_set(G, candidate_set)
         basic_operations += operations
 
@@ -100,10 +116,10 @@ def dynamic_randomized_mweds(
             weight = sum(w for u, v, w in candidate_set)
             basic_operations += len(candidate_set)
 
-            # Update the best solution if the current one is better
             if weight < min_weight:
                 min_weight = weight
                 best_solution = candidate_set
-                search_size = max(2, search_size - 1)  # Shrink search size for refinement
+                search_size = max(2, search_size - 1)
 
     return best_solution, min_weight, basic_operations, num_configurations
+
