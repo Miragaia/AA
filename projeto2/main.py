@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import randomized_mweds, dynamic_randomized_mweds
-from analysis import save_to_csv, save_to_csv_dynamic, load_exhaustive_results, load_dynamic_results, plot_accuracy
+from analysis import save_to_csv, save_to_csv_dynamic, load_exhaustive_results, load_dynamic_results, plot_accuracy, plot_weight_comparison_for_density_50
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
@@ -107,9 +107,11 @@ def main():
     # Load dynamic results
     dynamic_df = load_dynamic_results()
 
-    # Plot the accuracy of dynamic results compared to exhaustive results
-    plot_accuracy(exhaustive_df, dynamic_df)
+    greedy_df = pd.read_csv("results/greedy_results.csv")
 
+    # Plot the accuracy of dynamic results compared to exhaustive results
+    plot_accuracy(exhaustive_df, dynamic_df, greedy_df)
+    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df)
 
 
 # def main():
