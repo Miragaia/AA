@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import randomized_mweds, dynamic_randomized_mweds
-from analysis import save_to_csv
+from analysis import save_to_csv, save_to_csv_dynamic, load_exhaustive_results, load_dynamic_results, plot_accuracy
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
@@ -40,98 +40,171 @@ def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorith
     plt.close()
 
 def main():
-    results_randomized = []
-    results_dynamic = []
-    comparison_results = []
+    results_dynamic_all = []
+
+    # Define pairs of threshold values
+    threshold_pairs = [
+        (0.125, 0.25),
+        (0.5, 0.75),
+        (0.25, 0.5)
+    ]
 
     vertices_num_last_graph, max_value_coordinate = read_arguments()
     if vertices_num_last_graph <= 3:
         raise ValueError("The number of vertices must be greater than 3.")
-    
+
     graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
-    
-    for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
 
-        graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
-        
-        #limitation to 8 vertices because of the time complexity of the randomized search (needed for visualization to be limited)
-        # if num_vertices <= 8:
+    for base_threshold, refine_threshold in threshold_pairs:
 
-        # randomized Search with profiling
-        start_time = time.time()
-        randomized__set, randomized_weight, randomized_operations,randomized_configurations = randomized_mweds(G)
-        end_time = time.time()
-        randomized_time = end_time - start_time
-        results_randomized.append({
-            'vertices_num': num_vertices,
-            'percentage_max_num_edges': edge_prob,
-            'total_weight': randomized_weight,
-            'solution_size': len(randomized__set),
-            'execution_time': randomized_time,
-            'num_operations': randomized_operations,
-            'randomized_configurations': randomized_configurations
-        })
-        
-        # dynamic with profiling
-        start_time = time.time()
-        dynamic_set, dynamic_weight, dynamic_operations, dynamic_configurations = dynamic_randomized_mweds(G)
-        end_time = time.time()
-        dynamic_time = end_time - start_time
-        results_dynamic.append({
-            'vertices_num': num_vertices,
-            'percentage_max_num_edges': edge_prob,
-            'total_weight': dynamic_weight,
-            'solution_size': len(dynamic_set),
-            'execution_time': dynamic_time,
-            'num_operations': dynamic_operations,
-            'dynamic_configurations': dynamic_configurations
-        })
+        results_dynamic = []
+        for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
+            graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
 
-        comparison_results.append({
+            # Dynamic with profiling
+            start_time = time.time()
+            dynamic_set, dynamic_weight, dynamic_operations, dynamic_configurations = dynamic_randomized_mweds(
+                G, base_threshold=base_threshold, refine_threshold=refine_threshold
+            )
+            end_time = time.time()
+            dynamic_time = end_time - start_time
+
+            results_dynamic.append({
                 'vertices_num': num_vertices,
                 'percentage_max_num_edges': edge_prob,
-                'randomized_total_weight': randomized_weight,
-                'dynamic_total_weight': dynamic_weight,
-                'weight_difference': randomized_weight - dynamic_weight,
-                'randomized_execution_time': randomized_time,
-                'dynamic_execution_time': dynamic_time,
-                'time_ratio': dynamic_time / randomized_time if randomized_time != 0 else float('inf'),
-                'randomized_num_operations': randomized_operations,
-                'dynamic_num_operations': dynamic_operations,
-                'randomized_configurations': randomized_configurations,
-                'dynamic_configurations': dynamic_configurations
+                'total_weight': dynamic_weight,
+                'solution_size': len(dynamic_set),
+                'execution_time': dynamic_time,
+                'num_operations': dynamic_operations,
+                'dynamic_configurations': dynamic_configurations,
+                'base_threshold': base_threshold,
+                'refine_threshold': refine_threshold
             })
 
-        # Draw and save graphs with marked solutions
-        randomized_edges = [(u, v) for u, v, w in randomized__set]
-        dynamic_edges = [(u, v) for u, v, w in dynamic_set]
-        
-        if num_vertices <= 8:
-            draw_and_save_graph(
-                graph_file, randomized_edges, num_vertices, edge_prob, "randomized", "Randomized Solution")
-            
-            draw_and_save_graph(
-                graph_file, dynamic_edges, num_vertices, edge_prob, "dynamic", "Randomized Heuristic Solution")
+            # Draw and save graphs with marked solutions if vertices are small
+            if num_vertices <= 8:
+                dynamic_edges = [(u, v) for u, v, w in dynamic_set]
+                draw_and_save_graph(
+                    graph_file, dynamic_edges, num_vertices, edge_prob, 
+                    f"dynamic_base_{base_threshold}_refine_{refine_threshold}", 
+                    "Randomized Heuristic Solution"
+                )
 
-    df_randomized = pd.DataFrame(results_randomized)
-    df_dynamic = pd.DataFrame(results_dynamic)
-    df_comparison = pd.DataFrame(comparison_results)
+        # Save results to a CSV for this threshold combination
+        df_dynamic = pd.DataFrame(results_dynamic)
+        results_dynamic_all.extend(results_dynamic)  # Aggregate all results for summary if needed
+        csv_file_name = (f"dynamic_results_base_{base_threshold}_refine_{refine_threshold}.csv")
+        save_to_csv_dynamic(df_dynamic, csv_file_name)
 
-    save_to_csv(df_randomized, "randomized_results.csv")
-    save_to_csv(df_dynamic, "dynamic_results.csv")
-    save_to_csv(df_comparison, "comparison_results.csv")
+    # Optional: Save all results to a combined CSV
+    df_dynamic_all = pd.DataFrame(results_dynamic_all)
+    save_to_csv_dynamic(df_dynamic_all, "dynamic_results_combined.csv")
+
+    # Perform analysis
+    # Load exhaustive results
+    exhaustive_df = load_exhaustive_results()
+
+    # Load dynamic results
+    dynamic_df = load_dynamic_results()
+
+    # Plot the accuracy of dynamic results compared to exhaustive results
+    plot_accuracy(exhaustive_df, dynamic_df)
+
+
+
+# def main():
+#     results_randomized = []
+#     results_dynamic = []
+#     comparison_results = []
+
+#     vertices_num_last_graph, max_value_coordinate = read_arguments()
+#     if vertices_num_last_graph <= 3:
+#         raise ValueError("The number of vertices must be greater than 3.")
     
-    # # Generate plots and analyses
-    # executions_times(df_randomized, "Randomized Search")
-    # executions_times(df_dynamic, "Randomized Heuristic")
-    # basic_operations_num(df_randomized, "Randomized Search")
-    # basic_operations_num(df_dynamic, "Randomized Heuristic")
-    # basic_operations_num_aggregated(df_randomized, df_dynamic)
-    # plot_time_complexity(df_randomized, df_dynamic)
-    # compare_solutions(df_comparison)
-    # predict_large_graph_times_75(df_randomized, df_dynamic, [8, 9, 10, 15, 20, 25, 30])
-    # predict_large_graph_space([8, 9, 10, 15, 20, 25, 30])
-    # greedy_weight_accuracy(df_comparison)
+#     graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
+    
+#     for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
+
+#         graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
+        
+#         #limitation to 8 vertices because of the time complexity of the randomized search (needed for visualization to be limited)
+#         # if num_vertices <= 8:
+
+#         # randomized Search with profiling
+#         start_time = time.time()
+#         randomized__set, randomized_weight, randomized_operations,randomized_configurations = randomized_mweds(G)
+#         end_time = time.time()
+#         randomized_time = end_time - start_time
+#         results_randomized.append({
+#             'vertices_num': num_vertices,
+#             'percentage_max_num_edges': edge_prob,
+#             'total_weight': randomized_weight,
+#             'solution_size': len(randomized__set),
+#             'execution_time': randomized_time,
+#             'num_operations': randomized_operations,
+#             'randomized_configurations': randomized_configurations
+#         })
+        
+#         # dynamic with profiling
+#         start_time = time.time()
+#         dynamic_set, dynamic_weight, dynamic_operations, dynamic_configurations = dynamic_randomized_mweds(G)
+#         end_time = time.time()
+#         dynamic_time = end_time - start_time
+#         results_dynamic.append({
+#             'vertices_num': num_vertices,
+#             'percentage_max_num_edges': edge_prob,
+#             'total_weight': dynamic_weight,
+#             'solution_size': len(dynamic_set),
+#             'execution_time': dynamic_time,
+#             'num_operations': dynamic_operations,
+#             'dynamic_configurations': dynamic_configurations
+#         })
+
+#         comparison_results.append({
+#                 'vertices_num': num_vertices,
+#                 'percentage_max_num_edges': edge_prob,
+#                 'randomized_total_weight': randomized_weight,
+#                 'dynamic_total_weight': dynamic_weight,
+#                 'weight_difference': randomized_weight - dynamic_weight,
+#                 'randomized_execution_time': randomized_time,
+#                 'dynamic_execution_time': dynamic_time,
+#                 'time_ratio': dynamic_time / randomized_time if randomized_time != 0 else float('inf'),
+#                 'randomized_num_operations': randomized_operations,
+#                 'dynamic_num_operations': dynamic_operations,
+#                 'randomized_configurations': randomized_configurations,
+#                 'dynamic_configurations': dynamic_configurations
+#             })
+
+#         # Draw and save graphs with marked solutions
+#         randomized_edges = [(u, v) for u, v, w in randomized__set]
+#         dynamic_edges = [(u, v) for u, v, w in dynamic_set]
+        
+#         if num_vertices <= 8:
+#             draw_and_save_graph(
+#                 graph_file, randomized_edges, num_vertices, edge_prob, "randomized", "Randomized Solution")
+            
+#             draw_and_save_graph(
+#                 graph_file, dynamic_edges, num_vertices, edge_prob, "dynamic", "Randomized Heuristic Solution")
+
+#     df_randomized = pd.DataFrame(results_randomized)
+#     df_dynamic = pd.DataFrame(results_dynamic)
+#     df_comparison = pd.DataFrame(comparison_results)
+
+#     save_to_csv(df_randomized, "randomized_results.csv")
+#     save_to_csv(df_dynamic, "dynamic_results.csv")
+#     save_to_csv(df_comparison, "comparison_results.csv")
+    
+#     # # Generate plots and analyses
+#     # executions_times(df_randomized, "Randomized Search")
+#     # executions_times(df_dynamic, "Randomized Heuristic")
+#     # basic_operations_num(df_randomized, "Randomized Search")
+#     # basic_operations_num(df_dynamic, "Randomized Heuristic")
+#     # basic_operations_num_aggregated(df_randomized, df_dynamic)
+#     # plot_time_complexity(df_randomized, df_dynamic)
+#     # compare_solutions(df_comparison)
+#     # predict_large_graph_times_75(df_randomized, df_dynamic, [8, 9, 10, 15, 20, 25, 30])
+#     # predict_large_graph_space([8, 9, 10, 15, 20, 25, 30])
+#     # greedy_weight_accuracy(df_comparison)
 
 
 if __name__ == "__main__":

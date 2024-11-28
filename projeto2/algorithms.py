@@ -63,7 +63,7 @@ def dynamic_randomized_mweds(
     G, 
     max_iterations=10000, 
     initial_search_size=2, 
-    base_threshold=0.0125, 
+    base_threshold=0.125, 
     refine_threshold=0.25
 ):
     """
