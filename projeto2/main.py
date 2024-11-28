@@ -5,7 +5,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
-from algorithms import randomized_mweds, randomized_heuristic_mweds
+from algorithms import randomized_mweds, dynamic_randomized_mweds
 from analysis import save_to_csv
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
@@ -74,7 +74,7 @@ def main():
         
         # randomized_heuristic Heuristic with profiling
         start_time = time.time()
-        randomized_heuristic_set, randomized_heuristic_weight, randomized_heuristic_operations, randomized_heuristic_configurations = randomized_heuristic_mweds(G)
+        randomized_heuristic_set, randomized_heuristic_weight, randomized_heuristic_operations, randomized_heuristic_configurations = dynamic_randomized_mweds(G)
         end_time = time.time()
         randomized_heuristic_time = end_time - start_time
         results_randomized_heuristic.append({
