@@ -7,8 +7,12 @@ def save_to_csv(df, filename):
     df.to_csv(f"results/{filename}", index=False)
     print(f"Results saved to {filename}")
 
-def save_to_csv_dynamic(df, filename):
-    df.to_csv(f"results/dynamic/{filename}", index=False)
+def save_to_csv_dynamic_randomized(df, filename):
+    df.to_csv(f"results/dynamic/randomized/{filename}", index=False)
+    print(f"Results saved to {filename}")
+
+def save_to_csv_dynamic_combined(df, filename):
+    df.to_csv(f"results/dynamic/combined/{filename}", index=False)
     print(f"Results saved to {filename}")
 
 def load_exhaustive_results():
@@ -18,9 +22,9 @@ def load_exhaustive_results():
 def load_dynamic_results():
     """Load dynamic results from the specified folder."""
     dynamic_results = []
-    for file_name in os.listdir("results/dynamic/"):
+    for file_name in os.listdir("results/dynamic/randomized"):
         if file_name.endswith(".csv"):
-            file_path = os.path.join("results/dynamic/", file_name)
+            file_path = os.path.join("results/dynamic/randomized", file_name)
             dynamic_results.append(pd.read_csv(file_path))
     return pd.concat(dynamic_results, ignore_index=True)
 

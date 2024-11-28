@@ -5,8 +5,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
-from algorithms import randomized_mweds, dynamic_randomized_mweds
-from analysis import save_to_csv, save_to_csv_dynamic, load_exhaustive_results, load_dynamic_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart
+from algorithms import randomized_mweds, dynamic_randomized_mweds, dynamic_combined_mweds
+from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
@@ -41,13 +41,13 @@ def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorith
 
 def main():
     results_dynamic_all = []
+    results_dynamic_combined_all = []
 
     # Define pairs of threshold values
     threshold_pairs = [
         (0.125, 0.25),
         (0.5, 0.75),
-        (0.25, 0.5),
-        (0.75, 0.875)
+        (0.25, 0.5)
     ]
 
     vertices_num_last_graph, max_value_coordinate = read_arguments()
@@ -59,10 +59,11 @@ def main():
     for base_threshold, refine_threshold in threshold_pairs:
 
         results_dynamic = []
+        results_dynamic_combined = []
         for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
             graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
 
-            # Dynamic with profiling
+            # Dynamic Randomized Search
             start_time = time.time()
             dynamic_set, dynamic_weight, dynamic_operations, dynamic_configurations = dynamic_randomized_mweds(
                 G, base_threshold=base_threshold, refine_threshold=refine_threshold
@@ -82,6 +83,26 @@ def main():
                 'refine_threshold': refine_threshold
             })
 
+            # Dynamic Combined Search
+            start_time = time.time()
+            dynamic_combined_set, dynamic_combined_weight, dynamic_combined_operations, dynamic_combined_configurations = dynamic_combined_mweds(
+                G, base_threshold=base_threshold, refine_threshold=refine_threshold
+            )
+            end_time = time.time()
+            dynamic_combined_time = end_time - start_time
+
+            results_dynamic_combined.append({
+                'vertices_num': num_vertices,
+                'percentage_max_num_edges': edge_prob,
+                'total_weight': dynamic_combined_weight,
+                'solution_size': len(dynamic_combined_set),
+                'execution_time': dynamic_combined_time,
+                'num_operations': dynamic_combined_operations,
+                'dynamic_combined_configurations': dynamic_combined_configurations,
+                'base_threshold': base_threshold,
+                'refine_threshold': refine_threshold
+            })
+
             # Draw and save graphs with marked solutions if vertices are small
             if num_vertices <= 8:
                 dynamic_edges = [(u, v) for u, v, w in dynamic_set]
@@ -93,13 +114,18 @@ def main():
 
         # Save results to a CSV for this threshold combination
         df_dynamic = pd.DataFrame(results_dynamic)
+        df_dynamic_combined = pd.DataFrame(results_dynamic_combined)
+        csv_file_name = (f"dynamic_combined_results_base_{base_threshold}_refine_{refine_threshold}.csv")
+        save_to_csv_dynamic_combined(df_dynamic_combined, csv_file_name)
         results_dynamic_all.extend(results_dynamic)  # Aggregate all results for summary if needed
         csv_file_name = (f"dynamic_results_base_{base_threshold}_refine_{refine_threshold}.csv")
-        save_to_csv_dynamic(df_dynamic, csv_file_name)
+        save_to_csv_dynamic_randomized(df_dynamic, csv_file_name)
 
     # Optional: Save all results to a combined CSV
     df_dynamic_all = pd.DataFrame(results_dynamic_all)
-    save_to_csv_dynamic(df_dynamic_all, "dynamic_results_combined.csv")
+    df_dynamic_combined_all = pd.DataFrame(results_dynamic_combined_all)
+    save_to_csv_dynamic_combined(df_dynamic_combined_all, "dynamic_combined_results_combined.csv")
+    save_to_csv_dynamic_randomized(df_dynamic_all, "dynamic_results_combined.csv")
 
     # Perform analysis
     # Load exhaustive results
