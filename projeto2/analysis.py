@@ -118,3 +118,37 @@ def plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df):
     plt.savefig("graphics/weight/weight_comparison_density_50.png")
     plt.clf()
 
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def plot_solution_size_bar_chart():
+    """
+    Reads a CSV file and plots a bar chart of the occurrences of `solution_size`.
+    """
+    # Read the CSV file
+    try:
+        data = pd.read_csv("results/dynamic/dynamic_results_combined.csv")
+    except Exception as e:
+        print(f"Error reading the CSV file: {e}")
+        return
+
+    # Check if 'solution_size' column exists
+    if 'solution_size' not in data.columns:
+        print("The column 'solution_size' is not present in the dataset.")
+        return
+
+    # Calculate frequencies of solution_size values
+    frequency_counts = data['solution_size'].value_counts().sort_index()
+
+    # Plot the bar chart
+    plt.figure(figsize=(8, 6))
+    plt.bar(frequency_counts.index, frequency_counts.values, color='skyblue', edgecolor='black', alpha=0.7)
+    plt.title('Bar Chart of Solution Size Occurrences', fontsize=14)
+    plt.xlabel('Solution Size', fontsize=12)
+    plt.ylabel('Frequency', fontsize=12)
+    plt.grid(axis='y', alpha=0.75)
+    plt.xticks(frequency_counts.index)
+    plt.tight_layout()
+    plt.savefig("graphics/solution_size/solution_size_bar_chart.png")
+    plt.clf()
+

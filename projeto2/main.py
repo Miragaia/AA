@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import randomized_mweds, dynamic_randomized_mweds
-from analysis import save_to_csv, save_to_csv_dynamic, load_exhaustive_results, load_dynamic_results, plot_accuracy, plot_weight_comparison_for_density_50
+from analysis import save_to_csv, save_to_csv_dynamic, load_exhaustive_results, load_dynamic_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
@@ -46,7 +46,8 @@ def main():
     threshold_pairs = [
         (0.125, 0.25),
         (0.5, 0.75),
-        (0.25, 0.5)
+        (0.25, 0.5),
+        (0.75, 0.875)
     ]
 
     vertices_num_last_graph, max_value_coordinate = read_arguments()
@@ -112,7 +113,7 @@ def main():
     # Plot the accuracy of dynamic results compared to exhaustive results
     plot_accuracy(exhaustive_df, dynamic_df, greedy_df)
     plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df)
-
+    plot_solution_size_bar_chart()
 
 # def main():
 #     results_randomized = []
