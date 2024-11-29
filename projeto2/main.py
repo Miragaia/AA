@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import randomized_mweds, dynamic_randomized_mweds, dynamic_combined_mweds
-from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart
+from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, load_dynamic_combined_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart
 
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
@@ -120,6 +120,7 @@ def main():
         results_dynamic_all.extend(results_dynamic)  # Aggregate all results for summary if needed
         csv_file_name = (f"dynamic_results_base_{base_threshold}_refine_{refine_threshold}.csv")
         save_to_csv_dynamic_randomized(df_dynamic, csv_file_name)
+        results_dynamic_combined_all.extend(results_dynamic_combined)
 
     # Optional: Save all results to a combined CSV
     df_dynamic_all = pd.DataFrame(results_dynamic_all)
@@ -133,6 +134,7 @@ def main():
 
     # Load dynamic results
     dynamic_df = load_dynamic_results()
+    dynamic_combined_df = load_dynamic_combined_results()
 
     greedy_df = pd.read_csv("results/greedy_results.csv")
 

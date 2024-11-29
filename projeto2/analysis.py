@@ -28,6 +28,15 @@ def load_dynamic_results():
             dynamic_results.append(pd.read_csv(file_path))
     return pd.concat(dynamic_results, ignore_index=True)
 
+def load_dynamic_combined_results():
+    """Load dynamic results from the specified folder."""
+    dynamic_results = []
+    for file_name in os.listdir("results/dynamic/combined"):
+        if file_name.endswith(".csv"):
+            file_path = os.path.join("results/dynamic/combined", file_name)
+            dynamic_results.append(pd.read_csv(file_path))
+    return pd.concat(dynamic_results, ignore_index=True)
+
 def plot_accuracy(exhaustive_df, dynamic_df, greedy_df):
     """
     Plots the accuracy of dynamic and greedy algorithms compared to exhaustive results as separate line charts for different edge densities.
@@ -131,7 +140,7 @@ def plot_solution_size_bar_chart():
     """
     # Read the CSV file
     try:
-        data = pd.read_csv("results/dynamic/dynamic_results_combined.csv")
+        data = pd.read_csv("results/dynamic/randomized/dynamic_results_combined.csv")
     except Exception as e:
         print(f"Error reading the CSV file: {e}")
         return
