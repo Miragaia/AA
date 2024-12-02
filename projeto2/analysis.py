@@ -218,4 +218,57 @@ def plot_solution_size_bar_chart(data, algorithm_type):
     plt.savefig(filename)
     plt.clf()
 
+def plot_execution_times(data, algorithm_type):
+    """
+    Plots a line chart of execution times grouped by edge densities.
+
+    Parameters:
+        data (pd.DataFrame): The dataset containing `execution_time`, `vertices_num`, and `percentage_max_num_edges`.
+        algorithm_type (str): The type of algorithm (e.g., 'dynamic', 'randomized', 'dynamic_combined') to determine
+                              the save path and chart title.
+    """
+    import os
+
+    # Define save directory based on algorithm type
+    save_dir = f"graphics/execution_times"
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Check if required columns exist
+    required_columns = {'execution_time', 'vertices_num', 'percentage_max_num_edges'}
+    if not required_columns.issubset(data.columns):
+        print(f"The dataset must contain the columns: {required_columns}")
+        return
+
+    # Group data by edge density and vertices, then calculate mean execution times
+    grouped_data = data.groupby(['percentage_max_num_edges', 'vertices_num'])['execution_time'].mean().reset_index()
+
+    # Get unique edge densities
+    unique_densities = grouped_data['percentage_max_num_edges'].unique()
+
+    # Plot the execution times for each edge density
+    plt.figure(figsize=(10, 6))
+    for density in sorted(unique_densities):
+        subset = grouped_data[grouped_data['percentage_max_num_edges'] == density]
+        plt.plot(
+            subset['vertices_num'],
+            subset['execution_time'],
+            marker='o',
+            label=f"Density {int(density * 100)}%"
+        )
+
+    # Customize the plot
+    plt.title(f'Execution Time by Number of Vertices ({algorithm_type.capitalize()})', fontsize=14)
+    plt.xlabel('Number of Vertices', fontsize=12)
+    plt.ylabel('Execution Time (seconds)', fontsize=12)
+    plt.legend(title="Edge Densities")
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.xticks(sorted(data['vertices_num'].unique()), rotation=45)
+    plt.tight_layout()
+
+    # Save the plot
+    filename = f"{save_dir}/execution_times_{algorithm_type}.png"
+    plt.savefig(filename)
+    plt.clf()
+
+
 
