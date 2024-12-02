@@ -121,13 +121,20 @@ def plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type):
 
 
     
-def plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df):
+def plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, algorithm_type):
     """
-    Creates a bar plot comparing the weights of the set for exhaustive, greedy, and all dynamic configurations
-    for a specific edge density of 50%.
+    Creates a bar plot comparing the weights of the set for exhaustive, greedy, 
+    and all configurations of the specified algorithm type for a specific edge density of 50%.
+    Saves the plot to a directory based on the algorithm type.
     """
-    # Filter data for 50% density
+    import os
+
+    # Define density and create directory for saving results
     density = 0.5
+    base_dir = f"graphics/weight"
+    os.makedirs(base_dir, exist_ok=True)
+
+    # Filter data for 50% density
     exhaustive_subset = exhaustive_df[exhaustive_df['percentage_max_num_edges'] == density]
     dynamic_subset = dynamic_df[dynamic_df['percentage_max_num_edges'] == density]
     greedy_subset = greedy_df[greedy_df['percentage_max_num_edges'] == density]
@@ -145,25 +152,33 @@ def plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df):
     greedy_weights = greedy_subset.set_index('vertices_num')['total_weight']
     plt.bar(x_positions + bar_width, greedy_weights, bar_width, label='Greedy', color='orange')
 
-    # Plot dynamic weights (average for each configuration)
+    # Plot weights for the selected algorithm type (average for each configuration)
     dynamic_weights = []
     for v in vertices:
         dynamic_for_vertex = dynamic_subset[dynamic_subset['vertices_num'] == v]
         dynamic_weights.append(dynamic_for_vertex['total_weight'].mean())
-    plt.bar(x_positions + 2 * bar_width, dynamic_weights, bar_width, label='Dynamic (Avg)', color='green')
+    plt.bar(
+        x_positions + 2 * bar_width, 
+        dynamic_weights, 
+        bar_width, 
+        label=f'{algorithm_type.capitalize()} (Avg)', 
+        color='green'
+    )
 
     # Customize the plot
     plt.xlabel('Number of Vertices')
     plt.ylabel('Total Weight')
-    plt.title('Weight Comparison for Density 50%')
+    plt.title(f'Weight Comparison for Density 50% ({algorithm_type.capitalize()})')
     plt.xticks(x_positions + bar_width, vertices)
     plt.legend()
     plt.grid(axis='y', linestyle='--', alpha=0.7)
 
     # Save the plot
     plt.tight_layout()
-    plt.savefig("graphics/weight/weight_comparison_density_50.png")
+    filename = f"{base_dir}/weight_comparison_density_50_{algorithm_type}.png"
+    plt.savefig(filename)
     plt.clf()
+
 
 import pandas as pd
 import matplotlib.pyplot as plt

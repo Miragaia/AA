@@ -169,11 +169,16 @@ def main():
 
     greedy_df = pd.read_csv("results/greedy_results.csv")
 
-    # Plot the accuracy of dynamic results compared to exhaustive results
+    # Accuracy
     plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
     plot_accuracy(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
     plot_accuracy(exhaustive_df, randomized_df, greedy_df, algorithm_type="randomized")
-    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df)
+
+    #Weight
+    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
+    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
+    plot_weight_comparison_for_density_50(exhaustive_df, randomized_df, greedy_df, algorithm_type="randomized")
+
     plot_solution_size_bar_chart()
 
 # def main():
