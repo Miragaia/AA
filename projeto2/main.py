@@ -42,6 +42,7 @@ def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorith
 def main():
     results_dynamic_all = []
     results_dynamic_combined_all = []
+    results_randomized = []
 
     # Define pairs of threshold values
     threshold_pairs = [
@@ -121,12 +122,41 @@ def main():
         csv_file_name = (f"dynamic_results_base_{base_threshold}_refine_{refine_threshold}.csv")
         save_to_csv_dynamic_randomized(df_dynamic, csv_file_name)
         results_dynamic_combined_all.extend(results_dynamic_combined)
+    
+    for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
+        graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
+
+        # randomized Search
+        start_time = time.time()
+        randomized__set, randomized_weight, randomized_operations,randomized_configurations = randomized_mweds(G)
+        end_time = time.time()
+        randomized_time = end_time - start_time
+        results_randomized.append({
+            'vertices_num': num_vertices,
+            'percentage_max_num_edges': edge_prob,
+            'total_weight': randomized_weight,
+            'solution_size': len(randomized__set),
+            'execution_time': randomized_time,
+            'num_operations': randomized_operations,
+            'randomized_configurations': randomized_configurations
+        })
+
+        # Draw and save graphs with marked solutions if vertices are small
+        if num_vertices <= 8:
+            randomized_edges = [(u, v) for u, v, w in randomized__set]
+            draw_and_save_graph(
+                graph_file, randomized_edges, num_vertices, edge_prob, 
+                "randomized", "Randomized Solution"
+            )
+
 
     # Optional: Save all results to a combined CSV
     df_dynamic_all = pd.DataFrame(results_dynamic_all)
     df_dynamic_combined_all = pd.DataFrame(results_dynamic_combined_all)
+    df_randomized = pd.DataFrame(results_randomized)
     save_to_csv_dynamic_combined(df_dynamic_combined_all, "dynamic_combined_results_combined.csv")
     save_to_csv_dynamic_randomized(df_dynamic_all, "dynamic_results_combined.csv")
+    save_to_csv(df_randomized, "randomized_results.csv")
 
     # Perform analysis
     # Load exhaustive results
@@ -135,11 +165,14 @@ def main():
     # Load dynamic results
     dynamic_df = load_dynamic_results()
     dynamic_combined_df = load_dynamic_combined_results()
+    randomized_df = pd.read_csv("results/randomized_results.csv")
 
     greedy_df = pd.read_csv("results/greedy_results.csv")
 
     # Plot the accuracy of dynamic results compared to exhaustive results
-    plot_accuracy(exhaustive_df, dynamic_df, greedy_df)
+    plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
+    plot_accuracy(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
+    plot_accuracy(exhaustive_df, randomized_df, greedy_df, algorithm_type="randomized")
     plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df)
     plot_solution_size_bar_chart()
 
