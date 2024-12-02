@@ -104,7 +104,7 @@ def main():
                 'refine_threshold': refine_threshold
             })
 
-            # Draw and save graphs with marked solutions if vertices are small
+            # Draw and save graphs
             if num_vertices <= 8:
                 dynamic_edges = [(u, v) for u, v, w in dynamic_set]
                 draw_and_save_graph(
@@ -113,12 +113,11 @@ def main():
                     "Randomized Heuristic Solution"
                 )
 
-        # Save results to a CSV for this threshold combination
         df_dynamic = pd.DataFrame(results_dynamic)
         df_dynamic_combined = pd.DataFrame(results_dynamic_combined)
         csv_file_name = (f"dynamic_combined_results_base_{base_threshold}_refine_{refine_threshold}.csv")
         save_to_csv_dynamic_combined(df_dynamic_combined, csv_file_name)
-        results_dynamic_all.extend(results_dynamic)  # Aggregate all results for summary if needed
+        results_dynamic_all.extend(results_dynamic)
         csv_file_name = (f"dynamic_results_base_{base_threshold}_refine_{refine_threshold}.csv")
         save_to_csv_dynamic_randomized(df_dynamic, csv_file_name)
         results_dynamic_combined_all.extend(results_dynamic_combined)
@@ -141,7 +140,7 @@ def main():
             'randomized_configurations': randomized_configurations
         })
 
-        # Draw and save graphs with marked solutions if vertices are small
+        # Draw and save graphs
         if num_vertices <= 8:
             randomized_edges = [(u, v) for u, v, w in randomized__set]
             draw_and_save_graph(
@@ -150,7 +149,6 @@ def main():
             )
 
 
-    # Optional: Save all results to a combined CSV
     df_dynamic_all = pd.DataFrame(results_dynamic_all)
     df_dynamic_combined_all = pd.DataFrame(results_dynamic_combined_all)
     df_randomized = pd.DataFrame(results_randomized)
@@ -166,7 +164,6 @@ def main():
     dynamic_df = load_dynamic_results()
     dynamic_combined_df = load_dynamic_combined_results()
     randomized_df = pd.read_csv("results/randomized_results.csv")
-
     greedy_df = pd.read_csv("results/greedy_results.csv")
 
     # Accuracy
@@ -184,13 +181,10 @@ def main():
     plot_solution_size_bar_chart(randomized_df, "randomized")
     plot_solution_size_bar_chart(dynamic_combined_df, "dynamic_combined")
     
+    #Execution Time
     plot_execution_times(dynamic_df, "dynamic")
     plot_execution_times(randomized_df, "randomized")
     plot_execution_times(dynamic_combined_df, "dynamic_combined")
-
-
-#     # executions_times(df_randomized, "Randomized Search")
-#     # executions_times(df_dynamic, "Randomized Heuristic")
 
 #     # basic_operations_num(df_randomized, "Randomized Search")
 #     # basic_operations_num(df_dynamic, "Randomized Heuristic")
