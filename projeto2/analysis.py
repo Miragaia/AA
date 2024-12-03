@@ -40,31 +40,51 @@ def load_dynamic_combined_results():
 def plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type):
     """
     Plots the accuracy of dynamic and greedy algorithms compared to exhaustive results as separate line charts for different edge densities.
+    
+    Accuracy is calculated as:
+    - 100 * (dynamic_weight / exhaustive_weight)
+    - 100 * (greedy_weight / exhaustive_weight)
     """
     import os
+    import matplotlib.pyplot as plt
+    import pandas as pd
 
     base_dir = f"graphics/accuracy/{algorithm_type}"
     os.makedirs(base_dir, exist_ok=True)
 
-    dynamic_merged = pd.merge(exhaustive_df, dynamic_df, on=["vertices_num", "percentage_max_num_edges"], suffixes=('_exhaustive', '_dynamic'))
-    greedy_merged = pd.merge(exhaustive_df, greedy_df, on=["vertices_num", "percentage_max_num_edges"], suffixes=('_exhaustive', '_greedy'))
-
-    # Calculate accuracy for dynamic/randomized and greedy
-    dynamic_merged[f'{algorithm_type}_accuracy'] = 100 * (
-        1 - abs(dynamic_merged[f'total_weight_dynamic'] - dynamic_merged['total_weight_exhaustive']) / dynamic_merged['total_weight_exhaustive']
+    # Merge dataframes for comparison
+    dynamic_merged = pd.merge(
+        exhaustive_df, 
+        dynamic_df, 
+        on=["vertices_num", "percentage_max_num_edges"], 
+        suffixes=('_exhaustive', '_dynamic')
     )
-    greedy_merged['greedy_accuracy'] = 100 * (
-        1 - abs(greedy_merged['total_weight_greedy'] - greedy_merged['total_weight_exhaustive']) / greedy_merged['total_weight_exhaustive']
+    greedy_merged = pd.merge(
+        exhaustive_df, 
+        greedy_df, 
+        on=["vertices_num", "percentage_max_num_edges"], 
+        suffixes=('_exhaustive', '_greedy')
     )
 
+    # Calculate accuracy
+    dynamic_merged[f'{algorithm_type}_accuracy'] = (
+        100 * (dynamic_merged['total_weight_exhaustive'] / dynamic_merged['total_weight_dynamic'])
+    )
+    greedy_merged['greedy_accuracy'] = (
+        100 * (greedy_merged['total_weight_exhaustive'] / greedy_merged['total_weight_greedy'])
+    )
+
+    # Unique edge densities
     unique_densities = exhaustive_df['percentage_max_num_edges'].unique()
 
+    # Plot for each density
     for density in unique_densities:
         plt.figure(figsize=(10, 6))
         
         dynamic_subset = dynamic_merged[dynamic_merged['percentage_max_num_edges'] == density]
         greedy_subset = greedy_merged[greedy_merged['percentage_max_num_edges'] == density]
 
+        # Plot dynamic algorithm accuracy
         if 'base_threshold' in dynamic_subset.columns and 'refine_threshold' in dynamic_subset.columns:
             threshold_pairs = dynamic_subset[['base_threshold', 'refine_threshold']].drop_duplicates()
             for _, thresholds in threshold_pairs.iterrows():
@@ -88,6 +108,7 @@ def plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type):
                 label=f'{algorithm_type.capitalize()}'
             )
 
+        # Plot greedy algorithm accuracy
         plt.plot(
             greedy_subset['vertices_num'], 
             greedy_subset['greedy_accuracy'], 
@@ -97,15 +118,18 @@ def plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type):
             label='Greedy Algorithm'
         )
         
+        # Labels, title, and legend
         plt.xlabel('Number of Vertices')
         plt.ylabel('Accuracy (%)')
         plt.title(f'Algorithm Accuracy Compared to Exhaustive Search (Density {int(density * 100)}%)')
         plt.legend()
         plt.grid(True)
 
+        # Save plot
         filename = f"{base_dir}/accuracy_density_{int(density * 100)}.png"
         plt.savefig(filename)
-        plt.clf()
+        plt.close()  # Close the figure to release memory
+
 
 
     
