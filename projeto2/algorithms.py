@@ -11,11 +11,16 @@ def is_edge_dominating_set(G, edge_set):
     return True, operations
 
 
-def randomized_mweds(G, max_iterations=1000):
+def randomized_mweds(G, iteration_factor=100):
     """
     Randomized algorithm to find a Minimum Weight Edge Dominating Set,
     avoiding duplicate subsets of edges.
     """
+
+    num_edges = len(G.edges)
+    max_iterations = iteration_factor * num_edges
+
+    
     edges = list(G.edges(data="weight"))
     num_edges = len(edges)
     best_solution = None
@@ -55,7 +60,7 @@ def randomized_mweds(G, max_iterations=1000):
 
 def dynamic_randomized_mweds(
     G, 
-    max_iterations=10000, 
+    iteration_factor=100, 
     initial_search_size=2, 
     base_threshold=0.125, 
     refine_threshold=0.25
@@ -69,6 +74,11 @@ def dynamic_randomized_mweds(
     - base_threshold: Progress threshold to increase search size.
     - refine_threshold: Progress threshold to decrease search size for refinement.
     """
+
+    # Calculate the dynamic number of iterations
+    num_edges = len(G.edges)
+    max_iterations = iteration_factor * num_edges  # Number of iterations scales with edges
+
     edges = list(G.edges(data="weight"))
     num_edges = len(edges)
     best_solution = edges
@@ -120,7 +130,7 @@ def dynamic_randomized_mweds(
 
 def dynamic_combined_mweds(
     G, 
-    max_iterations=10000, 
+    iteration_factor=100,  # Factor to determine iterations based on graph size
     initial_search_size=2, 
     base_threshold=0.125, 
     refine_threshold=0.25,
@@ -132,7 +142,7 @@ def dynamic_combined_mweds(
     Upgraded Dynamic randomized heuristic for MWEDS with adjustable search size and thresholds.
     Parameters:
     - G: The input graph.
-    - max_iterations: Maximum iterations to run the algorithm.
+    - iteration_factor: Multiplier to set max_iterations dynamically based on graph size.
     - initial_search_size: Initial size of the subset of edges to search.
     - base_threshold: Progress threshold to increase search size.
     - refine_threshold: Progress threshold to decrease search size for refinement.
@@ -140,8 +150,11 @@ def dynamic_combined_mweds(
     - min_subset_size: Minimum subset size to search for.
     - max_subset_size: Maximum subset size to search for (defaults to number of edges).
     """
+    # Calculate the dynamic number of iterations
+    num_edges = len(G.edges)
+    max_iterations = iteration_factor * num_edges  # Number of iterations scales with edges
+
     edges = list(G.edges(data="weight"))
-    num_edges = len(edges)
     best_solution = edges
     min_weight = sum(w for _, _, w in edges)
     basic_operations = 0

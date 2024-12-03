@@ -5,7 +5,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
-from algorithms import randomized_mweds, dynamic_randomized_mweds, dynamic_combined_mweds
+from algorithms import dynamic_randomized_mweds, dynamic_combined_mweds
 from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, load_dynamic_combined_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart, plot_execution_times, plot_basic_operations, plot_weight_comparison
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
@@ -121,39 +121,12 @@ def main():
         save_to_csv_dynamic_randomized(df_dynamic, csv_file_name)
         results_dynamic_combined_all.extend(results_dynamic_combined)
     
-    for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
-        graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
-
-        # randomized Search
-        start_time = time.time()
-        randomized__set, randomized_weight, randomized_operations,randomized_configurations = randomized_mweds(G)
-        end_time = time.time()
-        randomized_time = end_time - start_time
-        results_randomized.append({
-            'vertices_num': num_vertices,
-            'percentage_max_num_edges': edge_prob,
-            'total_weight': randomized_weight,
-            'solution_size': len(randomized__set),
-            'execution_time': randomized_time,
-            'num_operations': randomized_operations,
-            'randomized_configurations': randomized_configurations
-        })
-
-        # Draw and save graphs
-        if num_vertices <= 8:
-            randomized_edges = [(u, v) for u, v, w in randomized__set]
-            draw_and_save_graph(
-                graph_file, randomized_edges, num_vertices, edge_prob, 
-                "randomized", "Randomized Solution"
-            )
 
 
     df_dynamic_all = pd.DataFrame(results_dynamic_all)
     df_dynamic_combined_all = pd.DataFrame(results_dynamic_combined_all)
-    df_randomized = pd.DataFrame(results_randomized)
     save_to_csv_dynamic_combined(df_dynamic_combined_all, "dynamic_combined_results_combined.csv")
     save_to_csv_dynamic_randomized(df_dynamic_all, "dynamic_results_combined.csv")
-    save_to_csv(df_randomized, "randomized_results.csv")
 
     # Perform analysis
     # Load exhaustive results
@@ -162,31 +135,25 @@ def main():
     # Load dynamic results
     dynamic_df = load_dynamic_results()
     dynamic_combined_df = load_dynamic_combined_results()
-    randomized_df = pd.read_csv("results/randomized_results.csv")
     greedy_df = pd.read_csv("results/greedy_results.csv")
 
     # Accuracy
     plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
     plot_accuracy(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
-    plot_accuracy(exhaustive_df, randomized_df, greedy_df, algorithm_type="randomized")
 
     #Weight
     plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
     plot_weight_comparison_for_density_50(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
-    plot_weight_comparison_for_density_50(exhaustive_df, randomized_df, greedy_df, algorithm_type="randomized")
 
     #Solution Size
     plot_solution_size_bar_chart(dynamic_df, "dynamic")
-    plot_solution_size_bar_chart(randomized_df, "randomized")
     plot_solution_size_bar_chart(dynamic_combined_df, "dynamic_combined")
     
     #Execution Time
     plot_execution_times(dynamic_df, "dynamic")
-    plot_execution_times(randomized_df, "randomized")
     plot_execution_times(dynamic_combined_df, "dynamic_combined")
 
     plot_basic_operations(dynamic_df, "dynamic")
-    plot_basic_operations(randomized_df, "randomized")
     plot_basic_operations(dynamic_combined_df, "dynamic_combined")
 
     plot_weight_comparison(dynamic_combined_df, dynamic_df)
