@@ -4,9 +4,10 @@ import cProfile
 import networkx as nx
 import matplotlib.pyplot as plt
 import os
-from graph_generation import generate_weighted_graph, read_arguments
+from graph_generation import generate_weighted_graph, read_arguments, load_graphs_with_metadata
 from algorithms import dynamic_randomized_mweds, dynamic_combined_mweds
 from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, load_dynamic_combined_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart, plot_execution_times, plot_basic_operations, plot_weight_comparison
+
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
     Draws the graph with all edges showing weights, highlights edges in edge_set in red, 
@@ -38,10 +39,10 @@ def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorith
     plt.savefig(filename)
     plt.close()
 
+
 def main():
     results_dynamic_all = []
     results_dynamic_combined_all = []
-    results_randomized = []
 
     # Define pairs of threshold values
     threshold_pairs = [
@@ -50,18 +51,39 @@ def main():
         (0.25, 0.5)
     ]
 
-    vertices_num_last_graph, max_value_coordinate = read_arguments()
-    if vertices_num_last_graph <= 3:
-        raise ValueError("The number of vertices must be greater than 3.")
+    # CLI for selecting graph source
+    graph_source = input("Select graph source (1 for created graphs, 2 for internet graphs): ")
+    if graph_source not in ["1", "2"]:
+        raise ValueError("Invalid selection. Choose 1 or 2.")
 
-    graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
+    if graph_source == "1":
+        # Ask for the number of vertices
+        vertices_num_last_graph = int(input("Enter the number of vertices (must be greater than 3): "))
+        if vertices_num_last_graph <= 3:
+            raise ValueError("The number of vertices must be greater than 3.")
+        
+        max_value_coordinate = 1000
+
+        graphs_with_metadata = generate_weighted_graph(vertices_num_last_graph, max_value_coordinate)
+        is_generated = True
+        save_path = "created_graphs"
+    else:
+        graphs_with_metadata = load_graphs_with_metadata()
+        is_generated = False
+        save_path = "internet_graphs"
 
     for base_threshold, refine_threshold in threshold_pairs:
-
         results_dynamic = []
         results_dynamic_combined = []
-        for i, (G, num_vertices, edge_prob) in enumerate(graphs_with_metadata):
-            graph_file = f"graphs/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
+
+        for i, graph_data in enumerate(graphs_with_metadata):
+            if is_generated:
+                G, num_vertices, edge_prob = graph_data
+                graph_file = f"graphs/{save_path}/graphml/graph_num_vertices_{num_vertices}_percentage_{edge_prob}.graphml"
+            else:
+                G, num_vertices, num_edges = graph_data
+                edge_prob = None  # No edge_prob for internet graphs
+                graph_file = f"graphs/{save_path}/graphml/internet_graph_num_vertices_{num_vertices}.graphml"
 
             # Dynamic Randomized Search
             start_time = time.time()
@@ -71,9 +93,8 @@ def main():
             end_time = time.time()
             dynamic_time = end_time - start_time
 
-            results_dynamic.append({
+            dynamic_result = {
                 'vertices_num': num_vertices,
-                'percentage_max_num_edges': edge_prob,
                 'total_weight': dynamic_weight,
                 'solution_size': len(dynamic_set),
                 'execution_time': dynamic_time,
@@ -81,7 +102,12 @@ def main():
                 'dynamic_configurations': dynamic_configurations,
                 'base_threshold': base_threshold,
                 'refine_threshold': refine_threshold
-            })
+            }
+            if is_generated:
+                dynamic_result['percentage_max_num_edges'] = edge_prob  # For generated graphs
+            else:
+                dynamic_result['num_edges'] = num_edges  # For internet graphs
+            results_dynamic.append(dynamic_result)
 
             # Dynamic Combined Search
             start_time = time.time()
@@ -91,9 +117,8 @@ def main():
             end_time = time.time()
             dynamic_combined_time = end_time - start_time
 
-            results_dynamic_combined.append({
+            dynamic_combined_result = {
                 'vertices_num': num_vertices,
-                'percentage_max_num_edges': edge_prob,
                 'total_weight': dynamic_combined_weight,
                 'solution_size': len(dynamic_combined_set),
                 'execution_time': dynamic_combined_time,
@@ -101,69 +126,76 @@ def main():
                 'dynamic_combined_configurations': dynamic_combined_configurations,
                 'base_threshold': base_threshold,
                 'refine_threshold': refine_threshold
-            })
+            }
+            if is_generated:
+                dynamic_combined_result['percentage_max_num_edges'] = edge_prob  # For generated graphs
+            else:
+                dynamic_combined_result['num_edges'] = num_edges  # For internet graphs
+            results_dynamic_combined.append(dynamic_combined_result)
 
             # Draw and save graphs
             if num_vertices <= 8:
                 dynamic_edges = [(u, v) for u, v, w in dynamic_set]
+                title = f"Randomized Heuristic Solution ({'Generated' if is_generated else 'Internet'})"
                 draw_and_save_graph(
-                    graph_file, dynamic_edges, num_vertices, edge_prob, 
-                    f"dynamic_base_{base_threshold}_refine_{refine_threshold}", 
-                    "Randomized Heuristic Solution"
+                    graph_file, dynamic_edges, num_vertices, edge_prob if edge_prob is not None else "NA", 
+                    f"{save_path}/dynamic_base_{base_threshold}_refine_{refine_threshold}", 
+                    title
                 )
 
+        # Save results to CSV
         df_dynamic = pd.DataFrame(results_dynamic)
         df_dynamic_combined = pd.DataFrame(results_dynamic_combined)
-        csv_file_name = (f"dynamic_combined_results_base_{base_threshold}_refine_{refine_threshold}.csv")
-        save_to_csv_dynamic_combined(df_dynamic_combined, csv_file_name)
+
+        dynamic_csv_file_name = f"{save_path}/dynamic_results_base_{base_threshold}_refine_{refine_threshold}.csv"
+        save_to_csv_dynamic_randomized(df_dynamic, dynamic_csv_file_name)
+
+        dynamic_combined_csv_file_name = f"{save_path}/dynamic_combined_results_base_{base_threshold}_refine_{refine_threshold}.csv"
+        save_to_csv_dynamic_combined(df_dynamic_combined, dynamic_combined_csv_file_name)
+
         results_dynamic_all.extend(results_dynamic)
-        csv_file_name = (f"dynamic_results_base_{base_threshold}_refine_{refine_threshold}.csv")
-        save_to_csv_dynamic_randomized(df_dynamic, csv_file_name)
         results_dynamic_combined_all.extend(results_dynamic_combined)
-    
 
-
+    # Save combined results to CSV
     df_dynamic_all = pd.DataFrame(results_dynamic_all)
     df_dynamic_combined_all = pd.DataFrame(results_dynamic_combined_all)
-    save_to_csv_dynamic_combined(df_dynamic_combined_all, "dynamic_combined_results_combined.csv")
-    save_to_csv_dynamic_randomized(df_dynamic_all, "dynamic_results_combined.csv")
 
-    # Perform analysis
-    # Load exhaustive results
-    exhaustive_df = load_exhaustive_results()
+    save_to_csv_dynamic_randomized(df_dynamic_all, f"{save_path}/dynamic_results_combined.csv")
+    save_to_csv_dynamic_combined(df_dynamic_combined_all, f"{save_path}/dynamic_combined_results_combined.csv")
 
-    # Load dynamic results
-    dynamic_df = load_dynamic_results()
-    dynamic_combined_df = load_dynamic_combined_results()
-    greedy_df = pd.read_csv("results/greedy_results.csv")
+    # # Perform analysis
+    # # Load exhaustive results
+    # exhaustive_df = load_exhaustive_results()
 
-    # Accuracy
-    plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
-    plot_accuracy(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
+    # # Load dynamic results
+    # dynamic_df = load_dynamic_results()
+    # dynamic_combined_df = load_dynamic_combined_results()
+    # greedy_df = pd.read_csv("results/greedy_results.csv")
 
-    #Weight
-    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
-    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
+    # # Accuracy
+    # plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
+    # plot_accuracy(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
 
-    #Solution Size
-    plot_solution_size_bar_chart(dynamic_df, "dynamic")
-    plot_solution_size_bar_chart(dynamic_combined_df, "dynamic_combined")
-    
-    #Execution Time
-    plot_execution_times(dynamic_df, "dynamic")
-    plot_execution_times(dynamic_combined_df, "dynamic_combined")
+    # # Weight
+    # plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
+    # plot_weight_comparison_for_density_50(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
 
-    plot_basic_operations(dynamic_df, "dynamic")
-    plot_basic_operations(dynamic_combined_df, "dynamic_combined")
+    # # Solution Size
+    # plot_solution_size_bar_chart(dynamic_df, "dynamic")
+    # plot_solution_size_bar_chart(dynamic_combined_df, "dynamic_combined")
 
-    plot_weight_comparison(dynamic_combined_df, dynamic_df)
-    
-#     # plot_time_complexity(df_randomized, df_dynamic)
+    # # Execution Time
+    # plot_execution_times(dynamic_df, "dynamic")
+    # plot_execution_times(dynamic_combined_df, "dynamic_combined")
 
-#     # predict_large_graph_times_75(df_randomized, df_dynamic, [8, 9, 10, 15, 20, 25, 30])
-#     # predict_large_graph_space([8, 9, 10, 15, 20, 25, 30])
+    # # Basic Operations
+    # plot_basic_operations(dynamic_df, "dynamic")
+    # plot_basic_operations(dynamic_combined_df, "dynamic_combined")
+
+    # plot_weight_comparison(dynamic_combined_df, dynamic_df)
 
 
 if __name__ == "__main__":
     print("Creating graphs for Minimum Weight Edge Dominating Set problem...")
     main()
+
