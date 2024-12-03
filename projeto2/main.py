@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments
 from algorithms import randomized_mweds, dynamic_randomized_mweds, dynamic_combined_mweds
-from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, load_dynamic_combined_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart, plot_execution_times, plot_basic_operations
-
+from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, load_dynamic_combined_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart, plot_execution_times, plot_basic_operations, plot_weight_comparison
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
     Draws the graph with all edges showing weights, highlights edges in edge_set in red, 
@@ -189,6 +188,8 @@ def main():
     plot_basic_operations(dynamic_df, "dynamic")
     plot_basic_operations(randomized_df, "randomized")
     plot_basic_operations(dynamic_combined_df, "dynamic_combined")
+
+    plot_weight_comparison(dynamic_combined_df, dynamic_df)
     
 #     # plot_time_complexity(df_randomized, df_dynamic)
 

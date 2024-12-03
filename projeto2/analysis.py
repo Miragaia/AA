@@ -296,5 +296,75 @@ def plot_basic_operations(data, algorithm_type):
     plt.clf()
     plt.close()
 
+import os
+import matplotlib.pyplot as plt
+import pandas as pd
 
+def plot_weight_comparison(dynamic_combined_df, dynamic_df):
+    """
+    Creates line charts comparing the weights of the dynamic combined and dynamic algorithms, 
+    with one chart per density. The plot extends to the maximum number of vertices.
 
+    Parameters:
+        dynamic_combined_df (pd.DataFrame): DataFrame for the dynamic combined algorithm.
+        dynamic_df (pd.DataFrame): DataFrame for the dynamic algorithm.
+    """
+    # Directory for saving the plots
+    save_dir = f"graphics/weight_comparison"
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Ensure unique values by grouping and averaging
+    dynamic_combined_df = (
+        dynamic_combined_df.groupby(['vertices_num', 'percentage_max_num_edges'])
+        .mean()
+        .reset_index()
+        .rename(columns={'total_weight': 'dynamic_combined_weight'})
+    )
+    dynamic_df = (
+        dynamic_df.groupby(['vertices_num', 'percentage_max_num_edges'])
+        .mean()
+        .reset_index()
+        .rename(columns={'total_weight': 'dynamic_weight'})
+    )
+
+    # Merge the DataFrames for comparison
+    merged_data = pd.merge(dynamic_combined_df, dynamic_df, on=['vertices_num', 'percentage_max_num_edges'])
+
+    # Select unique densities for plotting
+    unique_densities = merged_data['percentage_max_num_edges'].unique()
+
+    for density in sorted(unique_densities):
+        plt.figure(figsize=(10, 6))
+
+        # Filter data for the specific density
+        subset = merged_data[merged_data['percentage_max_num_edges'] == density]
+
+        # Plot weights for each algorithm
+        plt.plot(
+            subset['vertices_num'],
+            subset['dynamic_combined_weight'],
+            marker='o',
+            label="Dynamic Combined",
+        )
+        plt.plot(
+            subset['vertices_num'],
+            subset['dynamic_weight'],
+            marker='s',
+            linestyle='--',
+            label="Dynamic",
+        )
+
+        # Customize the plot
+        plt.title(f'Weight Comparison of Algorithms (Density {int(density * 100)}%)', fontsize=14)
+        plt.xlabel('Number of Vertices', fontsize=12)
+        plt.ylabel('Total Weight (Lower is Better)', fontsize=12)
+        plt.legend(title="Algorithms")
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        plt.xticks(sorted(subset['vertices_num'].unique()), rotation=45)
+        plt.tight_layout()
+
+        # Save the plot
+        filename = f"{save_dir}/weight_comparison_density_{int(density * 100)}.png"
+        plt.savefig(filename)
+        plt.clf()
+        plt.close()
