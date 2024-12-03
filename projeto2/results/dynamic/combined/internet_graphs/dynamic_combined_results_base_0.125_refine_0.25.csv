@@ -1,0 +1,3 @@
+vertices_num,total_weight,solution_size,execution_time,num_operations,dynamic_combined_configurations,base_threshold,refine_threshold,num_edges
+8,1.29,3,0.005269050598144531,7223,1300,0.125,0.25,15
+250,25.101860000000002,319,12.84939694404602,3251364,127300,0.125,0.25,2546

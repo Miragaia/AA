@@ -20,6 +20,28 @@ def store_graph(vertices, num_vertices, percentage, graph):
     plt.savefig(f"graphs/created_graphs/png/graph_num_vertices_{num_vertices}_percentage_{percentage}.png")
     plt.clf()
 
+def store_internet_graph(graph, num_vertices, num_edges):
+    """
+    Stores the internet-sourced graph as a .graphml file and a visual representation as a .png file.
+    """
+    # Define file paths
+    graphml_filename = f"graphs/internet_graphs/graphml/graph_num_vertices_{num_vertices}_num_edges_{num_edges}.graphml"
+    png_filename = f"graphs/internet_graphs/png/graph_num_vertices_{num_vertices}_num_edges_{num_edges}.png"
+
+    # Save the graph to a .graphml file
+    nx.write_graphml(graph, graphml_filename)
+
+    # Use a spring layout for the graph visualization
+    pos = nx.spring_layout(graph)  # Or any layout suitable for your graphs
+    labels = nx.get_edge_attributes(graph, 'weight')
+
+    # Draw and save the graph visualization
+    nx.draw(graph, pos, with_labels=True, node_color='lightblue', font_size=8)
+    nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels, font_size=7)
+    plt.savefig(png_filename)
+    plt.clf()
+
+
 def calculate_max_num_edges(num_vertices):
     return num_vertices * (num_vertices - 1) / 2
 
