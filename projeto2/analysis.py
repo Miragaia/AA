@@ -233,5 +233,50 @@ def plot_execution_times(data, algorithm_type):
     plt.savefig(filename)
     plt.clf()
 
+def plot_basic_operations(data, algorithm_type):
+    """
+    Plots a line chart of basic operations grouped by edge densities.
+
+    Parameters:
+        data (pd.DataFrame): The dataset containing `basic_operations`, `vertices_num`, and `percentage_max_num_edges`.
+        algorithm_type (str): The type of algorithm (e.g., 'dynamic', 'randomized', 'dynamic_combined') to determine
+                              the save path and chart title.
+    """
+
+    save_dir = f"graphics/basic_operations"
+    os.makedirs(save_dir, exist_ok=True)
+
+    required_columns = {'num_operations', 'vertices_num', 'percentage_max_num_edges'}
+    if not required_columns.issubset(data.columns):
+        print(f"The dataset must contain the columns: {required_columns}")
+        return
+
+    grouped_data = data.groupby(['percentage_max_num_edges', 'vertices_num'])['num_operations'].mean().reset_index()
+
+    unique_densities = grouped_data['percentage_max_num_edges'].unique()
+
+    plt.figure(figsize=(10, 6))
+    for density in sorted(unique_densities):
+        subset = grouped_data[grouped_data['percentage_max_num_edges'] == density]
+        plt.plot(
+            subset['vertices_num'],
+            subset['num_operations'],
+            marker='o',
+            label=f"Density {int(density * 100)}%"
+        )
+
+    plt.title(f'Basic Operations by Number of Vertices ({algorithm_type.capitalize()})', fontsize=14)
+    plt.xlabel('Number of Vertices', fontsize=12)
+    plt.ylabel('Basic Operations', fontsize=12)
+    plt.legend(title="Edge Densities")
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.xticks(sorted(data['vertices_num'].unique()), rotation=45)
+    plt.tight_layout()
+
+    filename = f"{save_dir}/basic_operations_{algorithm_type}.png"
+    plt.savefig(filename)
+    plt.clf()
+    plt.close()
+
 
 

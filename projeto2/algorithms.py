@@ -26,10 +26,11 @@ def randomized_mweds(G, max_iterations=1000):
     seen_subsets = set()
 
     for _ in range(max_iterations):
-        num_configurations += 1
 
         candidate_set = random.sample(edges, random.randint(1, num_edges))
         candidate_set_key = tuple(sorted(candidate_set))
+
+        basic_operations += 2
 
         if candidate_set_key in seen_subsets:
             continue
@@ -91,25 +92,29 @@ def dynamic_randomized_mweds(
             search_size = max(search_size - 1, 1)
 
         candidate_set = random.sample(edges, random.randint(1, min(search_size, num_edges)))
+        basic_operations += 1  
+
         candidate_set_key = tuple(sorted(candidate_set))
         
         if candidate_set_key in seen_subsets:
             continue
 
         seen_subsets.add(candidate_set_key)
-        basic_operations += len(candidate_set)
-
+        basic_operations += 1
+        
         is_dominating, operations = is_edge_dominating_set(G, candidate_set)
-        basic_operations += operations
+        basic_operations += operations 
 
         if is_dominating:
             weight = sum(w for u, v, w in candidate_set)
-            basic_operations += len(candidate_set)
+            basic_operations += len(candidate_set)  
 
             if weight < min_weight:
                 min_weight = weight
                 best_solution = candidate_set
                 search_size = max(2, search_size - 1)
+
+                basic_operations += 1 
 
     return best_solution, min_weight, basic_operations, num_configurations
 
@@ -156,36 +161,44 @@ def dynamic_combined_mweds(
 
         if progress > base_threshold and best_solution == edges:
             search_size = min(search_size + 1, max_subset_size)
+            basic_operations += 1
         elif progress > refine_threshold and best_solution != edges:
             search_size = max(search_size - 1, min_subset_size)
+            basic_operations += 1
 
         upper_bound = min(search_size, max_subset_size) - 1
         candidate_size = random.randint(min_subset_size, upper_bound) if upper_bound >= min_subset_size else min_subset_size
-
         candidate_size = min(candidate_size, num_edges)
+
+        basic_operations += 3
 
         if candidate_size < 0:
             candidate_size = min_subset_size
 
         candidate_set = random.sample(edges, candidate_size)
         candidate_set_key = tuple(sorted(candidate_set))
+
+        basic_operations += 1
         
         if candidate_set_key in seen_subsets:
             continue
 
         seen_subsets.append(candidate_set_key)
-        basic_operations += len(candidate_set)
+        basic_operations += 1 
 
         is_dominating, operations = is_edge_dominating_set(G, candidate_set)
-        basic_operations += operations
+        basic_operations += operations  
 
         if is_dominating:
             weight = sum(w for u, v, w in candidate_set)
+            basic_operations += len(candidate_set) 
 
             if weight < min_weight:
                 min_weight = weight
                 best_solution = candidate_set
                 search_size = max(min_subset_size, search_size - 1)
+
+                basic_operations += 1 
 
                 if last_improvement - min_weight < early_stopping_threshold:
                     improvement_count += 1
@@ -198,3 +211,4 @@ def dynamic_combined_mweds(
                 last_improvement = min_weight
                 
     return best_solution, min_weight, basic_operations, num_configurations
+
