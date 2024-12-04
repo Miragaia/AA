@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 import os
 from graph_generation import generate_weighted_graph, read_arguments, load_graphs_with_metadata, store_internet_graph
 from algorithms import dynamic_randomized_mweds, dynamic_combined_mweds
-from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, load_dynamic_combined_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart, plot_execution_times, plot_basic_operations, plot_weight_comparison
-
+from analysis import save_to_csv, save_to_csv_dynamic_combined, save_to_csv_dynamic_randomized, load_exhaustive_results, load_dynamic_results, load_dynamic_combined_results, plot_accuracy, plot_weight_comparison_for_density_50, plot_solution_size_bar_chart, plot_execution_times, plot_basic_operations, plot_weight_comparison, plot_execution_times_internet_graphs, plot_basic_operations_internet_graphs, plot_weight_comparison_internet
 def draw_and_save_graph(graph_file, edge_set, num_vertices, percentage, algorithm_type, title):
     """
     Draws the graph with all edges showing weights, highlights edges in edge_set in red, 
@@ -138,15 +137,16 @@ def main():
                 title = f"Randomized Heuristic Solution ({'Generated' if is_generated else 'Internet'})"
 
             if not is_generated:
-                store_internet_graph(G, num_vertices, num_edges)
-                graph_file = f"graphs/internet_graphs/graphml/graph_num_vertices_{num_vertices}_num_edges_{num_edges}.graphml"
+                if num_vertices <= 250:
+                    store_internet_graph(G, num_vertices, num_edges)
+                    graph_file = f"graphs/internet_graphs/graphml/graph_num_vertices_{num_vertices}_num_edges_{num_edges}.graphml"
 
 
-                draw_and_save_graph(
-                    graph_file, dynamic_edges, num_vertices, edge_prob if edge_prob is not None else "NA", 
-                    f"{save_path}/dynamic_base_{base_threshold}_refine_{refine_threshold}", 
-                    title
-                )
+                    draw_and_save_graph(
+                        graph_file, dynamic_edges, num_vertices, edge_prob if edge_prob is not None else "NA", 
+                        f"{save_path}/dynamic_base_{base_threshold}_refine_{refine_threshold}", 
+                        title
+                    )
 
         df_dynamic = pd.DataFrame(results_dynamic)
         df_dynamic_combined = pd.DataFrame(results_dynamic_combined)
@@ -171,32 +171,53 @@ def main():
     exhaustive_df = load_exhaustive_results()
 
     # Load dynamic results
-    dynamic_df = load_dynamic_results()
-    dynamic_combined_df = load_dynamic_combined_results()
+    if is_generated:
+        dynamic_df = load_dynamic_results("created_graphs")
+        dynamic_combined_df = load_dynamic_combined_results("created_graphs")
+    else:
+        dynamic_df = load_dynamic_results("internet_graphs")
+        dynamic_combined_df = load_dynamic_combined_results("internet_graphs")
     greedy_df = pd.read_csv("results/greedy_results.csv")
 
-    # Accuracy
-    plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
-    plot_accuracy(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
 
-    # Weight
-    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
-    plot_weight_comparison_for_density_50(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
+    if is_generated:
+        # Accuracy
+        plot_accuracy(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
+        plot_accuracy(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
+
+        # Weight
+        plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, algorithm_type="dynamic")
+        plot_weight_comparison_for_density_50(exhaustive_df, dynamic_combined_df, greedy_df, algorithm_type="dynamic_combined")
 
     # Solution Size
-    plot_solution_size_bar_chart(dynamic_df, "dynamic")
-    plot_solution_size_bar_chart(dynamic_combined_df, "dynamic_combined")
+    if is_generated:
+        plot_solution_size_bar_chart(dynamic_df, "dynamic", "created_graphs")
+        plot_solution_size_bar_chart(dynamic_combined_df, "dynamic_combined", "created_graphs")
+    else:
+        plot_solution_size_bar_chart(dynamic_df, "dynamic", "internet_graphs")
+        plot_solution_size_bar_chart(dynamic_combined_df, "dynamic_combined", "internet_graphs")
 
     # Execution Time
-    plot_execution_times(dynamic_df, "dynamic")
-    plot_execution_times(dynamic_combined_df, "dynamic_combined")
+    if is_generated:
+        plot_execution_times(dynamic_df, "dynamic")
+        plot_execution_times(dynamic_combined_df, "dynamic_combined")
+    else:
+        plot_execution_times_internet_graphs(dynamic_df, "dynamic")
+        plot_execution_times_internet_graphs(dynamic_combined_df, "dynamic_combined")
 
     # Basic Operations
-    plot_basic_operations(dynamic_df, "dynamic")
-    plot_basic_operations(dynamic_combined_df, "dynamic_combined")
+    if is_generated:
+        plot_basic_operations(dynamic_df, "dynamic")
+        plot_basic_operations(dynamic_combined_df, "dynamic_combined")
+    else:
+        plot_basic_operations_internet_graphs(dynamic_df, "dynamic")
+        plot_basic_operations_internet_graphs(dynamic_combined_df, "dynamic_combined")
 
-    plot_weight_comparison(dynamic_combined_df, dynamic_df)
-
+    # Weight Comparison
+    if is_generated:
+        plot_weight_comparison(dynamic_combined_df, dynamic_df)
+    else:
+        plot_weight_comparison_internet(dynamic_combined_df, dynamic_df)
 
 if __name__ == "__main__":
     print("Creating graphs for Minimum Weight Edge Dominating Set problem...")

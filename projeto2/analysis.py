@@ -19,21 +19,21 @@ def load_exhaustive_results():
     """Load the exhaustive search results from CSV."""
     return pd.read_csv("results/exhaustive_results.csv")
 
-def load_dynamic_results():
+def load_dynamic_results(graph_type):
     """Load dynamic results from the specified folder."""
     dynamic_results = []
-    for file_name in os.listdir("results/dynamic/randomized"):
+    for file_name in os.listdir(f"results/dynamic/randomized/{graph_type}"):
         if file_name.endswith(".csv"):
-            file_path = os.path.join("results/dynamic/randomized", file_name)
+            file_path = os.path.join(f"results/dynamic/randomized/{graph_type}", file_name)
             dynamic_results.append(pd.read_csv(file_path))
     return pd.concat(dynamic_results, ignore_index=True)
 
-def load_dynamic_combined_results():
+def load_dynamic_combined_results(graph_type):
     """Load dynamic results from the specified folder."""
     dynamic_results = []
-    for file_name in os.listdir("results/dynamic/combined"):
+    for file_name in os.listdir(f"results/dynamic/combined/{graph_type}"):
         if file_name.endswith(".csv"):
-            file_path = os.path.join("results/dynamic/combined", file_name)
+            file_path = os.path.join(f"results/dynamic/combined/{graph_type}", file_name)
             dynamic_results.append(pd.read_csv(file_path))
     return pd.concat(dynamic_results, ignore_index=True)
 
@@ -170,7 +170,7 @@ def plot_weight_comparison_for_density_50(exhaustive_df, dynamic_df, greedy_df, 
     plt.clf()
 
 
-def plot_solution_size_bar_chart(data, algorithm_type):
+def plot_solution_size_bar_chart(data, algorithm_type, graph_type):
     """
     Plots a bar chart of the occurrences of `solution_size` from the provided DataFrame.
     
@@ -179,8 +179,8 @@ def plot_solution_size_bar_chart(data, algorithm_type):
         algorithm_type (str): The type of algorithm (e.g., 'dynamic', 'randomized', 'dynamic_combined') 
                               to determine the save path and chart title.
     """
+    save_dir = f"graphics/solution_size/{graph_type}"
 
-    save_dir = f"graphics/solution_size"
     os.makedirs(save_dir, exist_ok=True)
 
     if 'solution_size' not in data.columns:
@@ -248,6 +248,48 @@ def plot_execution_times(data, algorithm_type):
     filename = f"{save_dir}/execution_times_{algorithm_type}.png"
     plt.savefig(filename)
     plt.clf()
+
+def plot_execution_times_internet_graphs(data, algorithm_type):
+    """
+    Plots a line chart of execution times grouped by the number of vertices for internet graphs.
+
+    Parameters:
+        data (pd.DataFrame): The dataset containing `execution_time` and `vertices_num`.
+        algorithm_type (str): The type of algorithm (e.g., 'dynamic', 'randomized', 'dynamic_combined') to determine
+                              the save path and chart title.
+    """
+
+    save_dir = f"graphics/execution_times_internet"
+    os.makedirs(save_dir, exist_ok=True)
+
+    required_columns = {'execution_time', 'vertices_num'}
+    if not required_columns.issubset(data.columns):
+        print(f"The dataset must contain the columns: {required_columns}")
+        return
+
+    # Group by number of vertices and calculate mean execution time
+    grouped_data = data.groupby('vertices_num')['execution_time'].mean().reset_index()
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        grouped_data['vertices_num'],
+        grouped_data['execution_time'],
+        marker='o',
+        label="Execution Time"
+    )
+
+    plt.ylim(0)
+    plt.title(f'Execution Time by Number of Vertices (Internet Graphs - {algorithm_type.capitalize()})', fontsize=14)
+    plt.xlabel('Number of Vertices', fontsize=12)
+    plt.ylabel('Execution Time (seconds)', fontsize=12)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.xticks(sorted(grouped_data['vertices_num'].unique()), rotation=45)
+    plt.tight_layout()
+
+    filename = f"{save_dir}/execution_times_internet_{algorithm_type}.png"
+    plt.savefig(filename)
+    plt.clf()
+
     
 
 def plot_basic_operations(data, algorithm_type):
@@ -295,6 +337,49 @@ def plot_basic_operations(data, algorithm_type):
     plt.savefig(filename)
     plt.clf()
     plt.close()
+
+def plot_basic_operations_internet_graphs(data, algorithm_type):
+    """
+    Plots a line chart of basic operations grouped by the number of vertices for internet graphs.
+
+    Parameters:
+        data (pd.DataFrame): The dataset containing `num_operations` and `vertices_num`.
+        algorithm_type (str): The type of algorithm (e.g., 'dynamic', 'randomized', 'dynamic_combined') to determine
+                              the save path and chart title.
+    """
+
+    save_dir = f"graphics/basic_operations_internet"
+    os.makedirs(save_dir, exist_ok=True)
+
+    required_columns = {'num_operations', 'vertices_num'}
+    if not required_columns.issubset(data.columns):
+        print(f"The dataset must contain the columns: {required_columns}")
+        return
+
+    # Group by number of vertices and calculate mean basic operations
+    grouped_data = data.groupby('vertices_num')['num_operations'].mean().reset_index()
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        grouped_data['vertices_num'],
+        grouped_data['num_operations'],
+        marker='o',
+        label="Basic Operations"
+    )
+
+    plt.yscale('log')  # Use logarithmic scale for operations
+    plt.title(f'Basic Operations by Number of Vertices (Internet Graphs - {algorithm_type.capitalize()})', fontsize=14)
+    plt.xlabel('Number of Vertices', fontsize=12)
+    plt.ylabel('Basic Operations', fontsize=12)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.xticks(sorted(grouped_data['vertices_num'].unique()), rotation=45)
+    plt.tight_layout()
+
+    filename = f"{save_dir}/basic_operations_internet_{algorithm_type}.png"
+    plt.savefig(filename)
+    plt.clf()
+    plt.close()
+
 
 def plot_weight_comparison(dynamic_combined_df, dynamic_df):
     """
@@ -357,3 +442,63 @@ def plot_weight_comparison(dynamic_combined_df, dynamic_df):
         plt.savefig(filename)
         plt.clf()
         plt.close()
+
+def plot_weight_comparison_internet(dynamic_combined_df, dynamic_df):
+    """
+    Creates a line chart comparing the weights of the dynamic combined and dynamic algorithms 
+    for internet graphs, grouped only by the number of vertices.
+
+    Parameters:
+        dynamic_combined_df (pd.DataFrame): DataFrame for the dynamic combined algorithm.
+        dynamic_df (pd.DataFrame): DataFrame for the dynamic algorithm.
+    """
+
+    save_dir = f"graphics/weight_comparison_internet"
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Preprocess data
+    dynamic_combined_df = (
+        dynamic_combined_df.groupby(['vertices_num'])
+        .mean()
+        .reset_index()
+        .rename(columns={'total_weight': 'dynamic_combined_weight'})
+    )
+    dynamic_df = (
+        dynamic_df.groupby(['vertices_num'])
+        .mean()
+        .reset_index()
+        .rename(columns={'total_weight': 'dynamic_weight'})
+    )
+
+    # Merge the datasets on vertices_num
+    merged_data = pd.merge(dynamic_combined_df, dynamic_df, on=['vertices_num'])
+
+    # Plot the comparison
+    plt.figure(figsize=(10, 6))
+
+    plt.plot(
+        merged_data['vertices_num'],
+        merged_data['dynamic_combined_weight'],
+        marker='o',
+        label="Dynamic Combined",
+    )
+    plt.plot(
+        merged_data['vertices_num'],
+        merged_data['dynamic_weight'],
+        marker='s',
+        linestyle='--',
+        label="Dynamic",
+    )
+
+    plt.title('Weight Comparison of Algorithms (Internet Graphs)', fontsize=14)
+    plt.xlabel('Number of Vertices', fontsize=12)
+    plt.ylabel('Total Weight (Lower is Better)', fontsize=12)
+    plt.legend(title="Algorithms")
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.xticks(sorted(merged_data['vertices_num'].unique()), rotation=45)
+    plt.tight_layout()
+
+    filename = f"{save_dir}/weight_comparison_internet.png"
+    plt.savefig(filename)
+    plt.clf()
+    plt.close()
