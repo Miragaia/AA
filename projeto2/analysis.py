@@ -502,3 +502,73 @@ def plot_weight_comparison_internet(dynamic_combined_df, dynamic_df):
     plt.savefig(filename)
     plt.clf()
     plt.close()
+
+def execution_times_with_prediction(data, algorithm_type):
+    """
+    Plots execution times (measured and predicted) for 75% edge density.
+
+    Parameters:
+        data (pd.DataFrame): Dataset with `execution_time`, `vertices_num`, `percentage_max_num_edges`.
+        algorithm_type (str): Algorithm type (e.g., 'dynamic_combined').
+    """
+
+    import os
+    import matplotlib.pyplot as plt
+
+    save_dir = f"graphics/execution_times"
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Filter for 75% density
+    density = 0.75
+    subset = data[data['percentage_max_num_edges'] == density]
+    if subset.empty:
+        print("No data available for 75% density in the dataset.")
+        return
+
+    # Group by vertices and compute average execution time
+    grouped_data = subset.groupby(['vertices_num'])['execution_time'].mean().reset_index()
+
+    # Calculate number of edges for predictions
+    def calculate_predicted_time(vertices, density):
+        num_edges = int(density * (vertices * (vertices - 1)) / 2)
+        iteration_factor = 100  # Assumed
+        C = 1e-6  # Empirical constant
+        return C * iteration_factor * num_edges * vertices  # Adjust based on analysis
+
+    grouped_data['predicted_time'] = grouped_data['vertices_num'].apply(
+        lambda n: calculate_predicted_time(n, density)
+    )
+
+    # Plot measured execution times
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        grouped_data['vertices_num'],
+        grouped_data['execution_time'],
+        marker='o',
+        label=f"Measured (75% Density)"
+    )
+
+    # Plot predicted execution times
+    plt.plot(
+        grouped_data['vertices_num'],
+        grouped_data['predicted_time'],
+        linestyle='--',
+        color='red',
+        label=f"Predicted (75% Density)"
+    )
+
+    plt.ylim(0)
+    plt.title(f'Execution Time by Number of Vertices ({algorithm_type.capitalize()}) - 75% Density', fontsize=14)
+    plt.xlabel('Number of Vertices', fontsize=12)
+    plt.ylabel('Execution Time (seconds)', fontsize=12)
+    plt.legend(title="Execution Time")
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.xticks(sorted(grouped_data['vertices_num'].unique()), rotation=45)
+    plt.tight_layout()
+
+    # Save plot
+    filename = f"{save_dir}/execution_times_with_prediction_75_{algorithm_type}.png"
+    plt.savefig(filename)
+    plt.clf()
+
+

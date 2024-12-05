@@ -11,53 +11,6 @@ def is_edge_dominating_set(G, edge_set):
     return True, operations
 
 
-def randomized_mweds(G, iteration_factor=100):
-    """
-    Randomized algorithm to find a Minimum Weight Edge Dominating Set,
-    avoiding duplicate subsets of edges.
-    """
-
-    num_edges = len(G.edges)
-    max_iterations = iteration_factor * num_edges
-
-    
-    edges = list(G.edges(data="weight"))
-    num_edges = len(edges)
-    best_solution = None
-    min_weight = float('inf')
-    basic_operations = 0
-    num_configurations = 0
-
-    seen_subsets = set()
-
-    for _ in range(max_iterations):
-
-        candidate_set = random.sample(edges, random.randint(1, num_edges))
-        candidate_set_key = tuple(sorted(candidate_set))
-
-        basic_operations += 2
-
-        if candidate_set_key in seen_subsets:
-            continue
-
-        seen_subsets.add(candidate_set_key)
-        basic_operations += len(candidate_set)
-
-        is_dominating, operations = is_edge_dominating_set(G, candidate_set)
-        basic_operations += operations
-
-        if is_dominating:
-            weight = sum(w for u, v, w in candidate_set)
-            basic_operations += len(candidate_set)
-
-            if weight < min_weight:
-                min_weight = weight
-                best_solution = candidate_set
-                basic_operations += 1
-
-    return best_solution, min_weight, basic_operations, num_configurations
-
-
 def dynamic_randomized_mweds(
     G, 
     iteration_factor=100, 
@@ -87,14 +40,13 @@ def dynamic_randomized_mweds(
     num_configurations = 0
 
     search_size = initial_search_size
-    max_possible_configurations = num_edges
 
     seen_subsets = set()
 
     for iteration in range(max_iterations):
         num_configurations += 1
 
-        progress = iteration / max_possible_configurations
+        progress = iteration / num_edges
 
         if progress > base_threshold and best_solution == edges:
             search_size = min(search_size + 1, num_edges)
