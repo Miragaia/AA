@@ -515,29 +515,24 @@ def execution_times_with_prediction(data, algorithm_type):
     save_dir = f"graphics/execution_times"
     os.makedirs(save_dir, exist_ok=True)
 
-    # Calculate number of edges for predictions
     def calculate_predicted_time(vertices, density):
         num_edges = int(density * (vertices * (vertices - 1)) / 2)
-        iteration_factor = 100  # Assumed
-        C = 1e-6  # Empirical constant
-        return C * iteration_factor * num_edges * vertices  # Adjust based on analysis
+        iteration_factor = 100  
+        C = 1e-6  
+        return C * iteration_factor * num_edges * vertices 
 
-    # Loop through each unique density in the dataset
     for density in sorted(data['percentage_max_num_edges'].unique()):
         subset = data[data['percentage_max_num_edges'] == density]
         if subset.empty:
             print(f"No data available for {density * 100}% density in the dataset.")
             continue
 
-        # Group by vertices and compute average execution time
         grouped_data = subset.groupby(['vertices_num'])['execution_time'].mean().reset_index()
 
-        # Add predicted execution times
         grouped_data['predicted_time'] = grouped_data['vertices_num'].apply(
             lambda n: calculate_predicted_time(n, density)
         )
 
-        # Plot measured execution times
         plt.figure(figsize=(10, 6))
         plt.plot(
             grouped_data['vertices_num'],
@@ -546,7 +541,6 @@ def execution_times_with_prediction(data, algorithm_type):
             label=f"Measured ({int(density * 100)}% Density)"
         )
 
-        # Plot predicted execution times
         plt.plot(
             grouped_data['vertices_num'],
             grouped_data['predicted_time'],
@@ -564,7 +558,6 @@ def execution_times_with_prediction(data, algorithm_type):
         plt.xticks(sorted(grouped_data['vertices_num'].unique()), rotation=45)
         plt.tight_layout()
 
-        # Save plot
         filename = f"{save_dir}/execution_times_with_prediction_{int(density * 100)}_{algorithm_type}.png"
         plt.savefig(filename)
         plt.clf()
