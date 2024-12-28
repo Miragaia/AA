@@ -1,7 +1,7 @@
 from pathlib import Path
-from src.counters.exact_counter import exact_counter
-from src.counters.csuros_counter import csuros_counter
-from src.counters.frequent_count import frequent_count
+from src.counters.exact_counter import exact_counter_with_save
+from src.counters.csuros_counter import csuros_counter_with_save
+from src.counters.stream_counter import stream_counter_with_save
 
 # Directory for processed files
 PROCESSED_DIR = "./data/processed/"
@@ -16,25 +16,21 @@ def main():
         return
 
     for file_path in processed_files:
-        print(f"Analyzing '{file_path.name}'...")
-        
+        filename = file_path.stem
+        print(f"Analyzing '{filename}'...")
+
         # Load preprocessed text
-        with open(file_path, 'r', encoding='utf-8') as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             text = file.read()
 
         # Exact Counter
-        exact_results = exact_counter(text)
-        print(f"Exact Counter: Top 5 words: {dict(sorted(exact_results.items(), key=lambda x: x[1], reverse=True)[:5])}")
+        exact_counter_with_save(text, filename)
 
         # Csuros' Counter
-        csuros_results = csuros_counter(text, sampling_rate=0.1)
-        print(f"Csuros' Counter: Top 5 estimated words: {dict(sorted(csuros_results.items(), key=lambda x: x[1], reverse=True)[:5])}")
+        csuros_counter_with_save(text, filename, sampling_rate=0.1)
 
-        # Frequent-Count
-        frequent_results = frequent_count(text, threshold=10)
-        print(f"Frequent-Count: Words with count > 10: {list(frequent_results.keys())[:5]}")
-
-        print("----------------------------------------------------")
+        # Stream Counter
+        stream_counter_with_save(text, filename, n=10)
 
 if __name__ == "__main__":
     main()

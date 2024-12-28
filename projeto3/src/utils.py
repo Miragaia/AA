@@ -2,6 +2,8 @@ import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import json
+from pathlib import Path
 
 # Pre-download NLTK resources
 nltk.download('punkt', quiet=True)
@@ -85,3 +87,20 @@ def detect_language_from_filename(filename):
         return 'spanish'
     else:
         raise ValueError(f"Language could not be detected from the filename '{filename}'.")
+
+def save_results(results, filename, folder):
+    """
+    Save results to a JSON file.
+
+    Args:
+        results (dict): The results to save.
+        filename (str): The name of the file (without extension).
+        folder (str): The directory to save the file.
+    """
+    Path(folder).mkdir(parents=True, exist_ok=True)
+    file_path = Path(folder) / f"{filename}.json"
+
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=4, ensure_ascii=False)
+
+    print(f"Results saved to {file_path}")
