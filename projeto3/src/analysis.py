@@ -2,9 +2,11 @@ import json
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 RESULTS_DIR = "../data/results/"
 GRAPHICS_DIR = "../data/graphics/"  # Directory to save the visualizations
+CSV_FILE = "../data/performance_metrics.csv"  # Path to the CSV file
 
 def load_results(folder):
     """
@@ -71,9 +73,49 @@ def visualize_comparative_results():
 
         plt.close()  # Close the plot to free memory
 
-if __name__ == "__main__":
-    visualize_comparative_results()
+def visualize_performance_metrics():
+    """
+    Generate and save visualizations for execution time and memory usage.
+    """
+    # Load the performance CSV
+    df = pd.read_csv(CSV_FILE)
 
+    graphics_path = Path(GRAPHICS_DIR)
+    graphics_path.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
+
+    # Plot Execution Time
+    plt.figure(figsize=(10, 6))
+    for algorithm in df['algorithm'].unique():
+        subset = df[df['algorithm'] == algorithm]
+        plt.plot(subset['filename'], subset['execution_time'], label=algorithm)
+
+    plt.title("Execution Time Comparison")
+    plt.xlabel("Filename")
+    plt.ylabel("Execution Time (seconds)")
+    plt.xticks(rotation=45)
+    plt.legend()
+    plt.tight_layout()
+    execution_time_file = graphics_path / "execution_time_comparison.png"
+    plt.savefig(execution_time_file)
+    print(f"Execution time comparison saved to: {execution_time_file}")
+    plt.close()
+
+    # Plot Memory Usage
+    plt.figure(figsize=(10, 6))
+    for algorithm in df['algorithm'].unique():
+        subset = df[df['algorithm'] == algorithm]
+        plt.plot(subset['filename'], subset['memory_usage'], label=algorithm)
+
+    plt.title("Memory Usage Comparison")
+    plt.xlabel("Filename")
+    plt.ylabel("Memory Usage (KB)")
+    plt.xticks(rotation=45)
+    plt.legend()
+    plt.tight_layout()
+    memory_usage_file = graphics_path / "memory_usage_comparison.png"
+    plt.savefig(memory_usage_file)
+    print(f"Memory usage comparison saved to: {memory_usage_file}")
+    plt.close()
 
 def compare_results():
     """
@@ -100,3 +142,4 @@ def compare_results():
 if __name__ == "__main__":
     compare_results()
     visualize_comparative_results()
+    visualize_performance_metrics()
