@@ -1,42 +1,75 @@
+import random
 from ..utils import save_results
 
-def stream_counter(text, n=10):
+def misra_gries_counter(text, k=2):
     """
-    Identify the n most frequent items using a data stream algorithm.
+    Estimate frequent word counts using the Misra-Gries algorithm.
 
     Args:
         text (str): The preprocessed text.
-        n (int): Number of most frequent items to track.
+        k (int): Parameter to determine the threshold (find items with frequency > 1/k).
 
     Returns:
-        dict: A dictionary of the n most frequent items.
+        dict: A dictionary of words and their approximate counts.
     """
     words = text.split()
-    counter = {}
+    counters = {}
 
+    # Process each word in the text
     for word in words:
-        if word in counter:
-            counter[word] += 1
-        elif len(counter) < n:
-            counter[word] = 1
+        if word in counters:
+            counters[word] += 1
+        elif len(counters) < k - 1:
+            counters[word] = 1
         else:
-            # Evict the least frequent item
-            min_word = min(counter, key=counter.get)
-            del counter[min_word]
-            counter[word] = 1
+            # Decrement all counters
+            for key in list(counters.keys()):
+                counters[key] -= 1
+                if counters[key] == 0:
+                    del counters[key]
 
-    # Sort by frequency in descending order
-    return dict(sorted(counter.items(), key=lambda x: x[1], reverse=True))
+    return counters
 
-def stream_counter_with_save(text, filename, n=10):
+
+def verify_frequent_items(text, counters, k=2):
     """
-    Run the stream counter and save results.
+    Verify which words exceed the 1/k threshold.
+
+    Args:
+        text (str): The preprocessed text.
+        counters (dict): Output of the Misra-Gries algorithm.
+        k (int): Threshold parameter.
+
+    Returns:
+        dict: Verified frequent words with their actual counts.
+    """
+    words = text.split()
+    true_counts = {}
+
+    # Count all words in the text
+    for word in words:
+        true_counts[word] = true_counts.get(word, 0) + 1
+
+    # Threshold for frequency
+    threshold = len(words) / k
+
+    # Filter words that meet the threshold
+    frequent_items = {word: count for word, count in true_counts.items() if count > threshold}
+    return frequent_items
+
+
+def misra_gries_counter_with_save(text, filename, k=800):
+    """
+    Run the Misra-Gries counter and save results.
 
     Args:
         text (str): The preprocessed text.
         filename (str): The name of the output file (without extension).
-        n (int): Number of most frequent items to track.
+        k (int): Parameter to determine the threshold (find items with frequency > 1/k).
+
+    Returns:
+        dict: A dictionary of words and their approximate counts.
     """
-    results = stream_counter(text, n)
+    results = misra_gries_counter(text, k)
     save_results(results, filename, "./data/results/stream/")
     return results

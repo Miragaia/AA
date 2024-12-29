@@ -1,7 +1,7 @@
 from pathlib import Path
 from src.counters.exact_counter import exact_counter_with_save
 from src.counters.csuros_counter import csuros_counter_with_save
-from src.counters.stream_counter import stream_counter_with_save
+from src.counters.stream_counter import misra_gries_counter_with_save, verify_frequent_items
 
 # Directory for processed files
 PROCESSED_DIR = "./data/processed/"
@@ -30,7 +30,7 @@ def main():
         csuros_counter_with_save(text, filename, sampling_rate=0.1)
 
         # Stream Counter
-        stream_counter_with_save(text, filename, n=10)
+        misra_gries_counter_with_save(text, filename)
 
 if __name__ == "__main__":
     main()
