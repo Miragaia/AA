@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import csv
+from collections import Counter
 
 RESULTS_DIR = "../data/results/"
 GRAPHICS_DIR = "../data/graphics/"  # Directory to save the visualizations
@@ -239,6 +240,83 @@ def visualize_performance_metrics():
     print(f"Memory usage comparison saved to: {memory_usage_file}")
     plt.close()
 
+def analyze_word_frequencies(data, top_n=10):
+    """
+    Analyze most and least frequent words in a dataset.
+
+    Args:
+        data (dict): Word frequency data.
+        top_n (int): Number of top/least frequent words to extract.
+
+    Returns:
+        tuple: A tuple of (most_frequent, least_frequent) words.
+    """
+    word_counts = Counter(data)
+    most_frequent = [word for word, _ in word_counts.most_common(top_n)]
+    least_frequent = [word for word, _ in sorted(word_counts.items(), key=lambda x: x[1])[:top_n]]
+    return most_frequent, least_frequent
+
+def analyze_word_frequencies(data, top_n=10):
+    """
+    Analyze most and least frequent words in a dataset.
+
+    Args:
+        data (dict): Word frequency data.
+        top_n (int): Number of top/least frequent words to extract.
+
+    Returns:
+        tuple: A tuple of (most_frequent, least_frequent) words.
+    """
+    word_counts = Counter(data)
+    most_frequent = [word for word, _ in word_counts.most_common(top_n)]
+    least_frequent = [word for word, _ in sorted(word_counts.items(), key=lambda x: x[1])[:top_n]]
+    return most_frequent, least_frequent
+
+
+def analyze_and_compare_word_frequencies():
+    """
+    Analyze and compare word frequencies across exact, csuros, and stream results.
+    """
+    exact_results = load_results(RESULTS_DIR + "exact/")
+    csuros_results = load_results(RESULTS_DIR + "csuros/")
+    stream_results = load_results(RESULTS_DIR + "stream/")
+
+    for filename in exact_results:
+        print(f"\nAnalyzing word frequencies for '{filename}':")
+
+        # Analyze word frequencies for each method
+        exact_most, exact_least = analyze_word_frequencies(exact_results[filename])
+        print(f"Exact Most Frequent Words: {exact_most}")
+        print(f"Exact Least Frequent Words: {exact_least}")
+
+        if filename in csuros_results:
+            csuros_most, csuros_least = analyze_word_frequencies(csuros_results[filename])
+            print(f"Csuros Most Frequent Words: {csuros_most}")
+            print(f"Csuros Least Frequent Words: {csuros_least}")
+        else:
+            csuros_most, csuros_least = [], []
+
+        if filename in stream_results:
+            stream_most, stream_least = analyze_word_frequencies(stream_results[filename])
+            print(f"Stream Most Frequent Words: {stream_most}")
+            print(f"Stream Least Frequent Words: {stream_least}")
+        else:
+            stream_most, stream_least = [], []
+
+        # Compare relative order
+        print("\nRelative Order Check for Most Frequent Words:")
+        for i, word in enumerate(exact_most):
+            if word in csuros_most and csuros_most.index(word) != i:
+                print(f"Word '{word}' is in different positions: Exact ({i}) vs Csuros ({csuros_most.index(word)})")
+            if word in stream_most and stream_most.index(word) != i:
+                print(f"Word '{word}' is in different positions: Exact ({i}) vs Stream ({stream_most.index(word)})")
+
+        print("\nRelative Order Check for Least Frequent Words:")
+        for i, word in enumerate(exact_least):
+            if word in csuros_least and csuros_least.index(word) != i:
+                print(f"Word '{word}' is in different positions: Exact ({i}) vs Csuros ({csuros_least.index(word)})")
+            if word in stream_least and stream_least.index(word) != i:
+                print(f"Word '{word}' is in different positions: Exact ({i}) vs Stream ({stream_least.index(word)})")
 
 def compare_results():
     """
@@ -267,3 +345,4 @@ if __name__ == "__main__":
     visualize_comparative_results()
     visualize_performance_metrics()
     analyze_errors()
+    analyze_and_compare_word_frequencies()
