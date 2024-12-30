@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Frequency Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007acc;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Word Frequency Analysis</h1>
+    <table id="csvTable">
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Word</th>
+                <th>Exact Rank</th>
+                <th>Csuros Rank</th>
+                <th>Stream Rank</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- CSV data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        async function loadCSV() {
+            const response = await fetch('../data/word_frequency_analysis.csv');
+            const csvText = await response.text();
+            const rows = csvText.split('\n');
+            const tableBody = document.querySelector('#csvTable tbody');
+
+            rows.slice(1).forEach(row => { // Skip header row
+                if (row.trim() !== '') { // Ensure row isn't empty
+                    const columns = row.split(',');
+                    const tableRow = document.createElement('tr');
+
+                    columns.forEach(col => {
+                        const cell = document.createElement('td');
+                        cell.textContent = col;
+                        tableRow.appendChild(cell);
+                    });
+
+                    tableBody.appendChild(tableRow);
+                }
+            });
+        }
+
+        loadCSV();
+    </script>
+</body>
+</html>

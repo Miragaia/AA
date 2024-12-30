@@ -9,6 +9,7 @@ from collections import Counter
 RESULTS_DIR = "../data/results/"
 GRAPHICS_DIR = "../data/graphics/"  # Directory to save the visualizations
 CSV_FILE = "../data/performance_metrics.csv"  # Path to the CSV file
+OUTPUT_CSV = "../data/word_frequency_analysis.csv"
 
 def load_results(folder):
     """
@@ -273,50 +274,57 @@ def analyze_word_frequencies(data, top_n=10):
     return most_frequent, least_frequent
 
 
-def analyze_and_compare_word_frequencies():
+def analyze_and_save_word_frequencies():
     """
-    Analyze and compare word frequencies across exact, csuros, and stream results.
+    Analyze and compare word frequencies across exact, csuros, and stream results,
+    and save the results into a CSV file.
     """
     exact_results = load_results(RESULTS_DIR + "exact/")
     csuros_results = load_results(RESULTS_DIR + "csuros/")
     stream_results = load_results(RESULTS_DIR + "stream/")
 
-    for filename in exact_results:
-        print(f"\nAnalyzing word frequencies for '{filename}':")
+    # List to store the data for CSV export
+    csv_data = []
 
+    for filename in exact_results:
         # Analyze word frequencies for each method
         exact_most, exact_least = analyze_word_frequencies(exact_results[filename])
-        print(f"Exact Most Frequent Words: {exact_most}")
-        print(f"Exact Least Frequent Words: {exact_least}")
 
+        csuros_most, csuros_least = [], []
         if filename in csuros_results:
             csuros_most, csuros_least = analyze_word_frequencies(csuros_results[filename])
-            print(f"Csuros Most Frequent Words: {csuros_most}")
-            print(f"Csuros Least Frequent Words: {csuros_least}")
-        else:
-            csuros_most, csuros_least = [], []
 
+        stream_most, stream_least = [], []
         if filename in stream_results:
             stream_most, stream_least = analyze_word_frequencies(stream_results[filename])
-            print(f"Stream Most Frequent Words: {stream_most}")
-            print(f"Stream Least Frequent Words: {stream_least}")
-        else:
-            stream_most, stream_least = [], []
 
-        # Compare relative order
-        print("\nRelative Order Check for Most Frequent Words:")
+        # Compare relative order and save results
         for i, word in enumerate(exact_most):
-            if word in csuros_most and csuros_most.index(word) != i:
-                print(f"Word '{word}' is in different positions: Exact ({i}) vs Csuros ({csuros_most.index(word)})")
-            if word in stream_most and stream_most.index(word) != i:
-                print(f"Word '{word}' is in different positions: Exact ({i}) vs Stream ({stream_most.index(word)})")
+            row = {
+                "Filename": filename,
+                "Word": word,
+                "Exact Rank": i + 1,
+                "Csuros Rank": csuros_most.index(word) + 1 if word in csuros_most else None,
+                "Stream Rank": stream_most.index(word) + 1 if word in stream_most else None,
+                "Type": "Most Frequent",
+            }
+            csv_data.append(row)
 
-        print("\nRelative Order Check for Least Frequent Words:")
         for i, word in enumerate(exact_least):
-            if word in csuros_least and csuros_least.index(word) != i:
-                print(f"Word '{word}' is in different positions: Exact ({i}) vs Csuros ({csuros_least.index(word)})")
-            if word in stream_least and stream_least.index(word) != i:
-                print(f"Word '{word}' is in different positions: Exact ({i}) vs Stream ({stream_least.index(word)})")
+            row = {
+                "Filename": filename,
+                "Word": word,
+                "Exact Rank": i + 1,
+                "Csuros Rank": csuros_least.index(word) + 1 if word in csuros_least else None,
+                "Stream Rank": stream_least.index(word) + 1 if word in stream_least else None,
+                "Type": "Least Frequent",
+            }
+            csv_data.append(row)
+
+    # Create a DataFrame and save to CSV
+    df = pd.DataFrame(csv_data)
+    df.to_csv(OUTPUT_CSV, index=False)
+    print(f"Word frequency analysis saved to '{OUTPUT_CSV}'")
 
 def compare_results():
     """
@@ -345,4 +353,4 @@ if __name__ == "__main__":
     visualize_comparative_results()
     visualize_performance_metrics()
     analyze_errors()
-    analyze_and_compare_word_frequencies()
+    analyze_and_save_word_frequencies()
