@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import csv
 from collections import Counter
+from googletrans import Translator
 
 RESULTS_DIR = "../data/results/"
 GRAPHICS_DIR = "../data/graphics/"  # Directory to save the visualizations
@@ -348,9 +349,90 @@ def compare_results():
             stream_top = sorted(stream_results[filename].items(), key=lambda x: x[1], reverse=True)[:10]
             print("Stream Top 10:", stream_top)
 
+def translate_word(word, target_language='en'):
+    """
+    Translate a word to the target language using Google Translate.
+
+    Args:
+        word (str): The word to translate.
+        target_language (str): The language to translate the word into.
+
+    Returns:
+        str: The translated word.
+    """
+    translator = Translator()
+    try:
+        translated = translator.translate(word, dest=target_language)
+        return translated.text
+    except Exception as e:
+        print(f"Error translating word '{word}': {e}")
+        return word  # Return the original word in case of error
+
+def analyze_csv(file_path, output_path):
+    """
+    Analyze the most and least frequent words in a CSV file and compare them across different versions.
+
+    Args:
+        file_path (str): Path to the input CSV file.
+        output_path (str): Path to save the comparison results CSV file.
+    """
+    # Load the CSV file into a DataFrame
+    df = pd.read_csv(file_path)
+    
+    # Translate words to a common language (e.g., English)
+    df['Translated Word'] = df['Word'].apply(lambda x: translate_word(x, 'en'))
+    
+    # Separate most frequent and least frequent word types
+    most_frequent = df[df["Type"] == "Most Frequent"]
+    least_frequent = df[df["Type"] == "Least Frequent"]
+
+    # Get the unique filenames
+    filenames = df["Filename"].unique()
+
+    # Compare most frequent words
+    most_results = []
+    for file1 in filenames:
+        for file2 in filenames:
+            if file1 != file2:
+                words1 = set(most_frequent[most_frequent["Filename"] == file1]["Translated Word"])
+                words2 = set(most_frequent[most_frequent["Filename"] == file2]["Translated Word"])
+                common_words = words1 & words2
+                most_results.append({
+                    "File1": file1,
+                    "File2": file2,
+                    "Type": "Most Frequent",
+                    "Common Words": ", ".join(common_words)
+                })
+
+    # Compare least frequent words
+    least_results = []
+    for file1 in filenames:
+        for file2 in filenames:
+            if file1 != file2:
+                words1 = set(least_frequent[least_frequent["Filename"] == file1]["Translated Word"])
+                words2 = set(least_frequent[least_frequent["Filename"] == file2]["Translated Word"])
+                common_words = words1 & words2
+                least_results.append({
+                    "File1": file1,
+                    "File2": file2,
+                    "Type": "Least Frequent",
+                    "Common Words": ", ".join(common_words)
+                })
+
+    # Combine results and save to a CSV
+    comparison_results = pd.DataFrame(most_results + least_results)
+    comparison_results.to_csv(output_path, index=False)
+    print(f"Comparison results saved to {output_path}")
+
+
+
+
 if __name__ == "__main__":
     compare_results()
     visualize_comparative_results()
     visualize_performance_metrics()
     analyze_errors()
     analyze_and_save_word_frequencies()
+    # # Example usage
+    # output_csv = "../data/word_frequency_analysis_results.csv"
+    # analyze_csv(OUTPUT_CSV, output_csv)
