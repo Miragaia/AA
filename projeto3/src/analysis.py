@@ -3,6 +3,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import csv
 
 RESULTS_DIR = "../data/results/"
 GRAPHICS_DIR = "../data/graphics/"  # Directory to save the visualizations
@@ -24,6 +25,127 @@ def load_results(folder):
         with open(file, "r", encoding="utf-8") as f:
             results[file.stem] = json.load(f)
     return results
+
+
+def calculate_errors(exact, approximate):
+    """
+    Calculate absolute and relative errors between exact and approximate results.
+
+    Args:
+        exact (dict): Exact word frequency results.
+        approximate (dict): Approximate word frequency results.
+
+    Returns:
+        dict: A dictionary containing absolute and relative errors for each word.
+    """
+    errors = {}
+    for word, exact_count in exact.items():
+        approx_count = approximate.get(word, 0)
+        absolute_error = abs(exact_count - approx_count)
+        relative_error = absolute_error / exact_count if exact_count != 0 else 0
+        errors[word] = {"absolute_error": absolute_error, "relative_error": relative_error}
+    return errors
+
+
+def summarize_errors(errors):
+    """
+    Summarize error statistics.
+
+    Args:
+        errors (dict): A dictionary of errors for each word.
+
+    Returns:
+        dict: A dictionary with summary statistics for absolute and relative errors.
+    """
+    absolute_errors = [v["absolute_error"] for v in errors.values()]
+    relative_errors = [v["relative_error"] for v in errors.values()]
+
+    summary = {
+        "absolute_error": {
+            "lowest": min(absolute_errors, default=0),
+            "highest": max(absolute_errors, default=0),
+            "average": np.mean(absolute_errors) if absolute_errors else 0,
+            "total": sum(absolute_errors),
+        },
+        "relative_error": {
+            "lowest": min(relative_errors, default=0),
+            "highest": max(relative_errors, default=0),
+            "average": np.mean(relative_errors) if relative_errors else 0,
+            "total": sum(relative_errors),
+        },
+    }
+    return summary
+
+
+def save_all_summaries_to_csv(all_summaries, output_file):
+    """
+    Save all error summaries to a single CSV file.
+
+    Args:
+        all_summaries (list): List of summaries for all files.
+        output_file (str): Path to save the CSV file.
+    """
+    with open(output_file, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        # Write header
+        writer.writerow([
+            "Filename", "Error Type", "Lowest Value", "Highest Value", "Average Value", "Total Value"
+        ])
+
+        # Write data
+        for summary in all_summaries:
+            filename = summary["filename"]
+            for error_type, metrics in summary["errors"].items():
+                writer.writerow([
+                    filename,
+                    error_type,
+                    metrics["lowest"],
+                    metrics["highest"],
+                    metrics["average"],
+                    metrics["total"],
+                ])
+
+
+def analyze_errors():
+    """
+    Perform error analysis and save all summaries to a single CSV file.
+    """
+    exact_results = load_results(RESULTS_DIR + "exact/")
+    csuros_results = load_results(RESULTS_DIR + "csuros/")
+    stream_results = load_results(RESULTS_DIR + "stream/")
+
+    all_summaries = []
+
+    for filename in exact_results:
+        exact_data = exact_results[filename]
+        csuros_data = csuros_results.get(filename, {})
+        stream_data = stream_results.get(filename, {})
+
+        print(f"\nAnalyzing errors for '{filename}'...")
+
+        # Calculate errors and summaries for Csuros
+        csuros_errors = calculate_errors(exact_data, csuros_data)
+        csuros_summary = summarize_errors(csuros_errors)
+
+        # Calculate errors and summaries for Stream
+        stream_errors = calculate_errors(exact_data, stream_data)
+        stream_summary = summarize_errors(stream_errors)
+
+        # Collect summaries for the file
+        all_summaries.append({
+            "filename": filename,
+            "errors": {
+                "Csuros Absolute Error": csuros_summary["absolute_error"],
+                "Csuros Relative Error": csuros_summary["relative_error"],
+                "Stream Absolute Error": stream_summary["absolute_error"],
+                "Stream Relative Error": stream_summary["relative_error"],
+            },
+        })
+
+    # Save all summaries to a single CSV
+    output_csv = f"{GRAPHICS_DIR}/error_analysis_summary.csv"
+    save_all_summaries_to_csv(all_summaries, output_csv)
+    print(f"All error summaries saved to: {output_csv}")
 
 def visualize_comparative_results():
     """
@@ -117,6 +239,7 @@ def visualize_performance_metrics():
     print(f"Memory usage comparison saved to: {memory_usage_file}")
     plt.close()
 
+
 def compare_results():
     """
     Compare exact, approximate, and stream results.
@@ -143,3 +266,4 @@ if __name__ == "__main__":
     compare_results()
     visualize_comparative_results()
     visualize_performance_metrics()
+    analyze_errors()

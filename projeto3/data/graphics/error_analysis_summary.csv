@@ -1,0 +1,17 @@
+Filename,Error Type,Lowest Value,Highest Value,Average Value,Total Value
+Romeo_and_Juliet_2000_english_cleaned,Csuros Absolute Error,0,57,3.304838305339684,13183
+Romeo_and_Juliet_2000_english_cleaned,Csuros Relative Error,0.0,9.0,1.6041945065937717,6399.131886802552
+Romeo_and_Juliet_2000_english_cleaned,Stream Absolute Error,0,12,2.4066182000501377,9600
+Romeo_and_Juliet_2000_english_cleaned,Stream Relative Error,0.0,1.0,0.9487551355609245,3784.584235752527
+Romeo_and_Juliet_1999_english_cleaned,Csuros Absolute Error,0,68,3.470900809716599,13717
+Romeo_and_Juliet_1999_english_cleaned,Csuros Relative Error,0.0,9.0,1.5530403942348727,6137.615638016215
+Romeo_and_Juliet_1999_english_cleaned,Stream Absolute Error,0,12,2.42914979757085,9600
+Romeo_and_Juliet_1999_english_cleaned,Stream Relative Error,0.0,1.0,0.8978376372319057,3548.254342340491
+Romeo_and_Juliet_2006_french_cleaned,Csuros Absolute Error,0,55,3.012742382271468,21752
+Romeo_and_Juliet_2006_french_cleaned,Csuros Relative Error,0.0,9.0,1.6305694160174373,11772.7111836459
+Romeo_and_Juliet_2006_french_cleaned,Stream Absolute Error,0,21,2.326869806094183,16800
+Romeo_and_Juliet_2006_french_cleaned,Stream Relative Error,0.0,1.0,0.9511100933115564,6867.0148737094405
+Romeo_and_Juliet_2004_german_cleaned,Csuros Absolute Error,0,95,2.879864253393665,12729
+Romeo_and_Juliet_2004_german_cleaned,Csuros Relative Error,0.0,9.0,1.6199046330610547,7159.978478129863
+Romeo_and_Juliet_2004_german_cleaned,Stream Absolute Error,0,10,1.8099547511312217,8000
+Romeo_and_Juliet_2004_german_cleaned,Stream Relative Error,0.0,1.0,0.8983229410437351,3970.5873994133076

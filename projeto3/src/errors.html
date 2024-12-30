@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Data Table</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0b8916;
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        td {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 12px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>CSV Data Table</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Error Type</th>
+                <th>Lowest Value</th>
+                <th>Highest Value</th>
+                <th>Average Value</th>
+                <th>Total Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Romeo_and_Juliet_2000_english_cleaned</td>
+                <td>Csuros Absolute Error</td>
+                <td>0</td>
+                <td>57</td>
+                <td>3.304838305339684</td>
+                <td>13183</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2000_english_cleaned</td>
+                <td>Csuros Relative Error</td>
+                <td>0.0</td>
+                <td>9.0</td>
+                <td>1.6041945065937717</td>
+                <td>6399.131886802552</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2000_english_cleaned</td>
+                <td>Stream Absolute Error</td>
+                <td>0</td>
+                <td>12</td>
+                <td>2.4066182000501377</td>
+                <td>9600</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2000_english_cleaned</td>
+                <td>Stream Relative Error</td>
+                <td>0.0</td>
+                <td>1.0</td>
+                <td>0.9487551355609245</td>
+                <td>3784.584235752527</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_1999_english_cleaned</td>
+                <td>Csuros Absolute Error</td>
+                <td>0</td>
+                <td>68</td>
+                <td>3.470900809716599</td>
+                <td>13717</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_1999_english_cleaned</td>
+                <td>Csuros Relative Error</td>
+                <td>0.0</td>
+                <td>9.0</td>
+                <td>1.5530403942348727</td>
+                <td>6137.615638016215</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_1999_english_cleaned</td>
+                <td>Stream Absolute Error</td>
+                <td>0</td>
+                <td>12</td>
+                <td>2.42914979757085</td>
+                <td>9600</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_1999_english_cleaned</td>
+                <td>Stream Relative Error</td>
+                <td>0.0</td>
+                <td>1.0</td>
+                <td>0.8978376372319057</td>
+                <td>3548.254342340491</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2006_french_cleaned</td>
+                <td>Csuros Absolute Error</td>
+                <td>0</td>
+                <td>55</td>
+                <td>3.012742382271468</td>
+                <td>21752</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2006_french_cleaned</td>
+                <td>Csuros Relative Error</td>
+                <td>0.0</td>
+                <td>9.0</td>
+                <td>1.6305694160174373</td>
+                <td>11772.7111836459</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2006_french_cleaned</td>
+                <td>Stream Absolute Error</td>
+                <td>0</td>
+                <td>21</td>
+                <td>2.326869806094183</td>
+                <td>16800</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2006_french_cleaned</td>
+                <td>Stream Relative Error</td>
+                <td>0.0</td>
+                <td>1.0</td>
+                <td>0.9511100933115564</td>
+                <td>6867.0148737094405</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2004_german_cleaned</td>
+                <td>Csuros Absolute Error</td>
+                <td>0</td>
+                <td>95</td>
+                <td>2.879864253393665</td>
+                <td>12729</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2004_german_cleaned</td>
+                <td>Csuros Relative Error</td>
+                <td>0.0</td>
+                <td>9.0</td>
+                <td>1.6199046330610547</td>
+                <td>7159.978478129863</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2004_german_cleaned</td>
+                <td>Stream Absolute Error</td>
+                <td>0</td>
+                <td>10</td>
+                <td>1.8099547511312217</td>
+                <td>8000</td>
+            </tr>
+            <tr>
+                <td>Romeo_and_Juliet_2004_german_cleaned</td>
+                <td>Stream Relative Error</td>
+                <td>0.0</td>
+                <td>1.0</td>
+                <td>0.8983229410437351</td>
+                <td>3970.5873994133076</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
