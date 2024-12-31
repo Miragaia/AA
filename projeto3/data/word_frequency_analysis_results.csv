@@ -1,8 +1,8 @@
 File1,File2,Type,Common Words
-Romeo_and_Juliet_2000_english_cleaned,Romeo_and_Juliet_1999_english_cleaned,Most Frequent,"come, shall, rom, romeo, thee, thy, thou"
+Romeo_and_Juliet_2000_english_cleaned,Romeo_and_Juliet_1999_english_cleaned,Most Frequent,"come, romeo, thy, rom, thou, shall, thee"
 Romeo_and_Juliet_2000_english_cleaned,Romeo_and_Juliet_2006_french_cleaned,Most Frequent,romeo
 Romeo_and_Juliet_2000_english_cleaned,Romeo_and_Juliet_2004_german_cleaned,Most Frequent,romeo
-Romeo_and_Juliet_1999_english_cleaned,Romeo_and_Juliet_2000_english_cleaned,Most Frequent,"come, shall, rom, romeo, thee, thy, thou"
+Romeo_and_Juliet_1999_english_cleaned,Romeo_and_Juliet_2000_english_cleaned,Most Frequent,"come, romeo, thy, rom, thou, shall, thee"
 Romeo_and_Juliet_1999_english_cleaned,Romeo_and_Juliet_2006_french_cleaned,Most Frequent,romeo
 Romeo_and_Juliet_1999_english_cleaned,Romeo_and_Juliet_2004_german_cleaned,Most Frequent,romeo
 Romeo_and_Juliet_2006_french_cleaned,Romeo_and_Juliet_2000_english_cleaned,Most Frequent,romeo
