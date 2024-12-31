@@ -25,32 +25,6 @@ Credits: Thanks are given to Delphine Lettau for finding a huge collection of an
 *** START OF THE PROJECT GUTENBERG EBOOK ROMEO UND JULIA ***
 
 
-
-
-Thanks are given to Delphine Lettau for finding a huge collection of ancient
-German books in London.
-
-
-
-This Etext is in German.
-
-We are releasing two versions of this Etext, one in 7-bit format,
-known as Plain Vanilla ASCII, which can be sent via plain email--
-and one in 8-bit format, which includes higher order characters--
-which requires a binary transfer, or sent as email attachment and
-may require more specialized programs to display the accents.
-This is the 8-bit version.
-
-This book content was graciously contributed by the Gutenberg Projekt-DE.
-That project is reachable at the web site http://gutenberg2000.de.
-
-Dieses Buch wurde uns freundlicherweise vom "Gutenberg Projekt-DE"
-zur Verfügung gestellt.  Das Projekt ist unter der Internet-Adresse
-http://gutenberg2000.de erreichbar.
-
-
-
-
 Romeo und Julia
 
 William Shakespeare
@@ -4792,16 +4766,6 @@ Denn nie verdarben Liebende noch so
 Wie diese: Julia und ihr Romeo.
 
 (Alle ab.)
-
-
-
-Ende dieses Projekt Gutenberg Etextes Romeo und Julia, von
-William Shakespeare (Übersetzt von August Wilhelm von Schlegel)
-
-
-
-
-
 
 
 *** END OF THE PROJECT GUTENBERG EBOOK ROMEO UND JULIA ***

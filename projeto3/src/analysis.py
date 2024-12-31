@@ -146,7 +146,7 @@ def analyze_errors():
         })
 
     # Save all summaries to a single CSV
-    output_csv = f"{GRAPHICS_DIR}/error_analysis_summary.csv"
+    output_csv = f"../data/error_analysis_summary.csv"
     save_all_summaries_to_csv(all_summaries, output_csv)
     print(f"All error summaries saved to: {output_csv}")
 
@@ -197,6 +197,63 @@ def visualize_comparative_results():
         print(f"Comparative visualization saved to: {output_file}")
 
         plt.close()  # Close the plot to free memory
+
+def visualize_top10_counters_individual():
+    """
+    Generate and save visualizations of the top 10 words for Csuros' Counter and Stream Counter individually.
+    """
+    csuros_results = load_results(RESULTS_DIR + "csuros/")
+    stream_results = load_results(RESULTS_DIR + "stream/")
+
+    graphics_path = Path(GRAPHICS_DIR)
+    graphics_path.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
+
+    for filename in csuros_results:
+        csuros_data = csuros_results.get(filename, {})
+        stream_data = stream_results.get(filename, {})
+
+        # Top 10 words for Csuros' Counter
+        top_words_csuros = sorted(csuros_data.items(), key=lambda x: x[1], reverse=True)[:10]
+        words_csuros = [word for word, _ in top_words_csuros]
+        counts_csuros = [count for _, count in top_words_csuros]
+
+        plt.figure(figsize=(12, 7))
+        x_csuros = np.arange(len(words_csuros))
+        plt.bar(x_csuros, counts_csuros, color="orange")
+
+        plt.title(f"Top 10 Words (Csuros' Counter) - {filename}")
+        plt.xlabel("Words")
+        plt.ylabel("Counts")
+        plt.xticks(x_csuros, words_csuros, rotation=45)
+        plt.tight_layout()
+
+        # Save the plot for Csuros' Counter
+        output_file_csuros = graphics_path / f"{filename}_top10_csuros_only.png"
+        plt.savefig(output_file_csuros)
+        print(f"Csuros' Counter visualization saved to: {output_file_csuros}")
+        plt.close()  # Close the plot to free memory
+
+        # Top 10 words for Stream Counter
+        top_words_stream = sorted(stream_data.items(), key=lambda x: x[1], reverse=True)[:10]
+        words_stream = [word for word, _ in top_words_stream]
+        counts_stream = [count for _, count in top_words_stream]
+
+        plt.figure(figsize=(12, 7))
+        x_stream = np.arange(len(words_stream))
+        plt.bar(x_stream, counts_stream, color="green")
+
+        plt.title(f"Top 10 Words (Stream Counter) - {filename}")
+        plt.xlabel("Words")
+        plt.ylabel("Counts")
+        plt.xticks(x_stream, words_stream, rotation=45)
+        plt.tight_layout()
+
+        # Save the plot for Stream Counter
+        output_file_stream = graphics_path / f"{filename}_top10_stream_only.png"
+        plt.savefig(output_file_stream)
+        print(f"Stream Counter visualization saved to: {output_file_stream}")
+        plt.close()  # Close the plot to free memory
+
 
 def visualize_performance_metrics():
     """
@@ -430,9 +487,10 @@ def analyze_csv(file_path, output_path):
 if __name__ == "__main__":
     compare_results()
     visualize_comparative_results()
+    visualize_top10_counters_individual()
     visualize_performance_metrics()
     analyze_errors()
     analyze_and_save_word_frequencies()
     # # Example usage
-    # output_csv = "../data/word_frequency_analysis_results.csv"
-    # analyze_csv(OUTPUT_CSV, output_csv)
+    output_csv = "../data/word_frequency_analysis_results.csv"
+    analyze_csv(OUTPUT_CSV, output_csv)
