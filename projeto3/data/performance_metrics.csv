@@ -1,13 +1,13 @@
 filename,algorithm,execution_time,memory_usage
-Romeo_and_Juliet_2006_french_cleaned,Exact Counter,0.02211883400013903,1838.5732421875
-Romeo_and_Juliet_2006_french_cleaned,Csuros' Counter,0.010869972000364214,1507.1220703125
-Romeo_and_Juliet_2006_french_cleaned,Misra-Gries Counter,0.015553255998383975,1506.3134765625
-Romeo_and_Juliet_2004_german_cleaned,Exact Counter,0.009962661999452394,949.08203125
-Romeo_and_Juliet_2004_german_cleaned,Csuros' Counter,0.005905787002120633,831.9921875
-Romeo_and_Juliet_2004_german_cleaned,Misra-Gries Counter,0.007490068997867638,841.21484375
-Romeo_and_Juliet_1999_english_cleaned,Exact Counter,0.010837985002581263,1075.892578125
-Romeo_and_Juliet_1999_english_cleaned,Csuros' Counter,0.006502301002910826,962.583984375
-Romeo_and_Juliet_1999_english_cleaned,Misra-Gries Counter,0.009504433000984136,932.306640625
-Romeo_and_Juliet_2000_english_cleaned,Exact Counter,0.010899723998591071,1081.90625
-Romeo_and_Juliet_2000_english_cleaned,Csuros' Counter,0.007097838999470696,968.76171875
-Romeo_and_Juliet_2000_english_cleaned,Misra-Gries Counter,0.00987228699887055,938.3203125
+Romeo_and_Juliet_2006_french_cleaned,Exact Counter,0.01970862100006343,1838.7373046875
+Romeo_and_Juliet_2006_french_cleaned,Csuros' Counter,0.01034934500057716,1597.2509765625
+Romeo_and_Juliet_2006_french_cleaned,Misra-Gries Counter,0.017343589999654796,1506.3134765625
+Romeo_and_Juliet_2004_german_cleaned,Exact Counter,0.012623024999811605,949.08203125
+Romeo_and_Juliet_2004_german_cleaned,Csuros' Counter,0.005236760999650869,832.12890625
+Romeo_and_Juliet_2004_german_cleaned,Misra-Gries Counter,0.009254374999727588,841.21484375
+Romeo_and_Juliet_1999_english_cleaned,Exact Counter,0.009737046999362065,1075.892578125
+Romeo_and_Juliet_1999_english_cleaned,Csuros' Counter,0.006831933999819739,962.748046875
+Romeo_and_Juliet_1999_english_cleaned,Misra-Gries Counter,0.00882219699997222,932.306640625
+Romeo_and_Juliet_2000_english_cleaned,Exact Counter,0.010378816999946139,1081.90625
+Romeo_and_Juliet_2000_english_cleaned,Csuros' Counter,0.007410078999782854,968.76171875
+Romeo_and_Juliet_2000_english_cleaned,Misra-Gries Counter,0.008616654999968887,938.3203125

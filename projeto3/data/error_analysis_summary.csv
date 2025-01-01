@@ -1,17 +1,17 @@
 Filename,Error Type,Lowest Value,Highest Value,Average Value,Total Value
-Romeo_and_Juliet_2000_english_cleaned,Csuros Absolute Error,0,57,3.417688494651709,13100
-Romeo_and_Juliet_2000_english_cleaned,Csuros Relative Error,0.0,9.0,1.6096916758560282,6169.948193556155
+Romeo_and_Juliet_2000_english_cleaned,Csuros Absolute Error,0,66,3.4547351943647273,13242
+Romeo_and_Juliet_2000_english_cleaned,Csuros Relative Error,0.0,9.0,1.6011290496130237,6137.127647166719
 Romeo_and_Juliet_2000_english_cleaned,Stream Absolute Error,0,11,2.295851813201148,8800
 Romeo_and_Juliet_2000_english_cleaned,Stream Relative Error,0.0,1.0,0.9025589447093659,3459.508435070998
-Romeo_and_Juliet_1999_english_cleaned,Csuros Absolute Error,0,82,3.6240331491712707,13119
-Romeo_and_Juliet_1999_english_cleaned,Csuros Relative Error,0.0,9.0,1.6129428031296338,5838.852947329273
+Romeo_and_Juliet_1999_english_cleaned,Csuros Absolute Error,0,49,3.400828729281768,12311
+Romeo_and_Juliet_1999_english_cleaned,Csuros Relative Error,0.0,9.0,1.5303697785675576,5539.938598414558
 Romeo_and_Juliet_1999_english_cleaned,Stream Absolute Error,0,11,2.430939226519337,8800
 Romeo_and_Juliet_1999_english_cleaned,Stream Relative Error,0.0,1.0,0.9242348514370234,3345.730162202025
-Romeo_and_Juliet_2006_french_cleaned,Csuros Absolute Error,0,66,3.0542084726867333,21917
-Romeo_and_Juliet_2006_french_cleaned,Csuros Relative Error,0.0,9.0,1.6145510391527005,11586.01825695978
+Romeo_and_Juliet_2006_french_cleaned,Csuros Absolute Error,0,73,3.1071627647714606,22297
+Romeo_and_Juliet_2006_french_cleaned,Csuros Relative Error,0.0,9.0,1.6660698673958105,11955.71736843234
 Romeo_and_Juliet_2006_french_cleaned,Stream Absolute Error,0,21,2.3411371237458196,16800
 Romeo_and_Juliet_2006_french_cleaned,Stream Relative Error,0.0,1.0,0.954635894642146,6850.467179952044
-Romeo_and_Juliet_2004_german_cleaned,Csuros Absolute Error,0,79,2.913963653094088,12667
-Romeo_and_Juliet_2004_german_cleaned,Csuros Relative Error,0.0,9.0,1.6577957272071269,7206.4380261693805
+Romeo_and_Juliet_2004_german_cleaned,Csuros Absolute Error,0,55,2.78191856452726,12093
+Romeo_and_Juliet_2004_german_cleaned,Csuros Relative Error,0.0,9.0,1.5806419897368553,6871.05072938611
 Romeo_and_Juliet_2004_german_cleaned,Stream Absolute Error,0,10,1.840349666436623,8000
 Romeo_and_Juliet_2004_german_cleaned,Stream Relative Error,0.0,1.0,0.9095699100629815,3953.90039904378
